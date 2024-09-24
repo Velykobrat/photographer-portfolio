@@ -6,66 +6,63 @@
     padding: 20px;
     text-align: center;
     background-color: #f9f9f9;
-    /* Легкий фон для контрасту */
     border-radius: 10px;
-    /* Заокруглення країв */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    /* Тінь для глибини */
     max-width: 800px;
-    /* Обмеження максимального розміру */
     margin: 20px auto;
-    /* Центрування */
 }
 
 .contactItem {
     margin: 15px 0;
     width: 100%;
     max-width: 600px;
-    /* Максимальна ширина для зручності читання */
     padding: 15px;
-    /* Внутрішнє відступлення */
     background-color: #ffffff;
-    /* Білий фон для контактних блоків */
     border-radius: 8px;
-    /* Заокруглення країв блоків */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    /* Легка тінь */
     transition: transform 0.2s;
-    /* Анімація при наведенні */
 }
 
 .contactItem:hover {
     transform: translateY(-5px);
-    /* Підняття блоку при наведенні */
 }
 
 .contactItem h3 {
     margin-bottom: 5px;
     color: #333;
-    /* Колір заголовка */
     font-size: 20px;
-    /* Розмір шрифту заголовка */
+    display: flex;
+    align-items: center;
 }
 
 .contactItem p {
     line-height: 1.5;
-    /* Краща читабельність */
     color: #555;
-    /* Темніший колір тексту */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .contactItem a {
     color: #007BFF;
-    /* Синій колір для посилання */
     text-decoration: none;
     margin: 0 5px;
     transition: color 0.2s;
-    /* Анімація зміни кольору */
+    display: inline-flex;
+    align-items: center;
 }
 
 .contactItem a:hover {
     color: #0056b3;
-    /* Темніший синій при наведенні */
     text-decoration: underline;
-    /* Підкреслення при наведенні */
+}
+
+.icon {
+    margin-right: 8px;
+    font-size: 20px;
+    color: #007BFF;
+}
+
+.icon:hover {
+    color: #0056b3;
 }

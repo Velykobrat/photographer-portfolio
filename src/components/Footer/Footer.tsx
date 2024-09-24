@@ -21,11 +21,6 @@ const Footer = () => {
         <button type="submit">Submit</button>
       </form>
       <p className={styles.copyright}>© 2024 Photographer's Portfolio</p>
-      <div className={styles.socialLinks}>
-        <a href="https://facebook.com">Facebook</a>
-        <a href="https://instagram.com">Instagram</a>
-        <a href="https://twitter.com">Twitter</a>
-      </div>
     </footer>
   );
 };

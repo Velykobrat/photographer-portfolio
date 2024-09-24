@@ -1,11 +1,13 @@
 // src/pages/About/About.tsx
 
 import styles from './About.module.css';
+import photographerImage from '../../img/Margarert.jpg';
+
 
 const About = () => {
   return (
     <div className={styles.aboutContainer}>
-      <img src="/path_to_photographer_image.jpg" alt="Photographer" className={styles.photographerImage} />
+      <img src={photographerImage} alt="Photographer" className={styles.photographerImage} />
       <div className={styles.aboutText}>
         <h2>Про мене</h2>
         <p>

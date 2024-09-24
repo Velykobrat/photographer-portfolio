@@ -4,35 +4,22 @@
     display: flex;
     align-items: center;
     text-decoration: none;
-    /* Видалити підкреслення */
     color: #fff;
-    /* Колір тексту */
     position: relative;
-    /* Для об'єму */
     z-index: 1;
-    /* Поверх інших елементів */
 }
 
-.icon {
-    font-size: 60px;
-    /* Збільшити розмір іконки */
+.logoImage {
+    width: 60px;
+    /* Налаштуйте розмір логотипа */
+    height: auto;
     margin-right: 10px;
-    /* Відстань між іконкою та текстом */
     filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.5));
-    /* Додати тінь */
-    transition: transform 0.3s;
-    /* Додати анімацію при наведенні */
-}
-
-.icon:hover {
-    transform: scale(1.1);
-    /* Збільшити іконку при наведенні */
+    /* Тінь для зображення */
 }
 
 .logoText {
     font-size: 28px;
     font-weight: bold;
-    font-family: "Sofadi One", sans-serif;
-    /* Додайте шрифт */
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
 }
