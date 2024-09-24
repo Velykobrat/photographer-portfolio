@@ -1,0 +1,15 @@
+/* src/components/Navigation/Navigation.module.css */
+.navLinks {
+    display: flex;
+    justify-content: flex-end;
+    /* Зміна на flex-end */
+    flex-grow: 1;
+}
+
+.navLinks a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    margin: 0 5px;
+    /* Зменшено відстань між елементами */
+}

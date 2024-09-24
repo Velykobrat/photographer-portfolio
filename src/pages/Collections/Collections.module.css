@@ -1,0 +1,14 @@
+/* src/pages/Collections/Collections.module.css */
+
+.collectionsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    /* Відстань між картками */
+}
+
+.cardWrapper {
+    cursor: pointer;
+    /* Вказівник для клікабельності */
+}

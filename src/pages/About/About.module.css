@@ -1,0 +1,33 @@
+.aboutContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+}
+
+.photographerImage {
+    width: 200px;
+    /* Задайте бажану ширину */
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.aboutText {
+    max-width: 600px;
+    /* Обмеження ширини тексту */
+    line-height: 1.6;
+    /* Краща читабельність */
+}
+
+.aboutText a {
+    color: #007BFF;
+    /* Синій колір для посилання */
+    text-decoration: none;
+}
+
+.aboutText a:hover {
+    text-decoration: underline;
+    /* Підкреслення при наведенні */
+}

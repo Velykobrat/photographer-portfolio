@@ -1,0 +1,18 @@
+/* src/index.css або global styles */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+main {
+  flex-grow: 1;
+  /* Займає залишкову висоту після Header і Footer */
+}

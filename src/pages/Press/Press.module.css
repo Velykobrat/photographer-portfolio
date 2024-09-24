@@ -1,0 +1,9 @@
+.pressContainer {
+    padding: 20px;
+    text-align: center;
+}
+
+.pressContainer h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
