@@ -1,4 +1,4 @@
-// src/pages/About.tsx
+// src/pages/About/About.tsx
 
 import styles from './About.module.css';
 

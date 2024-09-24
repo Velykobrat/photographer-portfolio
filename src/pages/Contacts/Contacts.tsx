@@ -1,4 +1,4 @@
-// src/pages/Contacts.tsx
+// src/pages/Contacts/Contacts.tsx
 import styles from './Contacts.module.css';
 
 const Contacts = () => {

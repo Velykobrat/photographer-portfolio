@@ -1,4 +1,4 @@
-// src/pages/Press.tsx
+// src/pages/Press/Press.tsx
 
 import NewsItem from '../../components/NewsItem/NewsItem.tsx';
 import styles from './Press.module.css';
