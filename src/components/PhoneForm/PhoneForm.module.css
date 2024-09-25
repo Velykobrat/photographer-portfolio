@@ -1,0 +1,30 @@
+.formContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* Простір між формою та кнопкою */
+}
+
+input[type="tel"] {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 200px;
+    /* Ширина поля вводу */
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    /* Колір кнопки */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+    /* Темніший колір при наведенні */
+}

@@ -4,43 +4,52 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 30px 0;
+    /* Збільшено паддінг для верхньої та нижньої частини */
     background-color: #333;
     color: white;
     text-align: center;
 }
 
+.footerContent {
+    width: 100%;
+    max-width: 1200px;
+    /* Максимальна ширина футера */
+    display: flex;
+    justify-content: center;
+    /* Центруємо контент */
+    margin-bottom: 20px;
+    /* Додаємо відступ знизу перед авторськими правами */
+}
+
 .formContainer {
     display: flex;
     align-items: center;
-    gap: 10px;
-    /* Простір між формою та кнопкою */
-}
-
-input[type="tel"] {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    width: 200px;
-    /* Ширина поля вводу */
-}
-
-button {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007BFF;
-    /* Колір кнопки */
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: #0056b3;
-    /* Темніший колір при наведенні */
+    justify-content: center;
+    /* Центруємо форму в контейнері */
+    gap: 15px;
+    /* Відстань між елементами форми */
+    flex: 1;
+    /* Додаємо, щоб форма займала весь доступний простір */
+    max-width: 400px;
+    /* Максимальна ширина для форми */
+    margin: 0 auto;
+    /* Центруємо форму */
 }
 
 .copyright {
-    margin: 10px 0;
+    margin-top: 10px;
+    /* Зменшено марджин для авторських прав */
+    font-size: 14px;
+    /* Розмір шрифту для авторських прав */
+    border-top: 1px solid #444;
+    /* Додаємо лінію зверху для відділення */
+}
+
+/* Адаптивність для різних екранів */
+@media (min-width: 768px) {
+    .footerContent {
+        justify-content: center;
+        /* Центруємо на широких екранах */
+    }
 }
