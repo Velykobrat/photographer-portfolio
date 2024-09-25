@@ -7,7 +7,7 @@ const Logo = () => {
   return (
     <Link to="/collections" className={styles.logoContainer}>
       <img src={logoImage} alt="MK Photographer Logo" className={styles.logoImage} />
-      <span className={styles.logoText}>Portfolio</span>
+      <span className={styles.logoText}>Photographer</span>
     </Link>
   );
 };

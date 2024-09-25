@@ -23,3 +23,18 @@
     font-weight: bold;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
 }
+
+/* Медіа-запити для адаптивності */
+@media (max-width: 768px) {
+    .logoText {
+        display: none;
+        /* Сховати текст на мобільних пристроях */
+    }
+}
+
+@media (min-width: 769px) {
+    .logoImage {
+        margin-right: 10px;
+        /* Відстань між зображенням і текстом на великих екранах */
+    }
+}
