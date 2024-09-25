@@ -5,15 +5,14 @@
     align-items: center;
     text-decoration: none;
     color: #fff;
-    /* Можливо, варто змінити на інший колір */
+    /* Текст білий */
     position: relative;
     z-index: 1;
     padding: 5px;
-    /* Додано відступи */
+    /* Відступи для покращення вигляду */
     border-radius: 5px;
-    /* Згладжує кути, якщо вирішите додати фон */
-    background-color: rgba(0, 0, 0, 0.3);
-    /* Легкий фон */
+    /* Згладжує кути, якщо хочете */
+    /* background-color: rgba(0, 0, 0, 0.3); - цю лінію можна видалити */
 }
 
 .logoImage {
