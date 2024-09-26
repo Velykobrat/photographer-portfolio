@@ -2,26 +2,13 @@
 
 .collectionsContainer {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    /* Три стовпці */
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    /* Автоматичні стовпці */
     grid-auto-rows: 200px;
-    /* Автоматичні рядки */
+    /* Однакова висота для всіх карток */
     gap: 20px;
+    /* Проміжки між картками */
     padding: 20px;
-}
-
-@media (max-width: 768px) {
-    .collectionsContainer {
-        grid-template-columns: 1fr;
-        /* Один стовпець для мобільних */
-    }
-}
-
-@media (min-width: 1200px) {
-    .collectionsContainer {
-        grid-template-columns: repeat(4, 1fr);
-        /* Чотири стовпці для великих екранів */
-    }
 }
 
 .cardWrapper {
@@ -29,6 +16,12 @@
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
+    display: flex;
+    /* Використання flexbox */
+    justify-content: center;
+    /* Центруємо зображення */
+    align-items: center;
+    /* Центруємо зображення вертикально */
 }
 
 .cardWrapper:hover {
@@ -49,15 +42,15 @@
 }
 
 .cardContainer img {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    /* Заповнює контейнер без спотворення */
+    border-radius: 10px;
+    /* Додає округлення країв */
 }
 
 .cardContainer:hover img {
     transform: scale(1.05);
 }
+
