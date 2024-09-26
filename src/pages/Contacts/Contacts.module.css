@@ -16,6 +16,9 @@
 }
 
 .contactItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin: 15px 0;
     width: 100%;
     max-width: 600px;

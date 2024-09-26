@@ -5,7 +5,6 @@ const Card = ({ image, title, isSquare }: { image: string; title: string; isSqua
   return (
     <div className={`${styles.cardContainer} ${isSquare ? styles.square : styles.rectangle}`}>
       <img src={image} alt={title} />
-
     </div>
   );
 };

@@ -17,12 +17,12 @@ const Collections = () => {
 
   // Використовуємо імпортовані зображення
   const photos = [
-    { id: 1, image: Lisa, title: 'Photo 1' },
-    { id: 2, image: Ehor, title: 'Photo 2' },
-    { id: 3, image: Vital, title: 'Photo 3' },
-    { id: 4, image: Tanya, title: 'Photo 4' },
-    { id: 5, image: Olya, title: 'Photo 5' },
-    { id: 6, image: Inna, title: 'Photo 6' },
+    { id: 1, image: Lisa, title: 'Photo 1', size: 'square' },
+    { id: 2, image: Ehor, title: 'Photo 2', size: 'rectangle' },
+    { id: 3, image: Vital, title: 'Photo 3', size: 'rectangle' },
+    { id: 4, image: Tanya, title: 'Photo 4', size: 'square' },
+    { id: 5, image: Olya, title: 'Photo 5', size: 'rectangle' },
+    { id: 6, image: Inna, title: 'Photo 6', size: 'rectangle' },
   ];
 
   const openModal = (image: string) => {
@@ -36,14 +36,19 @@ const Collections = () => {
   return (
     <div className={styles.collectionsContainer}>
       {photos.map((photo, index) => (
-        <div key={photo.id} className={styles.cardWrapper} onClick={() => openModal(photo.image)}>
-          <Card 
-            image={photo.image} 
-            title={photo.title} 
-            isSquare={index % 2 === 0} // Якщо індекс парний, картка квадратна
-          />
-        </div>
-      ))}
+  <div 
+    key={photo.id} 
+    className={`${styles.cardWrapper} ${styles[photo.size]}`} 
+    onClick={() => openModal(photo.image)}
+  >
+    <Card 
+      image={photo.image} 
+      title={photo.title} 
+      isSquare={index % 2 === 0} // Якщо індекс парний, картка квадратна
+    />
+  </div>
+))}
+
       {selectedImage && <Modal image={selectedImage} onClose={closeModal} />}
     </div>
   );

@@ -1,5 +1,10 @@
 /* src/components/Navigation/Navigation.module.css */
-/* src/components/Navigation/Navigation.module.css */
+
+.icon {
+    font-size: 24px;
+    /* Розмір іконки */
+}
+
 .navLinks {
     display: flex;
     justify-content: flex-end;
@@ -8,7 +13,6 @@
 
 .navLinks a {
     color: #fff;
-    /* Колір тексту */
     text-decoration: none;
     font-size: 18px;
     margin: 0 10px;
@@ -21,13 +25,11 @@
 /* Зміна кольору іконки при наведенні */
 .navLinks a:hover .icon {
     color: #00bfff;
-    /* Голубий колір при наведенні */
 }
 
 /* Зміна кольору іконки для активного посилання */
 .navLinks a.activeLink .icon {
     color: #ffcc00;
-    /* Жовтий колір для активної сторінки */
 }
 
 /* Додати кольори для іконок за замовчуванням */
