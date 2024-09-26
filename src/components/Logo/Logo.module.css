@@ -11,16 +11,18 @@
     padding: 5px;
     /* Відступи для покращення вигляду */
     border-radius: 5px;
-    /* Згладжує кути, якщо хочете */
-    /* background-color: rgba(0, 0, 0, 0.3); - цю лінію можна видалити */
+    /* Згладжує кути */
+    transition: transform 0.3s ease;
+    /* Додаємо анімацію трансформації */
 }
 
 .logoImage {
     width: 60px;
     height: auto;
-
     filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.5)) brightness(10);
     /* Збільшена яскравість */
+    transition: transform 0.3s ease;
+    /* Додаємо анімацію трансформації для зображення */
 }
 
 .logoText {
@@ -45,4 +47,15 @@
         margin-right: 10px;
         /* Відстань між зображенням і текстом на великих екранах */
     }
+}
+
+/* Додаємо ефект збільшення при наведенні */
+.logoContainer:hover {
+    transform: scale(1.1);
+    /* Збільшення логотипу на 10% */
+}
+
+.logoContainer:hover .logoImage {
+    transform: scale(1.1);
+    /* Збільшення зображення логотипу на 10% */
 }

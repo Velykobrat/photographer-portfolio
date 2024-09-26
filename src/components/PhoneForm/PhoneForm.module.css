@@ -1,30 +1,133 @@
+/* src/components/PhoneForm/PhoneForm.module.css */
+
 .formContainer {
     display: flex;
+    flex-direction: column;
     align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.inputGroup {
+    display: flex;
+    align-items: stretch;
     gap: 10px;
-    /* Простір між формою та кнопкою */
+    width: 100%;
+    /* Зробіть групу вводу на всю ширину */
+    max-width: 400px;
+    /* Максимальна ширина для групи вводу */
 }
 
-input[type="tel"] {
-    padding: 10px;
-    border: none;
+.inputField {
+    padding: 6px;
+    /* Зменшено паддінг */
+    border: 2px solid #007BFF;
     border-radius: 5px;
-    width: 200px;
-    /* Ширина поля вводу */
+    /* Менша округлість */
+    flex: 1;
+    max-width: 250px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
+    font-size: 14px;
+    /* Зменшений розмір шрифту */
 }
 
-button {
-    padding: 10px 15px;
+.inputField:focus {
+    border-color: #0056b3;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+    /* Прибираємо обведення */
+}
+
+.errorInput {
+    border-color: #ff4d4d;
+    box-shadow: 0 0 5px rgba(255, 77, 77, 0.5);
+}
+
+.errorMessage {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-top: -5px;
+    margin-bottom: 10px;
+}
+
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.inputGroup {
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
+    /* Зробіть групу вводу на всю ширину */
+    max-width: 400px;
+    /* Максимальна ширина для групи вводу */
+}
+
+.inputField {
+    padding: 6px;
+    /* Зменшено паддінг */
+    border: 2px solid #007BFF;
+    border-radius: 5px;
+    /* Менша округлість */
+    flex: 1;
+    max-width: 250px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
+    font-size: 14px;
+    /* Зменшений розмір шрифту */
+}
+
+.inputField:focus {
+    border-color: #0056b3;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+    /* Прибираємо обведення */
+}
+
+.errorInput {
+    border-color: #ff4d4d;
+    box-shadow: 0 0 5px rgba(255, 77, 77, 0.5);
+}
+
+.errorMessage {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-top: -5px;
+    margin-bottom: 10px;
+}
+
+.submitButton {
+    display: inline-flex;
+    padding: 10px 10px;
+    /* Зменшено паддінг для кнопки */
     border: none;
     border-radius: 5px;
+    /* Менша округлість */
     background-color: #007BFF;
-    /* Колір кнопки */
     color: white;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.3s;
+    font-size: 14px;
+    /* Зменшений розмір шрифту для кнопки */
 }
 
-button:hover {
+.submitButton:hover {
     background-color: #0056b3;
-    /* Темніший колір при наведенні */
+    transform: scale(1.05);
+}
+
+.submitButton:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.Toastify__toast {
+    font-size: 14px;
+    padding: 10px;
 }
