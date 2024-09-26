@@ -1,4 +1,5 @@
 // src/components/Card/Card.tsx
+
 import styles from './Card.module.css';
 
 const Card = ({ image, title, isSquare }: { image: string; title: string; isSquare: boolean }) => {
