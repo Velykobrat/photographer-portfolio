@@ -28,7 +28,7 @@ const Press = () => {
 
   return (
     <div className={styles.pressContainer}>
-      <h2>Press</h2>
+      <h2>Blog</h2>
       <div className={styles.newsList}>
         {newsItems.map((item, index) => (
           <NewsItem
