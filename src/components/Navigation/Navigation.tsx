@@ -2,18 +2,13 @@
 
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCamera, faPhone, faNewspaper, faUser, faHome } from '@fortawesome/free-solid-svg-icons'; // Додаємо іконку будиночка
+import { faCamera, faPhone, faNewspaper, faUser } from '@fortawesome/free-solid-svg-icons'; // Додаємо іконку будиночка
 import styles from './Navigation.module.css';
 
 const Navigation = () => {
   return (
     <div className={styles.navLinks}>
-      <NavLink 
-        to="/home" 
-        className={({ isActive }) => (isActive ? styles.activeLink : undefined)}
-      >
-        <FontAwesomeIcon icon={faHome} className={styles.icon} /> {/* Додаємо кнопку для Home */}
-      </NavLink>
+
       <NavLink 
         to="/collections" 
         className={({ isActive }) => (isActive ? styles.activeLink : undefined)}
