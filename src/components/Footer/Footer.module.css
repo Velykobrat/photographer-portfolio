@@ -4,8 +4,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 20px;
-    /* Зменшено паддінг для верхньої та нижньої частини */
     background-color: #333;
     color: white;
     text-align: center;
@@ -14,44 +12,23 @@
 .footerContent {
     width: 100%;
     max-width: 800px;
-    /* Зменшено максимальну ширину футера */
     display: flex;
     justify-content: center;
-    /* Центруємо контент */
-    margin-bottom: 10px;
-    /* Зменшено відступ знизу перед авторськими правами */
 }
 
 .formContainer {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Центруємо форму в контейнері */
     gap: 10px;
-    /* Зменшено відстань між елементами форми */
     flex: 1;
-    /* Додаємо, щоб форма займала весь доступний простір */
     max-width: 300px;
-    /* Зменшено максимальну ширину для форми */
     margin: 0 auto;
-    /* Центруємо форму */
 }
 
 .copyright {
     margin-top: 5px;
-    /* Зменшено марджин для авторських прав */
     font-size: 12px;
-    /* Зменшено розмір шрифту для авторських прав */
-    border-top: 1px solid #444;
-    /* Додаємо лінію зверху для відділення */
     padding-top: 5px;
-    /* Додаємо паддінг для відстані між лінією та текстом */
 }
 
-/* Адаптивність для різних екранів */
-@media (min-width: 768px) {
-    .footerContent {
-        justify-content: center;
-        /* Центруємо на широких екранах */
-    }
-}

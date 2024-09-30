@@ -1,8 +1,7 @@
 // src/pages/Home/Home.tsx
 import styles from './Home.module.css';
-
-import heroImage from '../../img/HomePage.jpg';
-import homeImage from '../../img/HomePhoto.jpg';
+import heroImage from '../../img/HomePhoto.jpg';
+import logoImage from '../../img/logo.png';
 
 const Home = () => {
   return (
@@ -12,11 +11,13 @@ const Home = () => {
         alt="Background" 
         className={styles.backgroundImage} 
       />
-      <img 
-        src={homeImage} 
-        alt="Photographer" 
-        className={styles.photographerImage} 
-      />
+      <div className={styles.logoContainer}>
+        <img 
+          src={logoImage} 
+          alt="Photographer's Logo" 
+          className={styles.logo} 
+        />
+      </div>
     </div>
   );
 }

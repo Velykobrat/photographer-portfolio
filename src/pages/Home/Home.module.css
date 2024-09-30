@@ -7,8 +7,6 @@
     align-items: center;
     height: 100vh;
     /* Висота контейнера на весь екран */
-    padding: 20px;
-    /* Відступи для захисту від хедера та футера */
     position: relative;
     /* Встановлюємо позицію */
     overflow: hidden;
@@ -30,44 +28,25 @@
     /* Поміщаємо зображення за іншими елементами */
 }
 
-.photographerImage {
-    max-width: 90%;
-    /* Зменшуємо максимальну ширину для кращого вигляду */
-    height: auto;
-    /* Зберігаємо пропорції */
-    border-radius: 10px;
-    /* Округлені кути */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    /* Тінь для глибини */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    /* Анімації */
+.logoContainer {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.photographerImage:hover {
+.logo {
+    max-width: 80%;
+    height: auto;
+    filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.5)) brightness(1.5);
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.7),
+        0 8px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    /* Додаємо анімацію при наведенні */
+}
+
+.logo:hover {
     transform: scale(1.05);
     /* Збільшення при наведенні */
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    /* Підсилення тіні при наведенні */
-}
-
-/* Додаткові стилі для медіа-запитів */
-@media (max-width: 768px) {
-    .homeContainer {
-        padding: 10px;
-        /* Зменшуємо відступи для мобільних пристроїв */
-    }
-
-    .photographerImage {
-        width: 100%;
-        /* Зображення ще більш адаптивне */
-        border-radius: 10px;
-        /* Зменшуємо округлість */
-    }
-}
-
-@media (max-width: 480px) {
-    .homeContainer {
-        height: 80vh;
-        /* Зменшуємо висоту для малих екранів */
-    }
 }

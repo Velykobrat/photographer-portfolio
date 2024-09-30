@@ -1,3 +1,5 @@
+/* src/components/Modal/Modal.module.css */
+
 .modalOverlay {
     position: fixed;
     top: 0;
@@ -8,9 +10,35 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1000;
+    /* Додаємо високу z-index, щоб модальне вікно завжди було на верхі */
 }
 
-.modalContent img {
+.modalContent {
+    display: flex;
+    justify-content: center;
+    /* Центруємо контент */
+    align-items: center;
+    /* Центруємо контент по вертикалі */
     max-width: 90%;
+    /* Обмежуємо максимальну ширину */
     max-height: 90%;
+    /* Обмежуємо максимальну висоту */
+    padding: 20px;
+    /* Додаємо відступи для кращого вигляду */
+    background-color: white;
+    /* Білий фон для контенту */
+    border-radius: 8px;
+    /* Закруглені кути */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    /* Тінь для глибини */
+}
+
+.modalImage {
+    max-width: 100%;
+    /* Адаптивна ширина зображення */
+    max-height: 80vh;
+    /* Максимальна висота зображення для запобігання переповненню вікна */
+    object-fit: contain;
+    /* Зберігаємо пропорції зображення */
 }
