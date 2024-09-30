@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Header/Header';
+import Home from './pages/Home/Home'
 import Collections from './pages/Collections/Collections';
-import Press from './pages/Press/Press';
+import Blog from './pages/Blog/Blog';
 import Contacts from './pages/Contacts/Contacts';
 import About from './pages/About/About';
 import Footer from './components/Footer/Footer';
@@ -14,9 +15,10 @@ function App() {
         <Header />
         <main className={styles.main}>
           <Routes>
-            <Route path="/" element={<Navigate to="/collections" />} />
+            <Route path="/" element={<Navigate to="/home" />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/collections" element={<Collections />} />
-            <Route path="/press" element={<Press />} />
+            <Route path="/blog" element={<Blog />} />
             <Route path="/contacts" element={<Contacts />} />
             <Route path="/about" element={<About />} />
           </Routes>

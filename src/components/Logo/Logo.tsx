@@ -5,7 +5,7 @@ import logoImage from '../../img/logo.png';  // Імпорт зображенн�
 
 const Logo = () => {
   return (
-    <Link to="/collections" className={styles.logoContainer}>
+    <Link to="/home" className={styles.logoContainer}>
       <img src={logoImage} alt="MK Photographer Logo" className={styles.logoImage} />
       <span className={styles.logoText}>Photographer</span>
     </Link>

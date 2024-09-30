@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+html,
+body {
+    height: 100%;
+    /* Задаємо висоту для html і body */
+    margin: 0;
+    /* Прибираємо відступи */
+    overflow: hidden;
+    /* Прибираємо прокрутку, якщо вона не потрібна */
+}
+
+.homeContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* Висота контейнера на весь екран */
+    padding: 20px;
+    /* Відступи для захисту від хедера та футера */
+    position: relative;
+    /* Встановлюємо позицію */
+    overflow: hidden;
+    /* Прибираємо прокрутку для контейнера */
+}
+
+.backgroundImage {
+    position: absolute;
+    /* Абсолютне позиціонування */
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* Заповнюємо всю ширину */
+    height: 100%;
+    /* Заповнюємо всю висоту */
+    object-fit: cover;
+    /* Зберігаємо пропорції зображення */
+    z-index: -1;
+    /* Поміщаємо зображення за іншими елементами */
+}
+
+.photographerImage {
+    max-width: 100%;
+    /* Зображення адаптивне */
+    height: auto;
+    /* Зберігаємо пропорції */
+    border-radius: 10px;
+    /* Округлені кути */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    /* Тінь для глибини */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Анімації */
+}
+
+.photographerImage:hover {
+    transform: scale(1.05);
+    /* Збільшення при наведенні */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    /* Підсилення тіні при наведенні */
+}
+
+/* Додаткові стилі для медіа-запитів */
+@media (max-width: 768px) {
+    .homeContainer {
+        padding: 20px;
+        /* Додайте відступи для мобільних пристроїв */
+    }
+
+    .photographerImage {
+        width: 100%;
+        /* Робіть зображення ще більш адаптивним */
+        border-radius: 10px;
+        /* Зменшуємо округлість */
+    }
+}
+
+@media (max-width: 480px) {
+    .homeContainer {
+        height: 80vh;
+        /* Зменшуємо висоту для малих екранів */
+    }
+}

@@ -1,11 +1,11 @@
 // src/pages/Press/Press.tsx
 
 import NewsItem from '../../components/NewsItem/NewsItem.tsx';
-import styles from './Press.module.css';
+import styles from './Blog.module.css';
 import posingCliffImage from '../../img/Posing_Cliff_Berryman.jpg';
 import beckenbauerImage from '../../img/Beckenbauer_Pressefotografen2.jpg';
 
-const Press = () => {
+const Blog = () => {
   const newsItems = [
     {
       title: 'Виставка фотографій в галереї',
@@ -44,4 +44,4 @@ const Press = () => {
   );
 };
 
-export default Press;
+export default Blog;
