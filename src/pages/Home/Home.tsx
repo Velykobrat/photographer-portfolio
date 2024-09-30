@@ -1,19 +1,21 @@
+// src/pages/Home/Home.tsx
 import styles from './Home.module.css';
 
-import homeImage from '../../img/HomePage.jpg';
+import heroImage from '../../img/HomePage.jpg';
+import homeImage from '../../img/HomePhoto.jpg';
 
 const Home = () => {
   return (
     <div className={styles.homeContainer}>
       <img 
-        src={homeImage} 
+        src={heroImage} 
         alt="Background" 
-        className={styles.backgroundImage} // Зображення фону
+        className={styles.backgroundImage} 
       />
       <img 
         src={homeImage} 
         alt="Photographer" 
-        className={styles.photographerImage} // Зображення фотографа
+        className={styles.photographerImage} 
       />
     </div>
   );
