@@ -1,34 +1,78 @@
-/* src/components/Footer/Footer.module.css */
-
 .footerContainer {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
     background-color: #333;
     color: white;
-    text-align: center;
+    height: 100px;
+    position: relative;
 }
 
 .footerContent {
-    width: 100%;
-    max-width: 800px;
     display: flex;
     justify-content: center;
-}
-
-.formContainer {
-    display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
-    flex: 1;
-    max-width: 300px;
-    margin: 0 auto;
+    width: 100%;
+    position: relative;
 }
 
 .copyright {
-    margin-top: 5px;
-    font-size: 12px;
-    padding-top: 5px;
+    margin: 0;
+    font-size: 14px;
+    text-align: center;
 }
 
+.indicatorWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+}
+
+.lightBulb {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.icon {
+    width: 30px;
+    height: 30px;
+    transition: transform 0.3s ease;
+}
+
+/* Коли лампочка активна, вона буде золотистою */
+.lightBulb.active .icon {
+    transform: scale(1.1);
+    /* Збільшення при активації */
+    stroke: #FFD700;
+    /* Золотий колір для активної лампочки */
+}
+
+/* Для неактивної лампочки */
+.lightBulb .icon {
+    transform: scale(1);
+    /* Без збільшення */
+    stroke: #808080;
+    /* Сірий колір для неактивної лампочки */
+}
+
+.footerContainer::after {
+    content: '';
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+@media (max-width: 600px) {
+    .footerContainer {
+        padding: 15px 5px;
+    }
+
+    .footerContent {
+        flex-direction: column;
+        align-items: center;
+    }
+}

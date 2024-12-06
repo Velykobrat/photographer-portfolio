@@ -1,0 +1,62 @@
+.adminContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+}
+
+.adminContainer h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.adminContainer form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.adminContainer input {
+    padding: 10px;
+    font-size: 1rem;
+    width: 300px;
+}
+
+.adminContainer button {
+    padding: 10px;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.adminContainer button:hover {
+    background-color: #0056b3;
+}
+
+.logoutButton {
+    background-color: red;
+}
+
+.logoutButton:hover {
+    background-color: darkred;
+}
+
+.editCollectionButton {
+    background-color: #28a745;
+}
+
+.editCollectionButton:hover {
+    background-color: #218838;
+}
+
+.error {
+    color: red;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}

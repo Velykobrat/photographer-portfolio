@@ -5,6 +5,7 @@ import Collections from './pages/Collections/Collections';
 import Blog from './pages/Blog/Blog';
 import Contacts from './pages/Contacts/Contacts';
 import About from './pages/About/About';
+import Admin from './pages/Admin/Admin';
 import Footer from './components/Footer/Footer';
 import styles from './App.module.css';
 
@@ -21,6 +22,7 @@ function App() {
             <Route path="/blog" element={<Blog />} />
             <Route path="/contacts" element={<Contacts />} />
             <Route path="/about" element={<About />} />
+            <Route path="/admin" element={<Admin />} />
           </Routes>
         </main>
         <Footer />
