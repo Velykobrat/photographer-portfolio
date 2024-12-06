@@ -2,9 +2,9 @@
 
 import styles from './Card.module.css';
 
-const Card = ({ image, title, isSquare }: { image: string; title: string; isSquare: boolean }) => {
+const Card = ({ image, title, size }: { image: string; title: string; size: 'rectangle' | 'square' }) => {
   return (
-    <div className={`${styles.cardContainer} ${isSquare ? styles.square : styles.rectangle}`}>
+    <div className={`${styles.cardContainer} ${styles[size]}`}>
       <img src={image} alt={title} />
     </div>
   );
