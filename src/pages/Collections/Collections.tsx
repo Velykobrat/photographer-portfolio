@@ -78,7 +78,6 @@ const Collections = () => {
   </div>
 ))}
 
-
       {selectedImage && <Modal image={selectedImage} onClose={closeModal} />}
     </div>
   );

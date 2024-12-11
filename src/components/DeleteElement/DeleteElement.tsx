@@ -1,4 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons'; // Іконка кошика
 import styles from './DeleteElement.module.css';
 
 interface DeleteElementProps {
@@ -9,20 +11,21 @@ interface DeleteElementProps {
 const DeleteElement: React.FC<DeleteElementProps> = ({ photoId, onDelete }) => {
   const handleDelete = async () => {
     try {
-      const token = localStorage.getItem('authToken');
+      // Валідація формату photoId
+      const isValidObjectId = /^[a-fA-F0-9]{24}$/.test(photoId);
+      if (!isValidObjectId) {
+        console.error('Некоректний формат ID:', photoId); // Лог для некоректного ID
+        alert('Некоректний формат ID');
+        return;
+      }
 
+      const token = localStorage.getItem('authToken');
       if (!token) {
         alert('Не знайдено токен авторизації');
         return;
       }
 
-      // Логування для перевірки photoId
-      console.log('Deleting photo with ID:', photoId);
-
-      if (!photoId) {
-        alert('Невідомий ID фото');
-        return;
-      }
+      console.log('Deleting image with ID:', photoId); // Лог для перевірки photoId
 
       const response = await fetch(`http://localhost:5000/api/images/delete/${photoId}`, {
         method: 'DELETE',
@@ -32,11 +35,10 @@ const DeleteElement: React.FC<DeleteElementProps> = ({ photoId, onDelete }) => {
       });
 
       if (response.ok) {
-        onDelete(); // Викликаємо onDelete для оновлення колекції
+        onDelete();
         alert('Фото успішно видалено');
       } else {
         const data = await response.json();
-        console.error('Error:', data.message || 'Помилка при видаленні фото');
         alert(data.message || 'Помилка при видаленні фото');
       }
     } catch (err) {
@@ -47,7 +49,7 @@ const DeleteElement: React.FC<DeleteElementProps> = ({ photoId, onDelete }) => {
 
   return (
     <button className={styles.deleteButton} onClick={handleDelete}>
-      &#10006; {/* Символ для хрестика */}
+      <FontAwesomeIcon icon={faTrash} size="lg" />
     </button>
   );
 };

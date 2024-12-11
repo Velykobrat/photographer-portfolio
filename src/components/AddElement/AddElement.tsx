@@ -16,7 +16,7 @@ const AddElement = ({ onImageUploaded }: AddElementProps) => {
 
     const formData = new FormData();
     formData.append('file', selectedFile);
-    formData.append('upload_preset', 'your_upload_preset'); // Використовуємо ваш upload preset
+    formData.append('upload_preset', 'unsigned_upload_preset'); // Використовуємо ваш upload preset
     formData.append('cloud_name', 'dln0hogkt'); // Ваш Cloudinary Cloud Name
     formData.append('api_key', '742714616849782'); // Ваш API Key
 

@@ -10,6 +10,8 @@
     position: relative;
 }
 
+
+
 /* Стилі для кожної картки */
 .cardWrapper {
     cursor: pointer;
@@ -45,6 +47,7 @@
     height: 100%;
     object-fit: cover;
     border-radius: 10px;
+   
 }
 
 /* Стилі для картинки при наведенні */
