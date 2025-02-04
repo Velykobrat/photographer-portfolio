@@ -2,23 +2,22 @@
 
 import NewsItem from '../../components/NewsItem/NewsItem.tsx';
 import styles from './Blog.module.css';
-import posingCliffImage from '../../img/Posing_Cliff_Berryman.jpg';
-import beckenbauerImage from '../../img/Beckenbauer_Pressefotografen2.jpg';
+import aboutImage from '../../img/2019 - Margaret - © Giuseppe Casalinuovo (8).jpg';
+import photografImage from '../../img/14.jpg';
 
 const Blog = () => {
   const newsItems = [
     {
-      title: 'Виставка фотографій в галереї',
-      image: posingCliffImage,
-      description: 'Фотограф представив свої нові роботи на виставці в місцевій галереї.',
+      title: 'Мене звати Маргарет, я професійний фотограф та діюча модель',
+      image: aboutImage,
+      description: ' Маю 10-річний досвід у моделінгу. За останні два роки я повністю віддалася своїй пристрасті до фотографії, поєднуючи досвід здобутий в моді, з мистецтвом фотографії. У своїх роботах я завжди прагну відобразити не лише зовнішню красу, а й емоції, індивідуальність та глибину кожної людини перед обєктивом.',
       sources: [
-        { name: 'News Source 1', url: 'https://exhttp://l-models.agency/ru/models/' },
-        { name: 'News Source 2', url: 'http://l-models.agency/ru/models/' },
+        { name: 'mary_kristel', url: 'https://www.instagram.com/mary_kristel/' },
       ],
     },
     {
       title: 'Інтерв’ю з фотографом',
-      image: beckenbauerImage,
+      image: photografImage,
       description: 'Фотограф поділився своїм досвідом в інтерв’ю для популярного журналу.',
       sources: [
         { name: 'Magazine Interview', url: 'http://l-models.agency/ru/models' },
@@ -27,6 +26,7 @@ const Blog = () => {
   ];
 
   return (
+    
     <div className={styles.pressContainer}>
       <h2>Blog</h2>
       <div className={styles.newsList}>

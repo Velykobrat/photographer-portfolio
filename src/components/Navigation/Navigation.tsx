@@ -2,7 +2,7 @@
 
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCamera, faPhone, faNewspaper, faUser } from '@fortawesome/free-solid-svg-icons'; // Додаємо іконку будиночка
+import { faCamera, faPhone, faNewspaper } from '@fortawesome/free-solid-svg-icons'; // Додаємо іконку будиночка
 import styles from './Navigation.module.css';
 
 const Navigation = () => {
@@ -15,12 +15,7 @@ const Navigation = () => {
       >
         <FontAwesomeIcon icon={faCamera} className={styles.icon} />
       </NavLink>
-      <NavLink 
-        to="/about" 
-        className={({ isActive }) => (isActive ? styles.activeLink : undefined)}
-      >
-        <FontAwesomeIcon icon={faUser} className={styles.icon} />
-      </NavLink>
+    
       <NavLink 
         to="/contacts" 
         className={({ isActive }) => (isActive ? styles.activeLink : undefined)}

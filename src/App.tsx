@@ -4,7 +4,6 @@ import Home from './pages/Home/Home';
 import Collections from './pages/Collections/Collections';
 import Blog from './pages/Blog/Blog';
 import Contacts from './pages/Contacts/Contacts';
-import About from './pages/About/About';
 import Footer from './components/Footer/Footer';
 
 function App() {
@@ -19,7 +18,6 @@ function App() {
             <Route path="/collections" element={<Collections />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/contacts" element={<Contacts />} />
-            <Route path="/about" element={<About />} />
           </Routes>
         </main>
         <Footer />
