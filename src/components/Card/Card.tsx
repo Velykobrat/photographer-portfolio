@@ -2,14 +2,29 @@
 
 import styles from './Card.module.css';
 
-const Card = ({ image, title, size, onClick }: { image: string; title: string; size: 'rectangle' | 'square'; onClick?: () => void }) => {
+const Card = ({
+  image,
+  title,
+  size,
+  onClick,
+}: {
+  image: string;
+  title: string;
+  size: 'rectangle' | 'square';
+  onClick?: () => void;
+}) => {
   return (
     <div className={`${styles.cardWrapper} ${styles[size]}`} onClick={onClick}>
       <div className={styles.cardContainer}>
-        <img src={image} alt={title} />
+        <img
+          src={image}
+          alt={title}
+          loading="lazy" // Додаємо lazy loading для оптимізації завантаження
+        />
       </div>
     </div>
   );
 };
 
 export default Card;
+

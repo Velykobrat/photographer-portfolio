@@ -1,4 +1,4 @@
-/* src/index.css або global styles */
+/* global styles */
 html,
 body {
   margin: 0;
@@ -6,13 +6,13 @@ body {
   height: 100%;
 }
 
-#root {
+#root,
+.pageContainer {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  min-height: 100vh;
 }
 
-main {
+.main {
   flex-grow: 1;
-  /* Займає залишкову висоту після Header і Footer */
 }

@@ -6,14 +6,13 @@ import Blog from './pages/Blog/Blog';
 import Contacts from './pages/Contacts/Contacts';
 import About from './pages/About/About';
 import Footer from './components/Footer/Footer';
-import styles from './App.module.css';
 
 function App() {
   return (
-    <div className={styles.pageContainer}>
+    <div className="pageContainer"> 
       <Router>
         <Header />
-        <main className={styles.main}>
+        <main className="main">  
           <Routes>
             <Route path="/" element={<Navigate to="/home" />} />
             <Route path="/home" element={<Home />} />
