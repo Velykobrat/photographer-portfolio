@@ -2,10 +2,12 @@
 
 import styles from './Card.module.css';
 
-const Card = ({ image, title, size }: { image: string; title: string; size: 'rectangle' | 'square' }) => {
+const Card = ({ image, title, size, onClick }: { image: string; title: string; size: 'rectangle' | 'square'; onClick?: () => void }) => {
   return (
-    <div className={`${styles.cardContainer} ${styles[size]}`}>
-      <img src={image} alt={title} />
+    <div className={`${styles.cardWrapper} ${styles[size]}`} onClick={onClick}>
+      <div className={styles.cardContainer}>
+        <img src={image} alt={title} />
+      </div>
     </div>
   );
 };

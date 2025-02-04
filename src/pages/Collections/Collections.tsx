@@ -1,36 +1,32 @@
-// src/pages/Collections/Collections.tsx
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Card from '../../components/Card/Card';
 import Modal from '../../components/Modal/Modal';
-import AddElement from '../../components/AddElement/AddElement';
-import DeleteElement from '../../components/DeleteElement/DeleteElement';
 import styles from './Collections.module.css';
+
+const staticPhotos: { id: number; image: string; title: string; size: 'rectangle' | 'square' }[] = [
+  { id: 1, image: '/src/img/bob.jpg', title: 'Фото 1', size: 'rectangle' },
+  { id: 2, image: '/src/img/Diana.jpg', title: 'Фото 2', size: 'square' },
+  { id: 3, image: '/src/img/ehor.jpg', title: 'Фото 3', size: 'rectangle' },
+  { id: 4, image: '/src/img/inna.jpg', title: 'Фото 4', size: 'square' },
+  { id: 5, image: '/src/img/Lisa.jpg', title: 'Фото 5', size: 'rectangle' },
+  { id: 6, image: '/src/img/Masha.jpg', title: 'Фото 6', size: 'square' },
+  { id: 7, image: '/src/img/Nata.jpg', title: 'Фото 7', size: 'rectangle' },
+  { id: 8, image: '/src/img/IMG_2614.jpg', title: 'Фото 8', size: 'square' },
+  { id: 9, image: '/src/img/IMG_2637.jpg', title: 'Фото 9', size: 'rectangle' },
+  { id: 10, image: '/src/img/IMG_2691.jpg', title: 'Фото 10', size: 'square' },
+  { id: 11, image: '/src/img/IMG_2693.jpg', title: 'Фото 11', size: 'rectangle' },
+  { id: 12, image: '/src/img/IMG_2698.jpg', title: 'Фото 12', size: 'square' },
+  { id: 13, image: '/src/img/IMG_4306.jpg', title: 'Фото 13', size: 'rectangle' },
+  { id: 14, image: '/src/img/IMG_4311.jpg', title: 'Фото 14', size: 'square' },
+  { id: 15, image: '/src/img/IMG_5026.jpg', title: 'Фото 15', size: 'rectangle' },
+  { id: 16, image: '/src/img/IMG_5033.jpg', title: 'Фото 16', size: 'square' },
+  { id: 17, image: '/src/img/IMG_5162.jpg', title: 'Фото 17', size: 'rectangle' },
+  { id: 18, image: '/src/img//IMG_5165.jpg', title: 'Фото 18', size: 'square' },
+];
+
 
 const Collections = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [photos, setPhotos] = useState<any[]>([]);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  // Перевірка, чи користувач авторизований
-  useEffect(() => {
-    const token = localStorage.getItem('authToken');
-    setIsAuthenticated(!!token);
-  }, []);
-
-  // Завантажуємо фото з API
-  useEffect(() => {
-    const fetchPhotos = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/images/collection');
-        const data = await response.json();
-        setPhotos(data);
-      } catch (error) {
-        console.error('Error fetching photos:', error);
-      }
-    };
-
-    fetchPhotos();
-  }, []);
 
   const openModal = (image: string) => {
     setSelectedImage(image);
@@ -40,43 +36,17 @@ const Collections = () => {
     setSelectedImage(null);
   };
 
-  // Функція для оновлення списку фото після видалення
-  const handleDelete = (photoId: string) => {
-    setPhotos((prevPhotos) => prevPhotos.filter((photo) => photo.id !== photoId));
-  };
-
-  // Функція для додавання нового фото в колекцію
-  const handleImageUpload = (imagePath: string) => {
-    setPhotos((prevPhotos) => [...prevPhotos, { filePath: imagePath, id: Date.now(), title: 'New Photo' }]);
-  };
-
   return (
     <div className={styles.collectionsContainer}>
-      {/* Кнопка додавання елементів рендериться першою перед усіма картинками */}
-      {isAuthenticated && (
-        <div className={styles.addElementContainer}>
-          <AddElement onImageUploaded={handleImageUpload} />
-        </div>
-      )}
-
-      {/* Відображення картинок */}
-      {photos.map((photo, index) => (
-  <div
-    key={photo.id || index} // Використовуємо index, якщо немає id
-    className={`${styles.cardWrapper} ${styles[photo.size]}`}
-    onClick={() => openModal(photo.image)}
-  >
-    <Card
-      image={photo.filePath}
-      title={photo.title}
-      size={photo.size}
-    />
-    {/* Кнопка для видалення, якщо користувач авторизований */}
-    {isAuthenticated && (
-      <DeleteElement photoId={photo.id} onDelete={() => handleDelete(photo.id)} />
-    )}
-  </div>
-))}
+      {staticPhotos.map((photo) => (
+        <Card 
+          key={photo.id} 
+          image={photo.image} 
+          title={photo.title} 
+          size={photo.size} 
+          onClick={() => openModal(photo.image)} // Додаємо onClick
+        />
+      ))}
 
       {selectedImage && <Modal image={selectedImage} onClose={closeModal} />}
     </div>
