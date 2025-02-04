@@ -6,26 +6,18 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    /* Висота контейнера на весь екран */
     position: relative;
-    /* Встановлюємо позицію */
     overflow: hidden;
-    /* Прибираємо прокрутку для контейнера */
 }
 
 .backgroundImage {
     position: absolute;
-    /* Абсолютне позиціонування */
     top: 0;
     left: 0;
     width: 100%;
-    /* Заповнюємо всю ширину */
     height: 100%;
-    /* Заповнюємо всю висоту */
     object-fit: cover;
-    /* Зберігаємо пропорції зображення */
     z-index: -1;
-    /* Поміщаємо зображення за іншими елементами */
 }
 
 .logoContainer {
@@ -34,19 +26,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    top: 20%;
 }
 
 .logo {
-    max-width: 80%;
+    max-width: 50%;
     height: auto;
     filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.5)) brightness(1.5);
     box-shadow: 0 4px 10px rgba(255, 255, 255, 0.7),
         0 8px 20px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease;
-    /* Додаємо анімацію при наведенні */
 }
 
 .logo:hover {
     transform: scale(1.05);
-    /* Збільшення при наведенні */
 }

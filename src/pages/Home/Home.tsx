@@ -1,6 +1,6 @@
 // src/pages/Home/Home.tsx
 import styles from './Home.module.css';
-import heroImage from '../../img/HomePhoto.jpg';
+import heroImage from '../../img/14.jpg';
 import logoImage from '../../img/logo.png';
 
 const Home = () => {

@@ -3,7 +3,7 @@
 import NewsItem from '../../components/NewsItem/NewsItem.tsx';
 import styles from './Blog.module.css';
 import aboutImage from '../../img/2019 - Margaret - © Giuseppe Casalinuovo (8).jpg';
-import photografImage from '../../img/14.jpg';
+import photografImage from '../../img/2019 - Margaret - © Giuseppe Casalinuovo (18).jpg';
 
 const Blog = () => {
   const newsItems = [
@@ -13,6 +13,7 @@ const Blog = () => {
       description: ' Маю 10-річний досвід у моделінгу. За останні два роки я повністю віддалася своїй пристрасті до фотографії, поєднуючи досвід здобутий в моді, з мистецтвом фотографії. У своїх роботах я завжди прагну відобразити не лише зовнішню красу, а й емоції, індивідуальність та глибину кожної людини перед обєктивом.',
       sources: [
         { name: 'mary_kristel', url: 'https://www.instagram.com/mary_kristel/' },
+        { name: 'mary_kristel_ph', url: 'https://www.instagram.com/mary_kristel_ph/' },
       ],
     },
     {
