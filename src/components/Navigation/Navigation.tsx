@@ -1,34 +1,38 @@
 // src/components/Navigation/Navigation.tsx
 
 import { NavLink } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCamera, faPhone, faNewspaper } from '@fortawesome/free-solid-svg-icons'; // Додаємо іконку будиночка
 import styles from './Navigation.module.css';
 
 const Navigation = () => {
   return (
-    <div className={styles.navLinks}>
+    <nav className={styles.navigation}>
+      <NavLink
+        to="/collections"
+        className={({ isActive }) =>
+          `${styles.link} ${isActive ? styles.active : ''}`
+        }
+      >
+        Portfolio
+      </NavLink>
 
-      <NavLink 
-        to="/collections" 
-        className={({ isActive }) => (isActive ? styles.activeLink : undefined)}
+      <NavLink
+        to="/blog"
+        className={({ isActive }) =>
+          `${styles.link} ${isActive ? styles.active : ''}`
+        }
       >
-        <FontAwesomeIcon icon={faCamera} className={styles.icon} />
+        Journal
       </NavLink>
-    
-      <NavLink 
-        to="/contacts" 
-        className={({ isActive }) => (isActive ? styles.activeLink : undefined)}
+
+      <NavLink
+        to="/contacts"
+        className={({ isActive }) =>
+          `${styles.link} ${isActive ? styles.active : ''}`
+        }
       >
-        <FontAwesomeIcon icon={faPhone} className={styles.icon} />
+        Contact
       </NavLink>
-      <NavLink 
-        to="/blog" 
-        className={({ isActive }) => (isActive ? styles.activeLink : undefined)}
-      >
-        <FontAwesomeIcon icon={faNewspaper} className={styles.icon} />
-      </NavLink>
-    </div>
+    </nav>
   );
 };
 
