@@ -1,28 +1,107 @@
-// src/components/Modal/Modal.tsx
 import { useEffect } from 'react';
 import styles from './Modal.module.css';
 
-const Modal = ({ image, onClose }: { image: string; onClose: () => void }) => {
-  // Додаємо обробник події для клавіші Escape
+type ModalProps = {
+  image: string;
+  alt: string;
+
+  current: number;
+  total: number;
+
+  onClose: () => void;
+  onNext: () => void;
+  onPrevious: () => void;
+};
+
+const Modal = ({
+  image,
+  alt,
+  current,
+  total,
+  onClose,
+  onNext,
+  onPrevious,
+}: ModalProps) => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         onClose();
       }
+
+      if (event.key === 'ArrowRight') {
+        onNext();
+      }
+
+      if (event.key === 'ArrowLeft') {
+        onPrevious();
+      }
     };
 
     document.addEventListener('keydown', handleKeyDown);
 
-    // Прибираємо обробник події після демонтування компонента
+    document.body.style.overflow = 'hidden';
+
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
     };
-  }, [onClose]);
+  }, [onClose, onNext, onPrevious]);
 
   return (
-    <div className={styles.modalOverlay} onClick={onClose}>
-      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        <img src={image} alt="Enlarged view" className={styles.modalImage} />
+    <div
+      className={styles.overlay}
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+    >
+      <button
+        type="button"
+        className={styles.close}
+        onClick={onClose}
+        aria-label="Close image"
+      >
+        ×
+      </button>
+
+      <button
+        type="button"
+        className={`${styles.navigationButton} ${styles.previous}`}
+        onClick={(event) => {
+          event.stopPropagation();
+          onPrevious();
+        }}
+        aria-label="Previous image"
+      >
+        ←
+      </button>
+
+      <div
+        className={styles.imageWrapper}
+        onClick={(event) => event.stopPropagation()}
+      >
+        <img
+          src={image}
+          alt={alt}
+          className={styles.image}
+        />
+      </div>
+
+      <button
+        type="button"
+        className={`${styles.navigationButton} ${styles.next}`}
+        onClick={(event) => {
+          event.stopPropagation();
+          onNext();
+        }}
+        aria-label="Next image"
+      >
+        →
+      </button>
+
+      <div className={styles.counter}>
+        {String(current).padStart(2, '0')}
+        <span>/</span>
+        {String(total).padStart(2, '0')}
       </div>
     </div>
   );

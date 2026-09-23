@@ -1,78 +1,104 @@
-.footerContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #333;
-    color: white;
-    height: 50px;
-    position: relative;
+/* src/components/Footer/Footer.module.css */
+
+.footer {
+    width: 100%;
+
+    padding: 24px 42px;
+
+    background: #111;
+    color: rgba(255, 255, 255, 0.65);
 }
 
-.footerContent {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.inner {
     width: 100%;
-    position: relative;
+    max-width: 1500px;
+
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 30px;
 }
 
 .copyright {
     margin: 0;
-    font-size: 14px;
-    text-align: center;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
 }
 
-.indicatorWrapper {
+.developer {
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-left: 10px;
+    gap: 12px;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 400;
+
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+
+    color: rgba(255, 255, 255, 0.38);
+
+    text-decoration: none;
+
+    transition: color 0.25s ease;
 }
 
-.lightBulb {
-    font-size: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s ease;
+.developer:hover {
+    color: #fff;
 }
 
-.icon {
-    width: 30px;
-    height: 30px;
-    transition: transform 0.3s ease;
+.developerLogo {
+    display: block;
+
+    width: auto;
+    height: 22px;
+    opacity: 0.85;
+
+    object-fit: contain;
+
+    filter: brightness(0) invert(1);
+
+    opacity: 0.8;
+
+    transition: opacity 0.25s ease;
 }
 
-/* Коли лампочка активна, вона буде золотистою */
-.lightBulb.active .icon {
-    transform: scale(1.1);
-    /* Збільшення при активації */
-    stroke: #FFD700;
-    /* Золотий колір для активної лампочки */
-}
-
-/* Для неактивної лампочки */
-.lightBulb .icon {
-    transform: scale(1);
-    /* Без збільшення */
-    stroke: #808080;
-    /* Сірий колір для неактивної лампочки */
-}
-
-.footerContainer::after {
-    content: '';
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
+.developer:hover .developerLogo {
+    opacity: 1;
 }
 
 @media (max-width: 600px) {
-    .footerContainer {
-        padding: 15px 5px;
+    .footer {
+        padding: 26px 20px;
     }
 
-    .footerContent {
+    .inner {
         flex-direction: column;
-        align-items: center;
+        justify-content: center;
+
+        gap: 14px;
+
+        text-align: center;
+    }
+
+    .copyright {
+        font-size: 9px;
+    }
+
+    .developer {
+        font-size: 8px;
+    }
+
+    .developerLogo {
+        height: 20px;
     }
 }

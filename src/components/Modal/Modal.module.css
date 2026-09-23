@@ -1,40 +1,192 @@
-/* src/components/Modal/Modal.module.css */
-
-.modalOverlay {
+.overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    inset: 0;
+
     z-index: 1000;
-    /* Додаємо високу z-index, щоб модальне вікно завжди було на верхі */
-}
 
-.modalContent {
     display: flex;
-    justify-content: center;
-    /* Центруємо контент */
     align-items: center;
-    /* Центруємо контент по вертикалі */
-    max-width: 90%;
-    /* Обмежуємо максимальну ширину */
-    max-height: 90%;
-    /* Обмежуємо максимальну висоту */
-    border-radius: 8px;
-    /* Закруглені кути */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    /* Тінь для глибини */
+    justify-content: center;
+
+    padding: 40px 90px;
+
+    background: rgba(8, 8, 8, 0.97);
+
+    animation: modalAppear 0.25s ease;
 }
 
-.modalImage {
+.imageWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     max-width: 100%;
-    /* Адаптивна ширина зображення */
-    max-height: 80vh;
-    /* Максимальна висота зображення для запобігання переповненню вікна */
+    max-height: 100%;
+}
+
+.image {
+    display: block;
+
+    max-width: 100%;
+    max-height: calc(100vh - 100px);
+
     object-fit: contain;
-    /* Зберігаємо пропорції зображення */
+
+    user-select: none;
+}
+
+.close {
+    position: absolute;
+
+    top: 24px;
+    right: 32px;
+
+    z-index: 2;
+
+    width: 44px;
+    height: 44px;
+
+    padding: 0;
+
+    border: 0;
+    background: transparent;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 34px;
+    font-weight: 200;
+    line-height: 1;
+
+    color: rgba(255, 255, 255, 0.8);
+
+    cursor: pointer;
+
+    transition: color 0.25s ease;
+}
+
+.close:hover {
+    color: #fff;
+}
+
+.navigationButton {
+    position: absolute;
+    top: 50%;
+
+    z-index: 2;
+
+    transform: translateY(-50%);
+
+    width: 52px;
+    height: 52px;
+
+    padding: 0;
+
+    border: 0;
+    background: transparent;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 28px;
+    font-weight: 300;
+
+    color: rgba(255, 255, 255, 0.65);
+
+    cursor: pointer;
+
+    transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.navigationButton:hover {
+    color: #fff;
+}
+
+.previous {
+    left: 24px;
+}
+
+.previous:hover {
+    transform: translate(-3px, -50%);
+}
+
+.next {
+    right: 24px;
+}
+
+.next:hover {
+    transform: translate(3px, -50%);
+}
+
+.counter {
+    position: absolute;
+
+    bottom: 22px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    display: flex;
+    gap: 8px;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+
+    letter-spacing: 0.16em;
+
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.counter span {
+    opacity: 0.5;
+}
+
+@keyframes modalAppear {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .overlay {
+        padding: 54px 12px;
+    }
+
+    .image {
+        max-height: calc(100vh - 110px);
+    }
+
+    .close {
+        top: 14px;
+        right: 14px;
+    }
+
+    .navigationButton {
+        top: auto;
+        bottom: 10px;
+
+        width: 48px;
+        height: 48px;
+
+        font-size: 24px;
+    }
+
+    .previous {
+        left: 12px;
+    }
+
+    .next {
+        right: 12px;
+    }
+
+    .previous:hover,
+    .next:hover {
+        transform: none;
+    }
+
+    .counter {
+        bottom: 27px;
+    }
 }

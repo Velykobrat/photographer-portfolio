@@ -1,85 +1,127 @@
-/* src/pages/Collections/Collections.module.css */
-
-/* Стилі для контейнера всіх елементів на сторінці */
-.collectionsContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    grid-auto-rows: 200px;
-    gap: 20px;
-    padding: 20px;
-    position: relative;
-}
-
-
-
-/* Стилі для кожної картки */
-.cardWrapper {
-    cursor: pointer;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Стилі для анімації при наведенні на картки */
-.cardWrapper:hover {
-    transform: translateY(-10px);
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* Стилі для великих карток */
-.square {
-    grid-row: span 2;
-    grid-column: span 2;
-}
-
-/* Стилі для стандартних карток */
-.rectangle {
-    grid-row: span 1;
-    grid-column: span 1;
-}
-
-/* Стилі для картинок всередині карток */
-.cardContainer img {
+.portfolio {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
-   
+    min-height: 100vh;
+
+    padding: 110px 42px 120px;
+
+    background: #f4f2ee;
+    color: #171717;
 }
 
-/* Стилі для картинки при наведенні */
-.cardContainer:hover img {
-    transform: scale(1.05);
-}
-
-/* Стилі для кнопки додавання елементів (кнопка на початку сторінки) */
-.addElementContainer {
-    margin-bottom: 20px;
-    /* Відстань між кнопкою і картками */
+.intro {
     width: 100%;
-    /* Щоб кнопка займала всю ширину контейнера */
-    display: flex;
-    justify-content: center;
-    /* Центруємо кнопку */
+    max-width: 720px;
+
+    margin: 0 auto 90px;
+
+    text-align: center;
 }
 
-/* Стилі для кнопки видалення */
-.deleteButton {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: rgba(255, 0, 0, 0.7);
-    color: white;
-    border: none;
-    padding: 5px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.eyebrow {
+    margin: 0 0 18px;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+
+    color: rgba(23, 23, 23, 0.5);
 }
 
-.deleteButton:hover {
-    background-color: rgba(255, 0, 0, 1);
+.title {
+    margin: 0;
+
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 6vw, 82px);
+    font-weight: 400;
+    line-height: 0.95;
+
+    letter-spacing: -0.025em;
+}
+
+.description {
+    margin: 24px 0 0;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+
+    color: rgba(23, 23, 23, 0.55);
+}
+
+.status {
+    margin: 0 0 50px;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+
+    text-align: center;
+
+    color: rgba(23, 23, 23, 0.45);
+}
+
+/*
+  Masonry-style layout.
+  Фото зберігають свої справжні пропорції.
+*/
+.gallery {
+    width: 100%;
+    max-width: 1320px;
+
+    margin: 0 auto;
+
+    columns: 3;
+    column-gap: 26px;
+}
+
+@media (max-width: 1000px) {
+    .portfolio {
+        padding: 76px 24px 80px;
+    }
+
+    .intro {
+        margin-bottom: 54px;
+    }
+
+    .gallery {
+        columns: 2;
+        column-gap: 14px;
+    }
+}
+
+@media (max-width: 600px) {
+    .portfolio {
+        padding: 56px 14px 64px;
+    }
+
+    .intro {
+        margin-bottom: 42px;
+    }
+
+    .eyebrow {
+        margin-bottom: 14px;
+        font-size: 9px;
+    }
+
+    .title {
+        font-size: clamp(46px, 15vw, 64px);
+    }
+
+    .description {
+        margin-top: 18px;
+
+        font-size: 9px;
+        letter-spacing: 0.16em;
+    }
+
+    .gallery {
+        columns: 1;
+    }
 }

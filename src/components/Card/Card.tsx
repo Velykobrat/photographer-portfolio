@@ -1,30 +1,27 @@
-// src/components/Card/Card.tsx
-
 import styles from './Card.module.css';
 
-const Card = ({
-  image,
-  title,
-  size,
-  onClick,
-}: {
+type CardProps = {
   image: string;
-  title: string;
-  size: 'rectangle' | 'square';
-  onClick?: () => void;
-}) => {
+  alt: string;
+  onClick: () => void;
+};
+
+const Card = ({ image, alt, onClick }: CardProps) => {
   return (
-    <div className={`${styles.cardWrapper} ${styles[size]}`} onClick={onClick}>
-      <div className={styles.cardContainer}>
-        <img
-          src={image}
-          alt={title}
-          loading="lazy" // Додаємо lazy loading для оптимізації завантаження
-        />
-      </div>
-    </div>
+    <button
+      type="button"
+      className={styles.card}
+      onClick={onClick}
+      aria-label={`Open ${alt}`}
+    >
+      <img
+        src={image}
+        alt={alt}
+        className={styles.image}
+        loading="lazy"
+      />
+    </button>
   );
 };
 
 export default Card;
-
