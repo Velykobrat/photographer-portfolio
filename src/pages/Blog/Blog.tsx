@@ -2,34 +2,54 @@
 
 import NewsItem from '../../components/NewsItem/NewsItem.tsx';
 import styles from './Blog.module.css';
-import aboutImage from '../../img/2019 - Margaret - © Giuseppe Casalinuovo (8).jpg';
-import photografImage from '../../img/2019 - Margaret - © Giuseppe Casalinuovo (18).jpg';
+import { getCloudinaryImage } from '../../utils/cloudinary';
+
+const aboutImage = getCloudinaryImage(
+  '2019_-_Margaret_-_Giuseppe_Casalinuovo_8_yi7rl4',
+  1600
+);
+
+const photographerImage = getCloudinaryImage(
+  '2019_-_Margaret_-_Giuseppe_Casalinuovo_18_bnfeeu',
+  1600
+);
 
 const Blog = () => {
   const newsItems = [
     {
       title: 'Мене звати Маргарет, я професійний фотограф та діюча модель',
       image: aboutImage,
-      description: ' Маю 10-річний досвід у моделінгу. За останні два роки я повністю віддалася своїй пристрасті до фотографії, поєднуючи досвід здобутий в моді, з мистецтвом фотографії. У своїх роботах я завжди прагну відобразити не лише зовнішню красу, а й емоції, індивідуальність та глибину кожної людини перед обєктивом.',
+      description:
+        'Маю 10-річний досвід у моделінгу. За останні два роки я повністю віддалася своїй пристрасті до фотографії, поєднуючи досвід здобутий в моді, з мистецтвом фотографії. У своїх роботах я завжди прагну відобразити не лише зовнішню красу, а й емоції, індивідуальність та глибину кожної людини перед обєктивом.',
       sources: [
-        { name: 'mary_kristel', url: 'https://www.instagram.com/mary_kristel/' },
-        { name: 'mary_kristel_ph', url: 'https://www.instagram.com/mary_kristel_ph/' },
+        {
+          name: 'mary_kristel',
+          url: 'https://www.instagram.com/mary_kristel/',
+        },
+        {
+          name: 'mary_kristel_ph',
+          url: 'https://www.instagram.com/mary_kristel_ph/',
+        },
       ],
     },
     {
       title: 'Інтерв’ю з фотографом',
-      image: photografImage,
-      description: 'Фотограф поділився своїм досвідом в інтерв’ю для популярного журналу.',
+      image: photographerImage,
+      description:
+        'Фотограф поділився своїм досвідом в інтерв’ю для популярного журналу.',
       sources: [
-        { name: 'Magazine Interview', url: 'http://l-models.agency/ru/models' },
+        {
+          name: 'Magazine Interview',
+          url: 'http://l-models.agency/ru/models',
+        },
       ],
     },
   ];
 
   return (
-    
     <div className={styles.pressContainer}>
       <h2>Blog</h2>
+
       <div className={styles.newsList}>
         {newsItems.map((item, index) => (
           <NewsItem
@@ -37,7 +57,7 @@ const Blog = () => {
             title={item.title}
             image={item.image}
             description={item.description}
-            sources={item.sources} // Переконайтеся, що тут передається правильно
+            sources={item.sources}
           />
         ))}
       </div>

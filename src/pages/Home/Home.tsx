@@ -3,8 +3,10 @@
 import { Link } from 'react-router-dom';
 import styles from './Home.module.css';
 
-import heroImage from '../../img/14.jpg';
+import { getCloudinaryImage } from '../../utils/cloudinary';
 import logoImage from '../../img/logo_2026_vector.svg';
+
+const heroImage = getCloudinaryImage('14_tbvntx', 2200);
 
 const Home = () => {
   return (
