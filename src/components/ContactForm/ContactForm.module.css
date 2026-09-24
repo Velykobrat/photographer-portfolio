@@ -2,14 +2,20 @@
     width: 100%;
 }
 
+/* =========================
+   FIELD
+========================= */
+
 .field {
     display: flex;
     flex-direction: column;
 
+    width: 100%;
     margin-bottom: 30px;
 }
 
-.field label {
+.field label,
+.shootTypeField legend {
     margin-bottom: 10px;
 
     font-family: 'DM Sans', sans-serif;
@@ -20,6 +26,11 @@
     text-transform: uppercase;
 
     color: rgba(23, 23, 23, 0.52);
+}
+
+.field label span,
+.shootTypeField legend span {
+    color: rgba(23, 23, 23, 0.35);
 }
 
 .field input,
@@ -36,17 +47,14 @@
 
     font-family: 'DM Sans', sans-serif;
     font-size: 15px;
+    font-weight: 300;
+    line-height: 1.5;
 
     color: #171717;
 
     outline: none;
 
     transition: border-color 0.25s ease;
-}
-
-.field textarea {
-    resize: vertical;
-    min-height: 110px;
 }
 
 .field input::placeholder,
@@ -59,9 +67,280 @@
     border-bottom-color: #171717;
 }
 
-.submit {
-    margin-top: 12px;
+.field textarea {
+    min-height: 120px;
 
+    resize: vertical;
+}
+
+/* =========================
+   HINT
+========================= */
+
+.hint {
+    margin: 8px 0 0;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 300;
+
+    line-height: 1.5;
+
+    color: rgba(23, 23, 23, 0.38);
+}
+
+/* =========================
+   SHOOT TYPE
+========================= */
+
+.shootTypeField {
+    margin: 2px 0 34px;
+    padding: 0;
+
+    border: 0;
+}
+
+.shootTypeField legend {
+    padding: 0;
+    margin-bottom: 14px;
+}
+
+.shootTypes {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 9px;
+}
+
+.shootTypeButton {
+    padding: 11px 17px;
+
+    border: 1px solid rgba(23, 23, 23, 0.2);
+
+    background: transparent;
+    color: rgba(23, 23, 23, 0.68);
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 400;
+
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.shootTypeButton:hover {
+    border-color: #171717;
+    color: #171717;
+}
+
+.shootTypeButton.selected {
+    border-color: #171717;
+
+    background: #171717;
+    color: #fff;
+}
+
+/* =========================
+   ROW
+========================= */
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 32px;
+}
+
+/* =========================
+   DATE PICKER
+========================= */
+
+.datePicker {
+    position: relative;
+
+    width: 100%;
+}
+
+.dateButton {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 16px;
+
+    padding: 12px 0;
+
+    border: 0;
+    border-bottom: 1px solid rgba(23, 23, 23, 0.22);
+
+    background: transparent;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+
+    text-align: left;
+
+    color: rgba(23, 23, 23, 0.28);
+
+    cursor: pointer;
+
+    outline: none;
+
+    transition:
+        border-color 0.25s ease,
+        color 0.25s ease;
+}
+
+.dateButton:hover,
+.dateButton:focus-visible {
+    border-bottom-color: #171717;
+}
+
+.dateSelected {
+    color: #171717;
+}
+
+.calendarIcon {
+    flex-shrink: 0;
+
+    font-size: 11px;
+
+    color: rgba(23, 23, 23, 0.4);
+
+    transform: rotate(45deg);
+}
+
+/* Calendar popup */
+
+.calendar {
+    position: absolute;
+
+    top: calc(100% + 12px);
+    left: 0;
+
+    z-index: 50;
+
+    padding: 18px;
+
+    border: 1px solid rgba(23, 23, 23, 0.12);
+
+    background: #f4f2ee;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.12);
+}
+
+/* DayPicker customization */
+
+.calendar :global(.rdp-root) {
+    --rdp-accent-color: #171717;
+    --rdp-accent-background-color: #171717;
+
+    --rdp-day-height: 38px;
+    --rdp-day-width: 38px;
+
+    --rdp-day_button-height: 36px;
+    --rdp-day_button-width: 36px;
+
+    --rdp-day_button-border-radius: 0;
+
+    --rdp-disabled-opacity: 0.2;
+
+    margin: 0;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+
+    color: #171717;
+}
+
+.calendar :global(.rdp-month_caption) {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.calendar :global(.rdp-weekday) {
+    font-size: 9px;
+    font-weight: 400;
+
+    letter-spacing: 0.08em;
+
+    color: rgba(23, 23, 23, 0.4);
+}
+
+.calendar :global(.rdp-day_button) {
+    font-family: 'DM Sans', sans-serif;
+
+    cursor: pointer;
+}
+
+.calendar :global(.rdp-selected) button {
+    background: #171717;
+    color: #fff;
+}
+
+/* =========================
+   CONSENT
+========================= */
+
+.consent {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 10px;
+
+    margin: 4px 0 28px;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+
+    line-height: 1.5;
+
+    color: rgba(23, 23, 23, 0.5);
+
+    cursor: pointer;
+}
+
+.consent input {
+    flex-shrink: 0;
+
+    width: 14px;
+    height: 14px;
+
+    margin: 1px 0 0;
+
+    accent-color: #171717;
+
+    cursor: pointer;
+}
+
+/* =========================
+   SUBMIT
+========================= */
+
+.submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 180px;
+
+    margin-top: 4px;
     padding: 16px 28px;
 
     border: 1px solid #171717;
@@ -80,26 +359,35 @@
 
     transition:
         background-color 0.25s ease,
-        color 0.25s ease;
+        color 0.25s ease,
+        opacity 0.25s ease;
 }
 
-.submit:hover {
+.submit:hover:not(:disabled) {
     background: transparent;
     color: #171717;
 }
 
 .submit:disabled {
     cursor: wait;
-    opacity: 0.55;
+
+    opacity: 0.5;
 }
 
+/* =========================
+   STATUS
+========================= */
+
 .status {
-    min-height: 24px;
+    min-height: 26px;
 
     margin-top: 18px;
 
     font-family: 'DM Sans', sans-serif;
     font-size: 11px;
+    font-weight: 300;
+
+    line-height: 1.5;
 }
 
 .status p {
@@ -114,24 +402,78 @@
     color: #8a4545;
 }
 
+/* =========================
+   HONEYPOT
+========================= */
+
 .honeypot {
     position: absolute;
 
     width: 1px;
     height: 1px;
 
+    padding: 0;
+    margin: -1px;
+
     overflow: hidden;
 
-    clip: rect(0 0 0 0);
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+
     white-space: nowrap;
+
+    border: 0;
 }
 
-@media (max-width: 768px) {
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
     .field {
         margin-bottom: 24px;
     }
 
+    .row {
+        grid-template-columns: 1fr;
+
+        gap: 0;
+    }
+
+    .shootTypeField {
+        margin-bottom: 28px;
+    }
+
+    .shootTypes {
+        gap: 7px;
+    }
+
+    .shootTypeButton {
+        flex-grow: 1;
+
+        padding: 11px 12px;
+    }
+
     .submit {
         width: 100%;
+    }
+
+    .calendar {
+        position: fixed;
+
+        top: 50%;
+        left: 50%;
+
+        width: calc(100% - 32px);
+        max-width: 380px;
+
+        padding: 18px;
+
+        transform: translate(-50%, -50%);
+    }
+
+    .calendar :global(.rdp-root) {
+        display: flex;
+        justify-content: center;
     }
 }
