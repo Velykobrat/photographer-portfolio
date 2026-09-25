@@ -101,15 +101,6 @@ export async function POST(request: Request) {
     const emailFrom =
       process.env.CONTACT_EMAIL_FROM;
 
-    // Temporary diagnostic
-    console.log('ENV CHECK:', {
-      TELEGRAM_BOT_TOKEN: Boolean(telegramToken),
-      TELEGRAM_CHAT_ID: Boolean(telegramChatId),
-      BREVO_API_KEY: Boolean(brevoApiKey),
-      CONTACT_EMAIL_TO: Boolean(emailTo),
-      CONTACT_EMAIL_FROM: Boolean(emailFrom),
-    });
-
     const text = [
       '📷 NEW PHOTOGRAPHY REQUEST',
       '',

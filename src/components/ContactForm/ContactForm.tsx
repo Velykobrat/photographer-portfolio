@@ -33,7 +33,10 @@ const formatDateForDisplay = (date: Date) =>
 
 const ContactForm = () => {
   const [status, setStatus] = useState<FormStatus>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+
   const [shootType, setShootType] = useState('');
+
   const [preferredDate, setPreferredDate] =
     useState<Date | undefined>();
 
@@ -79,6 +82,7 @@ const ContactForm = () => {
   const resetStatus = () => {
     if (status === 'error' || status === 'success') {
       setStatus('idle');
+      setErrorMessage('');
     }
   };
 
@@ -88,6 +92,7 @@ const ContactForm = () => {
     event.preventDefault();
 
     if (!shootType) {
+      setErrorMessage('Please choose a type of shoot.');
       setStatus('error');
       return;
     }
@@ -97,7 +102,7 @@ const ContactForm = () => {
 
     const data = {
       name: String(formData.get('name') || '').trim(),
-      
+
       contact: String(
         formData.get('contact') || ''
       ).trim(),
@@ -117,8 +122,7 @@ const ContactForm = () => {
       ).trim(),
 
       consent: formData.get('consent') === 'on',
-      
-      // Honeypot для ботів
+
       website: String(
         formData.get('website') || ''
       ),
@@ -126,42 +130,44 @@ const ContactForm = () => {
 
     try {
       setStatus('sending');
+      setErrorMessage('');
 
       const response = await fetch('/api/contact', {
-  method: 'POST',
+        method: 'POST',
 
-  headers: {
-    'Content-Type': 'application/json',
-  },
+        headers: {
+          'Content-Type': 'application/json',
+        },
 
-  body: JSON.stringify(data),
-});
+        body: JSON.stringify(data),
+      });
 
-const result = await response
-  .json()
-  .catch(() => null);
+      const result = await response
+        .json()
+        .catch(() => null);
 
-console.log('Contact API response:', {
-  status: response.status,
-  result,
-});
-
-if (!response.ok) {
-  throw new Error(
-    result?.error ||
-      `Request failed with status ${response.status}`
-  );
-}
+      if (!response.ok) {
+        throw new Error(
+          result?.error ||
+            `Request failed with status ${response.status}`
+        );
+      }
 
       form.reset();
 
       setShootType('');
       setPreferredDate(undefined);
       setCalendarOpen(false);
-
+      setErrorMessage('');
       setStatus('success');
     } catch (error) {
       console.error('Contact form error:', error);
+
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : 'Something went wrong. Please try again.'
+      );
 
       setStatus('error');
     }
@@ -173,8 +179,6 @@ if (!response.ok) {
       onSubmit={handleSubmit}
       onChange={resetStatus}
     >
-      {/* NAME */}
-
       <div className={styles.field}>
         <label htmlFor="name">
           Your name <span>*</span>
@@ -189,8 +193,6 @@ if (!response.ok) {
           required
         />
       </div>
-
-      {/* CONTACT */}
 
       <div className={styles.field}>
         <label htmlFor="contact">
@@ -209,8 +211,6 @@ if (!response.ok) {
           Telegram, phone number or email
         </p>
       </div>
-
-      {/* TYPE OF SHOOT */}
 
       <fieldset className={styles.shootTypeField}>
         <legend>
@@ -239,8 +239,6 @@ if (!response.ok) {
         </div>
       </fieldset>
 
-      {/* DATE + LOCATION */}
-
       <div className={styles.row}>
         <div className={styles.field}>
           <label>
@@ -264,9 +262,7 @@ if (!response.ok) {
             >
               <span>
                 {preferredDate
-                  ? formatDateForDisplay(
-                      preferredDate
-                    )
+                  ? formatDateForDisplay(preferredDate)
                   : 'Choose a date'}
               </span>
 
@@ -315,8 +311,6 @@ if (!response.ok) {
         </div>
       </div>
 
-      {/* MESSAGE */}
-
       <div className={styles.field}>
         <label htmlFor="message">
           Tell me about your idea
@@ -331,20 +325,17 @@ if (!response.ok) {
         />
       </div>
 
-      {/* CONSENT */}
-
       <label className={styles.consent}>
         <input
-  type="checkbox"
-  name="consent"
-  required
-/>
+          type="checkbox"
+          name="consent"
+          required
+        />
+
         <span>
           I agree to be contacted regarding this request.
         </span>
       </label>
-
-      {/* HONEYPOT */}
 
       <div
         className={styles.honeypot}
@@ -363,8 +354,6 @@ if (!response.ok) {
         />
       </div>
 
-      {/* SUBMIT */}
-
       <button
         type="submit"
         className={styles.submit}
@@ -374,8 +363,6 @@ if (!response.ok) {
           ? 'Sending...'
           : 'Send request'}
       </button>
-
-      {/* STATUS */}
 
       <div
         className={styles.status}
@@ -389,7 +376,8 @@ if (!response.ok) {
 
         {status === 'error' && (
           <p className={styles.error}>
-            Please complete all required fields and try again.
+            {errorMessage ||
+              'Something went wrong. Please try again.'}
           </p>
         )}
       </div>
