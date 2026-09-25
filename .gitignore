@@ -27,3 +27,7 @@ dist-ssr
 .env.*.local
 .vercel
 .env*
+
+# OS / generated files
+desktop.ini
+*.tsbuildinfo

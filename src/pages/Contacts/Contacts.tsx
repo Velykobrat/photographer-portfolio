@@ -1,6 +1,8 @@
 import ContactForm from '../../components/ContactForm/ContactForm';
 import styles from './Contacts.module.css';
 
+import instagramQr from '../../img/qr_insta.png';
+
 const Contacts = () => {
   return (
     <main className={styles.contact}>
@@ -30,25 +32,15 @@ const Contacts = () => {
       </section>
 
       <section className={styles.contactDetails}>
-        <div className={styles.detail}>
-          <span>Based in</span>
-          <p>Ladyzhyn | Kyiv, Ukraine</p>
-        </div>
-
-        <div className={styles.detail}>
-          <span>Email</span>
-
-          <a href="mailto:zongomargaret@gmail.com">
-            zongomargaret@gmail.com
+        <div className={styles.socialLinks}>
+          <a
+            href="https://www.instagram.com/mary_kristel_ph/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Instagram
           </a>
-        </div>
 
-        <div className={styles.detail}>
-          <span>Available</span>
-          <p>10:00 — 18:00</p>
-        </div>
-
-        <div className={styles.messengers}>
           <a
             href="https://t.me/mary_kristel"
             target="_blank"
@@ -59,19 +51,39 @@ const Contacts = () => {
 
           <a
             href="viber://chat?number=+380631037994"
-            target="_blank"
-            rel="noreferrer"
           >
             Viber
           </a>
+        </div>
 
-          <a
-            href="https://m.me/margaret.zongo"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Messenger
+        <a
+          href="https://www.instagram.com/mary_kristel_ph/"
+          target="_blank"
+          rel="noreferrer"
+          className={styles.instagramQrLink}
+          aria-label="Open MK Photography on Instagram"
+        >
+          <img
+            src={instagramQr}
+            alt="QR code for MK Photography Instagram"
+            className={styles.instagramQr}
+          />
+        </a>
+
+        <div className={`${styles.detail} ${styles.email}`}>
+          <span>Email</span>
+
+          <a href="mailto:zongomargaret@gmail.com">
+            zongomargaret@gmail.com
           </a>
+        </div>
+
+        <div className={`${styles.detail} ${styles.location}`}>
+          <span>Based in</span>
+
+          <p>
+            Ladyzhyn | Kyiv, Ukraine
+          </p>
         </div>
       </section>
     </main>
