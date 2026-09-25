@@ -1,18 +1,22 @@
-/* src/pages/Home/Home.module.css */
-
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap');
 
 .home {
     position: relative;
+
     width: 100%;
+
+    /* Fallback для старих браузерів */
     height: 100vh;
-    height: 100svh;
+
+    /* Реальна динамічна висота мобільного viewport */
+    height: 100dvh;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
     overflow: hidden;
+
     background: #111;
 }
 
@@ -203,6 +207,7 @@
 
     .content {
         top: 63%;
+
         width: 90%;
     }
 
@@ -220,6 +225,7 @@
 
     .actions {
         flex-direction: column;
+
         gap: 12px;
 
         width: 100%;
@@ -246,6 +252,7 @@
     .subtitle,
     .actions {
         opacity: 1;
+
         animation: none;
     }
 }

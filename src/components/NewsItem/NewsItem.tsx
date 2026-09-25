@@ -1,35 +1,75 @@
-// src/components/NewsItem/NewsItem.tsx
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInstagram } from '@fortawesome/free-brands-svg-icons';
-
 import styles from './NewsItem.module.css';
 
+interface Source {
+  name: string;
+  url: string;
+}
+
 interface NewsItemProps {
+  category: string;
   title: string;
   image: string;
   description: string;
-  sources: { name: string; url: string }[];
+  sources?: Source[];
+  reverse?: boolean;
+  priority?: boolean;
 }
 
-const NewsItem: React.FC<NewsItemProps> = ({ title, image, description, sources }) => {
+const NewsItem = ({
+  category,
+  title,
+  image,
+  description,
+  sources = [],
+  reverse = false,
+  priority = false,
+}: NewsItemProps) => {
   return (
-    <div className={styles.newsItemContainer}>
-      <img src={image} alt={title} className={styles.newsItemImage} />
-      <h3 className={styles.newsItemTitle}>{title}</h3>
-      <p className={styles.newsItemDescription}>{description}</p>
-      <div className={styles.newsItemSources}>
-        {sources && sources.length > 0 ? ( 
-          sources.map((source, index) => (
-            <a key={index} href={source.url} target="_blank" rel="noopener noreferrer" className={styles.sourceLink}>
-              <FontAwesomeIcon icon={faInstagram} className={styles.instagramIcon} /> {source.name}
-            </a>
-          ))
-        ) : (
-          <p>Джерела не вказані.</p> // Відображення, якщо немає джерел
+    <article
+      className={`${styles.newsItem} ${
+        reverse ? styles.reverse : ''
+      }`}
+    >
+      <div className={styles.imageWrapper}>
+        <img
+          src={image}
+          alt={title}
+          className={styles.image}
+          loading={priority ? 'eager' : 'lazy'}
+          fetchPriority={priority ? 'high' : 'auto'}
+        />
+      </div>
+
+      <div className={styles.content}>
+        <p className={styles.category}>
+          {category}
+        </p>
+
+        <h2 className={styles.title}>
+          {title}
+        </h2>
+
+        <p className={styles.description}>
+          {description}
+        </p>
+
+        {sources.length > 0 && (
+          <div className={styles.sources}>
+            {sources.map((source) => (
+              <a
+                key={source.url}
+                href={source.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.sourceLink}
+              >
+                {source.name}
+              </a>
+            ))}
+          </div>
         )}
       </div>
-    </div>
+    </article>
   );
 };
 
