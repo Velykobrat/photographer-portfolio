@@ -2,17 +2,18 @@
     width: 100%;
     min-height: 100vh;
 
-    padding: 110px 42px 120px;
+    padding:
+        var(--page-padding-top) var(--page-padding-x) var(--page-padding-bottom);
 
-    background: #f4f2ee;
-    color: #171717;
+    background: var(--page-bg);
+    color: var(--page-text);
 }
 
 .intro {
     width: 100%;
     max-width: 920px;
 
-    margin: 0 auto 90px;
+    margin: 0 auto var(--intro-gap);
 
     text-align: center;
 }
@@ -21,39 +22,42 @@
     margin: 0 0 22px;
 
     font-family: 'DM Sans', sans-serif;
-    font-size: 10px;
+    font-size: var(--eyebrow-size);
+    font-weight: 400;
 
-    letter-spacing: 0.28em;
+    letter-spacing: var(--eyebrow-spacing);
     text-transform: uppercase;
 
-    color: rgba(23, 23, 23, 0.48);
+    color: var(--eyebrow-color);
 }
 
 .title {
     margin: 0;
 
     font-family: 'Playfair Display', serif;
-    font-size: clamp(52px, 7vw, 92px);
+    font-size: clamp(48px, 6vw, 80px);
     font-weight: 400;
-    line-height: 0.96;
+    line-height: 0.98;
 
-    letter-spacing: -0.035em;
+    letter-spacing: var(--title-letter-spacing);
 }
 
 .description {
-    max-width: 500px;
+    max-width: var(--description-max-width);
 
-    margin: 34px auto 0;
+    margin: var(--description-gap) auto 0;
 
     font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
+    font-size: var(--description-size);
     font-weight: 300;
-    line-height: 1.8;
+    line-height: var(--description-line-height);
 
-    color: rgba(23, 23, 23, 0.58);
+    color: var(--description-color);
 }
 
-/* FORM FIRST */
+/* =========================
+   REQUEST FORM
+========================= */
 
 .requestSection {
     width: 100%;
@@ -74,7 +78,9 @@
     color: rgba(23, 23, 23, 0.44);
 }
 
-/* CONTACT INFO BELOW */
+/* =========================
+   CONTACT DETAILS
+========================= */
 
 .contactDetails {
     width: 100%;
@@ -85,6 +91,7 @@
 
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+
     gap: 40px;
 
     border-top: 1px solid rgba(23, 23, 23, 0.14);
@@ -119,6 +126,7 @@
     grid-column: 1 / -1;
 
     display: flex;
+
     gap: 24px;
 
     margin-top: 18px;
@@ -140,12 +148,8 @@
 }
 
 @media (max-width: 768px) {
-    .contact {
-        padding: 70px 18px 80px;
-    }
-
-    .intro {
-        margin-bottom: 65px;
+    .title {
+        font-size: clamp(44px, 12vw, 60px);
     }
 
     .requestSection {
@@ -154,11 +158,13 @@
 
     .contactDetails {
         grid-template-columns: 1fr;
+
         gap: 32px;
     }
 
     .messengers {
         grid-column: auto;
+
         flex-wrap: wrap;
     }
 }

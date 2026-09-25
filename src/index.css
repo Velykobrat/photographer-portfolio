@@ -1,4 +1,39 @@
-/* global styles */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap');
+
+/* =========================
+   DESIGN SYSTEM
+========================= */
+
+:root {
+  --page-bg: #f4f2ee;
+  --page-text: #171717;
+
+  --page-padding-x: 42px;
+  --page-padding-top: 110px;
+  --page-padding-bottom: 120px;
+
+  --intro-gap: 90px;
+
+  --eyebrow-size: 10px;
+  --eyebrow-spacing: 0.28em;
+  --eyebrow-color: rgba(23, 23, 23, 0.46);
+
+  --title-size: clamp(56px, 7vw, 92px);
+  --title-line-height: 0.95;
+  --title-letter-spacing: -0.035em;
+
+  --description-size: 13px;
+  --description-line-height: 1.8;
+  --description-color: rgba(23, 23, 23, 0.56);
+  --description-gap: 28px;
+  --description-max-width: 500px;
+
+  --content-max-width: 1320px;
+}
+
+/* =========================
+   GLOBAL
+========================= */
 
 *,
 *::before,
@@ -16,6 +51,9 @@ body {
 
 body {
   overflow-x: hidden;
+  background: var(--page-bg);
+  color: var(--page-text);
+  font-family: 'DM Sans', sans-serif;
 }
 
 #root,
@@ -30,4 +68,25 @@ body {
 .main {
   flex-grow: 1;
   width: 100%;
+}
+
+/* =========================
+   MOBILE TOKENS
+========================= */
+
+@media (max-width: 768px) {
+  :root {
+    --page-padding-x: 18px;
+    --page-padding-top: 70px;
+    --page-padding-bottom: 80px;
+
+    --intro-gap: 65px;
+
+    --eyebrow-size: 9px;
+
+    --title-size: clamp(52px, 15vw, 68px);
+
+    --description-size: 12px;
+    --description-gap: 24px;
+  }
 }

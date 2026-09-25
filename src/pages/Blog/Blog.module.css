@@ -1,16 +1,18 @@
 .journal {
     width: 100%;
-    padding: 110px 42px 130px;
 
-    background: #f4f2ee;
-    color: #171717;
+    padding:
+        var(--page-padding-top) var(--page-padding-x) var(--page-padding-bottom);
+
+    background: var(--page-bg);
+    color: var(--page-text);
 }
 
 .intro {
     width: 100%;
-    max-width: 900px;
+    max-width: 920px;
 
-    margin: 0 auto 110px;
+    margin: 0 auto var(--intro-gap);
 
     text-align: center;
 }
@@ -19,84 +21,58 @@
     margin: 0 0 22px;
 
     font-family: 'DM Sans', sans-serif;
-    font-size: 9px;
+    font-size: var(--eyebrow-size);
     font-weight: 400;
 
-    letter-spacing: 0.28em;
+    letter-spacing: var(--eyebrow-spacing);
     text-transform: uppercase;
 
-    color: rgba(23, 23, 23, 0.44);
+    color: var(--eyebrow-color);
 }
 
 .title {
     margin: 0;
 
     font-family: 'Playfair Display', serif;
-    font-size: clamp(60px, 8vw, 108px);
+    font-size: var(--title-size);
     font-weight: 400;
-    line-height: 0.95;
+    line-height: var(--title-line-height);
 
-    letter-spacing: -0.04em;
+    letter-spacing: var(--title-letter-spacing);
 }
 
 .lead {
-    max-width: 460px;
+    max-width: var(--description-max-width);
 
-    margin: 30px auto 0;
+    margin: var(--description-gap) auto 0;
 
     font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
+    font-size: var(--description-size);
     font-weight: 300;
-    line-height: 1.8;
+    line-height: var(--description-line-height);
 
-    letter-spacing: 0.04em;
-
-    color: rgba(23, 23, 23, 0.52);
+    color: var(--description-color);
 }
 
 .newsList {
     width: 100%;
-    max-width: 1320px;
+    max-width: var(--content-max-width);
 
     margin: 0 auto;
 
     display: flex;
     flex-direction: column;
+
     gap: 130px;
 }
 
 @media (max-width: 900px) {
-    .journal {
-        padding: 90px 28px 100px;
-    }
-
-    .intro {
-        margin-bottom: 80px;
-    }
-
     .newsList {
         gap: 90px;
     }
 }
 
 @media (max-width: 650px) {
-    .journal {
-        padding: 70px 18px 80px;
-    }
-
-    .intro {
-        margin-bottom: 65px;
-    }
-
-    .title {
-        font-size: clamp(56px, 20vw, 82px);
-    }
-
-    .lead {
-        max-width: 290px;
-        margin-top: 22px;
-    }
-
     .newsList {
         gap: 78px;
     }
