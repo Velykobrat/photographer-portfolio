@@ -24,7 +24,7 @@ function AppContent() {
     <div className="pageContainer">
       <Header />
 
-      <main className="main">
+      <div className="main">
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
           <Route path="/home" element={<Home />} />
@@ -32,7 +32,7 @@ function AppContent() {
           <Route path="/blog" element={<Blog />} />
           <Route path="/contacts" element={<Contacts />} />
         </Routes>
-      </main>
+      </div>
 
       {!isHome && <Footer />}
     </div>
