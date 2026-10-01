@@ -5,7 +5,11 @@ import Card from '../../components/Card/Card';
 import Modal from '../../components/Modal/Modal';
 
 import { portfolioSeries } from '../../data/portfolioSeries';
-import { getCloudinaryImage } from '../../utils/cloudinary';
+
+import {
+  getCloudinaryImage,
+  getCloudinarySrcSet,
+} from '../../utils/cloudinary';
 
 import styles from './Series.module.css';
 
@@ -16,6 +20,7 @@ type CloudinaryPhoto = {
 type Photo = {
   id: string;
   image: string;
+  srcSet: string;
   fullscreen: string;
   alt: string;
 };
@@ -35,6 +40,7 @@ const Series = () => {
   const [error, setError] =
     useState<string | null>(null);
 
+  // Load photos for the current series
   useEffect(() => {
     if (!series) {
       return;
@@ -87,6 +93,11 @@ const Series = () => {
                   1200
                 ),
 
+                srcSet: getCloudinarySrcSet(
+                  photo.public_id,
+                  [480, 800, 1200, 1600]
+                ),
+
                 fullscreen: getCloudinaryImage(
                   photo.public_id,
                   2200
@@ -114,6 +125,37 @@ const Series = () => {
         setIsLoading(false);
       });
   }, [series]);
+
+  // Preload neighbouring fullscreen photos
+  useEffect(() => {
+    if (
+      selectedIndex === null ||
+      photos.length < 2
+    ) {
+      return;
+    }
+
+    const nextIndex =
+      (selectedIndex + 1) % photos.length;
+
+    const previousIndex =
+      (selectedIndex - 1 + photos.length) %
+      photos.length;
+
+    const imagesToPreload = [
+      photos[nextIndex]?.fullscreen,
+      photos[previousIndex]?.fullscreen,
+    ];
+
+    imagesToPreload.forEach((src) => {
+      if (!src) {
+        return;
+      }
+
+      const image = new Image();
+      image.src = src;
+    });
+  }, [selectedIndex, photos]);
 
   if (!series) {
     return (
@@ -209,6 +251,7 @@ const Series = () => {
               <Card
                 key={photo.id}
                 image={photo.image}
+                srcSet={photo.srcSet}
                 alt={photo.alt}
                 onClick={() =>
                   openModal(index)

@@ -1,4 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import type { TouchEvent } from 'react';
+
 import styles from './Modal.module.css';
 
 type ModalProps = {
@@ -13,6 +15,8 @@ type ModalProps = {
   onPrevious: () => void;
 };
 
+const SWIPE_THRESHOLD = 50;
+
 const Modal = ({
   image,
   alt,
@@ -22,30 +26,92 @@ const Modal = ({
   onNext,
   onPrevious,
 }: ModalProps) => {
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  const touchStartX = useRef<number | null>(null);
+
+  const onCloseRef = useRef(onClose);
+  const onNextRef = useRef(onNext);
+  const onPreviousRef = useRef(onPrevious);
+
+  onCloseRef.current = onClose;
+  onNextRef.current = onNext;
+  onPreviousRef.current = onPrevious;
+
   useEffect(() => {
+    const previousFocus =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        onClose();
+        onCloseRef.current();
       }
 
       if (event.key === 'ArrowRight') {
-        onNext();
+        onNextRef.current();
       }
 
       if (event.key === 'ArrowLeft') {
-        onPrevious();
+        onPreviousRef.current();
       }
     };
 
     document.addEventListener('keydown', handleKeyDown);
 
+    const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 
+    closeButtonRef.current?.focus();
+
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
+      document.removeEventListener(
+        'keydown',
+        handleKeyDown
+      );
+
+      document.body.style.overflow = previousOverflow;
+
+      previousFocus?.focus();
     };
-  }, [onClose, onNext, onPrevious]);
+  }, []);
+
+  const handleTouchStart = (
+    event: TouchEvent<HTMLDivElement>
+  ) => {
+    touchStartX.current =
+      event.touches[0]?.clientX ?? null;
+  };
+
+  const handleTouchEnd = (
+    event: TouchEvent<HTMLDivElement>
+  ) => {
+    if (touchStartX.current === null) {
+      return;
+    }
+
+    const touchEndX =
+      event.changedTouches[0]?.clientX;
+
+    if (touchEndX === undefined) {
+      touchStartX.current = null;
+      return;
+    }
+
+    const distance =
+      touchEndX - touchStartX.current;
+
+    if (Math.abs(distance) >= SWIPE_THRESHOLD) {
+      if (distance < 0) {
+        onNext();
+      } else {
+        onPrevious();
+      }
+    }
+
+    touchStartX.current = null;
+  };
 
   return (
     <div
@@ -53,8 +119,10 @@ const Modal = ({
       onClick={onClose}
       role="dialog"
       aria-modal="true"
+      aria-label="Photo viewer"
     >
       <button
+        ref={closeButtonRef}
         type="button"
         className={styles.close}
         onClick={onClose}
@@ -78,11 +146,15 @@ const Modal = ({
       <div
         className={styles.imageWrapper}
         onClick={(event) => event.stopPropagation()}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
         <img
+          key={image}
           src={image}
           alt={alt}
           className={styles.image}
+          draggable={false}
         />
       </div>
 

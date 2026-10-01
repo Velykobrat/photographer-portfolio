@@ -21,7 +21,7 @@ export const portfolioSeries: PortfolioSeries[] = [
     category: 'commercial',
     cloudinaryTag: 'series-lat-lingerie',
     coverPublicId: 'lat-lingerie-01_ft3vwv',
-    featured: true,
+    featured: false,
     order: 1,
   },
   {
@@ -30,7 +30,7 @@ export const portfolioSeries: PortfolioSeries[] = [
     category: 'personal',
     cloudinaryTag: 'series-leliano-bologna',
     coverPublicId: 'leliano-bologna-01_plurb9',
-    featured: true,
+    featured: false,
     order: 2,
     },
   {
@@ -48,7 +48,7 @@ export const portfolioSeries: PortfolioSeries[] = [
   category: 'personal',
   cloudinaryTag: 'series-lisa-ladyzhyn',
   coverPublicId: 'lisa-ladyzhyn-05_awd9er',
-  featured: true,
+  featured: false,
   order: 4,
 },
 {
@@ -57,7 +57,7 @@ export const portfolioSeries: PortfolioSeries[] = [
   category: 'commercial',
   cloudinaryTag: 'series-mynule',
   coverPublicId: 'mynule-01_i1xxgk',
-  featured: true,
+  featured: false,
   order: 5,
 },
 {
@@ -66,7 +66,7 @@ export const portfolioSeries: PortfolioSeries[] = [
   category: 'portrait',
   cloudinaryTag: 'series-serhii-kyiv',
   coverPublicId: 'serhii-kyiv-02_p3soy4',
-  featured: true,
+  featured: false,
   order: 6,
 },
 {
@@ -75,7 +75,7 @@ export const portfolioSeries: PortfolioSeries[] = [
   category: 'portrait',
   cloudinaryTag: 'series-zara-kyiv',
   coverPublicId: 'zara-kyiv-11_wy4ulm',
-  featured: true,
+  featured: false,
   order: 7,
 },
 ];

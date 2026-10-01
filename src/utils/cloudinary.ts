@@ -6,3 +6,18 @@ export const getCloudinaryImage = (
 ) => {
   return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/f_auto,q_auto,w_${width}/${publicId}`;
 };
+
+export const getCloudinarySrcSet = (
+  publicId: string,
+  widths: number[]
+) => {
+  return widths
+    .map(
+      (width) =>
+        `${getCloudinaryImage(
+          publicId,
+          width
+        )} ${width}w`
+    )
+    .join(', ');
+};
