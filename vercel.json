@@ -9,6 +9,10 @@
       "source": "/collections",
       "destination": "/index.html"
     },
+       {
+      "source": "/collections/:slug",
+      "destination": "/index.html"
+    },
     {
       "source": "/blog",
       "destination": "/index.html"
