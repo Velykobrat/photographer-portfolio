@@ -1,91 +1,48 @@
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import Card from '../../components/Card/Card';
-import Modal from '../../components/Modal/Modal';
 import styles from './Collections.module.css';
+
+import {
+  portfolioSeries,
+  type PortfolioCategory,
+} from '../../data/portfolioSeries';
+
 import { getCloudinaryImage } from '../../utils/cloudinary';
 
-type CloudinaryPhoto = {
-  public_id: string;
-};
+type Filter = 'all' | PortfolioCategory;
 
-type Photo = {
-  id: string;
-  image: string;
-  fullscreen: string;
-  alt: string;
+const categoryLabels: Record<PortfolioCategory, string> = {
+  portrait: 'Portrait',
+  fashion: 'Fashion',
+  personal: 'Personal',
+  commercial: 'Commercial',
 };
 
 const Collections = () => {
-  const [photos, setPhotos] = useState<Photo[]>([]);
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [activeFilter, setActiveFilter] = useState<Filter>('all');
 
-  useEffect(() => {
-    fetch(
-      'https://res.cloudinary.com/dln0hogkt/image/list/portfolio-public.json'
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Failed to load portfolio images');
-        }
+  const availableCategories = useMemo(
+    () =>
+      Array.from(
+        new Set(portfolioSeries.map((series) => series.category))
+      ),
+    []
+  );
 
-        return response.json();
-      })
-      .then((data) => {
-        if (!Array.isArray(data.resources)) {
-          throw new Error('Invalid Cloudinary response');
-        }
+  const visibleSeries = useMemo(() => {
+    const sorted = [...portfolioSeries].sort(
+      (a, b) => (a.order ?? 999) - (b.order ?? 999)
+    );
 
-        const loadedPhotos: Photo[] = data.resources.map(
-          (photo: CloudinaryPhoto) => ({
-            id: photo.public_id,
-            image: getCloudinaryImage(photo.public_id, 1200),
-            fullscreen: getCloudinaryImage(photo.public_id, 2000),
-            alt: photo.public_id,
-          })
-        );
+    if (activeFilter === 'all') {
+      return sorted;
+    }
 
-        setPhotos(loadedPhotos);
-        setError(null);
-      })
-      .catch((error) => {
-        console.error('Cloudinary error:', error);
-        setError('Portfolio is temporarily unavailable.');
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
-
-  const openModal = (index: number) => {
-    setSelectedIndex(index);
-  };
-
-  const closeModal = () => {
-    setSelectedIndex(null);
-  };
-
-  const showNext = () => {
-    setSelectedIndex((current) => {
-      if (current === null || photos.length === 0) {
-        return null;
-      }
-
-      return (current + 1) % photos.length;
-    });
-  };
-
-  const showPrevious = () => {
-    setSelectedIndex((current) => {
-      if (current === null || photos.length === 0) {
-        return null;
-      }
-
-      return (current - 1 + photos.length) % photos.length;
-    });
-  };
+    return sorted.filter(
+      (series) => series.category === activeFilter
+    );
+  }, [activeFilter]);
 
   return (
     <main className={styles.portfolio}>
@@ -95,46 +52,71 @@ const Collections = () => {
         <h1 className={styles.title}>Portfolio</h1>
 
         <p className={styles.description}>
-          Portrait · Fashion · Personal
+          Portrait · Fashion · Personal · Commercial
         </p>
       </header>
 
-      {isLoading && (
-        <p className={styles.status}>
-          Loading portfolio...
-        </p>
-      )}
+      <nav
+        className={styles.filters}
+        aria-label="Portfolio categories"
+      >
+        <button
+          type="button"
+          className={`${styles.filterButton} ${
+            activeFilter === 'all' ? styles.activeFilter : ''
+          }`}
+          onClick={() => setActiveFilter('all')}
+        >
+          All
+        </button>
 
-      {error && (
-        <p className={styles.status}>
-          {error}
-        </p>
-      )}
+        {availableCategories.map((category) => (
+          <button
+            key={category}
+            type="button"
+            className={`${styles.filterButton} ${
+              activeFilter === category
+                ? styles.activeFilter
+                : ''
+            }`}
+            onClick={() => setActiveFilter(category)}
+          >
+            {categoryLabels[category]}
+          </button>
+        ))}
+      </nav>
 
-      {!isLoading && !error && (
-        <section className={styles.gallery}>
-          {photos.map((photo, index) => (
-            <Card
-              key={photo.id}
-              image={photo.image}
-              alt={photo.alt}
-              onClick={() => openModal(index)}
-            />
-          ))}
-        </section>
-      )}
+      <section className={styles.seriesGrid}>
+        {visibleSeries.map((series) => (
+          <Link
+            key={series.slug}
+            to={`/collections/${series.slug}`}
+            className={styles.seriesCard}
+          >
+            <div className={styles.coverWrapper}>
+              <img
+                src={getCloudinaryImage(
+                  series.coverPublicId,
+                  1600
+                )}
+                alt={`${series.title} photography series`}
+                className={styles.cover}
+                loading="lazy"
+              />
+            </div>
 
-      {selectedIndex !== null && photos[selectedIndex] && (
-        <Modal
-          image={photos[selectedIndex].fullscreen}
-          alt={photos[selectedIndex].alt}
-          current={selectedIndex + 1}
-          total={photos.length}
-          onClose={closeModal}
-          onNext={showNext}
-          onPrevious={showPrevious}
-        />
-      )}
+            <div className={styles.seriesInfo}>
+              <p className={styles.seriesCategory}>
+                {categoryLabels[series.category]}
+              </p>
+
+              <h2 className={styles.seriesTitle}>
+                {series.title}
+              </h2>
+            </div>
+          </Link>
+        ))}
+      </section>
     </main>
   );
 };

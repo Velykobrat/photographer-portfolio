@@ -12,6 +12,7 @@ import Collections from './pages/Collections/Collections';
 import Blog from './pages/Blog/Blog';
 import Contacts from './pages/Contacts/Contacts';
 import Footer from './components/Footer/Footer';
+import Series from './pages/Series/Series';
 
 function AppContent() {
   const location = useLocation();
@@ -29,6 +30,10 @@ function AppContent() {
           <Route path="/" element={<Navigate to="/home" />} />
           <Route path="/home" element={<Home />} />
           <Route path="/collections" element={<Collections />} />
+          <Route
+  path="/collections/:slug"
+  element={<Series />}
+/>
           <Route path="/blog" element={<Blog />} />
           <Route path="/contacts" element={<Contacts />} />
         </Routes>
