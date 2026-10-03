@@ -79,9 +79,7 @@ const Collections = () => {
           Portfolio
         </h1>
 
-        <p className={styles.description}>
-          Portrait · Fashion · Personal · Commercial
-        </p>
+        
       </header>
 
       <nav

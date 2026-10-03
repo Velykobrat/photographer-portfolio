@@ -47,7 +47,7 @@ export const portfolioSeries: PortfolioSeries[] = [
   title: 'Lisa Ladyzhyn',
   category: 'personal',
   cloudinaryTag: 'series-lisa-ladyzhyn',
-  coverPublicId: 'lisa-ladyzhyn-05_awd9er',
+  coverPublicId: 'lisa-ladyzhyn-04_tmq21a',
   featured: false,
   order: 4,
 },

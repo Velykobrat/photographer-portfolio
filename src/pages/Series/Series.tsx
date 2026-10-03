@@ -157,6 +157,15 @@ const Series = () => {
     });
   }, [selectedIndex, photos]);
 
+  // Reset scroll position when opening another series
+useEffect(() => {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: 'auto',
+  });
+}, [slug]);
+  
   if (!series) {
     return (
       <Navigate
