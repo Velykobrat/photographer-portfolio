@@ -9,8 +9,16 @@
       "source": "/collections",
       "destination": "/index.html"
     },
-       {
+    {
       "source": "/collections/:slug",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/journal",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/journal/:slug",
       "destination": "/index.html"
     },
     {

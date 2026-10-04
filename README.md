@@ -13,7 +13,7 @@ MK Photography is a real-world photography portfolio focused on portrait, fashio
 
 The project started as a portfolio website and has evolved into a production product with cloud-hosted photography, responsive layouts, client inquiry handling and automated notifications.
 
-The current stable release is **v1.0.0**.
+The current stable release is **v1.1.2**.
 
 Development of **v1.1** is focused on improving the portfolio experience, accessibility, multilingual content, SEO and content management.
 
@@ -212,6 +212,14 @@ Planned improvements include:
 - further performance and UX improvements
 
 ## Release History
+
+### v1.1.2 — Journal Foundation
+
+- Added the new Journal section and `/journal` routes
+- Added individual editorial article pages
+- Published the first story: _12 Questions with Margaret_
+- Added separate card, hero and editorial article images
+- Added direct-route support for Journal pages on Vercel
 
 ### v1.0.0
 
