@@ -5,6 +5,7 @@ type CardProps = {
   srcSet?: string;
   alt: string;
   onClick: () => void;
+  priority?: boolean;
 };
 
 const Card = ({
@@ -12,6 +13,7 @@ const Card = ({
   srcSet,
   alt,
   onClick,
+  priority = false,
 }: CardProps) => {
   return (
     <button
@@ -26,7 +28,8 @@ const Card = ({
         sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"
         alt={alt}
         className={styles.image}
-        loading="lazy"
+        loading={priority ? 'eager' : 'lazy'}
+        fetchPriority={priority ? 'high' : 'auto'}
         decoding="async"
       />
     </button>

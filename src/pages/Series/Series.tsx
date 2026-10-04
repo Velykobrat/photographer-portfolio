@@ -215,7 +215,7 @@ useEffect(() => {
 
   return (
     <main className={styles.series}>
-      
+
       <SEO
   title={series.title}
   description={`${series.title} — a ${series.category} photography series by MK Photography.`}
@@ -270,14 +270,15 @@ useEffect(() => {
           <section className={styles.gallery}>
             {photos.map((photo, index) => (
               <Card
-                key={photo.id}
-                image={photo.image}
-                srcSet={photo.srcSet}
-                alt={photo.alt}
-                onClick={() =>
-                  openModal(index)
-                }
-              />
+  key={photo.id}
+  image={photo.image}
+  srcSet={photo.srcSet}
+  alt={photo.alt}
+  priority={index === 0}
+  onClick={() =>
+    openModal(index)
+  }
+/>
             ))}
           </section>
         )}

@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
 
 import { journalArticles } from '../../data/journalArticles';
-import { getCloudinaryImage } from '../../utils/cloudinary';
+import {
+  getCloudinaryImage,
+  getCloudinarySrcSet,
+} from '../../utils/cloudinary';
 
 import SEO from '../../components/SEO/SEO';
 import styles from './Blog.module.css';
@@ -38,13 +41,21 @@ const Blog = () => {
           >
             <div className={styles.imageWrapper}>
               <img
-                src={getCloudinaryImage(
-                  article.cardImagePublicId,
-                  1600
-                )}
-                alt={article.title}
-                className={styles.articleImage}
-              />
+  src={getCloudinaryImage(
+    article.cardImagePublicId,
+    1600
+  )}
+  srcSet={getCloudinarySrcSet(
+    article.cardImagePublicId,
+    [480, 800, 1200, 1600]
+  )}
+  sizes="(max-width: 650px) calc(100vw - 36px), (max-width: 900px) 50vw, 65vw"
+  alt={article.title}
+  className={styles.articleImage}
+  loading="eager"
+  fetchPriority="high"
+  decoding="async"
+/>
             </div>
 
             <div className={styles.articleContent}>

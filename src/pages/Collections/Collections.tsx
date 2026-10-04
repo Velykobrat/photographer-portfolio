@@ -134,19 +134,21 @@ const Collections = () => {
         >
           <div className={styles.coverWrapper}>
             <img
-              src={getCloudinaryImage(
-                featuredSeries.coverPublicId,
-                1600
-              )}
-              srcSet={getCloudinarySrcSet(
-                featuredSeries.coverPublicId,
-                [480, 800, 1200, 1600, 2000]
-              )}
-              sizes="(max-width: 600px) 100vw, 65vw"
-              alt={`${featuredSeries.title} photography series`}
-              className={styles.cover}
-              decoding="async"
-            />
+  src={getCloudinaryImage(
+    featuredSeries.coverPublicId,
+    1600
+  )}
+  srcSet={getCloudinarySrcSet(
+    featuredSeries.coverPublicId,
+    [480, 800, 1200, 1600, 2000]
+  )}
+  sizes="(max-width: 600px) 100vw, 65vw"
+  alt={`${featuredSeries.title} photography series`}
+  className={styles.cover}
+  loading="eager"
+  fetchPriority="high"
+  decoding="async"
+/>
           </div>
 
           <div className={styles.seriesInfo}>

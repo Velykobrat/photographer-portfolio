@@ -6,7 +6,10 @@ import {
 } from 'react-router-dom';
 
 import { journalArticles } from '../../data/journalArticles';
-import { getCloudinaryImage } from '../../utils/cloudinary';
+import {
+  getCloudinaryImage,
+  getCloudinarySrcSet,
+} from '../../utils/cloudinary';
 
 import SEO from '../../components/SEO/SEO';
 import styles from './JournalArticle.module.css';
@@ -71,13 +74,21 @@ const JournalArticle = () => {
 
       <div className={styles.coverWrapper}>
         <img
-          src={getCloudinaryImage(
-            article.heroImagePublicId,
-            1800
-          )}
-          alt={article.title}
-          className={styles.cover}
-        />
+  src={getCloudinaryImage(
+    article.heroImagePublicId,
+    1800
+  )}
+  srcSet={getCloudinarySrcSet(
+    article.heroImagePublicId,
+    [640, 960, 1280, 1600, 2000]
+  )}
+  sizes="(max-width: 650px) calc(100vw - 36px), (max-width: 1284px) calc(100vw - 84px), 1200px"
+  alt={article.title}
+  className={styles.cover}
+  loading="eager"
+  fetchPriority="high"
+  decoding="async"
+/>
       </div>
 
       <section className={styles.content}>
@@ -118,16 +129,20 @@ const JournalArticle = () => {
                       }
                     >
                       <img
-                        src={getCloudinaryImage(
-                          article.inlineImagePublicId,
-                          1600
-                        )}
-                        alt="Margaret"
-                        className={
-                          styles.inlineImage
-                        }
-                        loading="lazy"
-                      />
+  src={getCloudinaryImage(
+    article.inlineImagePublicId,
+    1200
+  )}
+  srcSet={getCloudinarySrcSet(
+    article.inlineImagePublicId,
+    [480, 800, 1200, 1600]
+  )}
+  sizes="(max-width: 650px) calc(100vw - 36px), 620px"
+  alt="Margaret"
+  className={styles.inlineImage}
+  loading="lazy"
+  decoding="async"
+/>
                     </div>
                   )}
 
@@ -151,16 +166,20 @@ const JournalArticle = () => {
             }
           >
             <img
-              src={getCloudinaryImage(
-                article.closingImagePublicId,
-                1800
-              )}
-              alt="Margaret"
-              className={
-                styles.closingImage
-              }
-              loading="lazy"
-            />
+  src={getCloudinaryImage(
+    article.closingImagePublicId,
+    1200
+  )}
+  srcSet={getCloudinarySrcSet(
+    article.closingImagePublicId,
+    [480, 800, 1200, 1600]
+  )}
+  sizes="(max-width: 650px) calc(100vw - 36px), 680px"
+  alt="Margaret"
+  className={styles.closingImage}
+  loading="lazy"
+  decoding="async"
+/>
           </div>
         )}
 
