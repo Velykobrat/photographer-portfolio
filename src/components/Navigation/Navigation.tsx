@@ -16,7 +16,7 @@ const Navigation = () => {
       </NavLink>
 
       <NavLink
-        to="/blog"
+        to="/journal"
         className={({ isActive }) =>
           `${styles.link} ${isActive ? styles.active : ''}`
         }

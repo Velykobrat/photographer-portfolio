@@ -1,0 +1,311 @@
+.article {
+    width: 100%;
+
+    padding:
+        var(--page-padding-top) var(--page-padding-x) var(--page-padding-bottom);
+
+    background: var(--page-bg);
+    color: var(--page-text);
+}
+
+.hero {
+    width: 100%;
+    max-width: 980px;
+
+    margin: 0 auto 70px;
+
+    text-align: center;
+}
+
+.back {
+    display: inline-block;
+
+    margin-bottom: 44px;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+
+    color: rgba(23, 23, 23, 0.5);
+
+    text-decoration: none;
+
+    transition: color 0.25s ease;
+}
+
+.back:hover {
+    color: var(--page-text);
+}
+
+.category {
+    margin: 0 0 22px;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 400;
+
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+
+    color: rgba(23, 23, 23, 0.42);
+}
+
+.title {
+    margin: 0;
+
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(46px, 7vw, 92px);
+    font-weight: 400;
+    line-height: 0.98;
+
+    letter-spacing: -0.035em;
+
+    color: #171717;
+}
+
+.subtitle {
+    max-width: 720px;
+
+    margin: 34px auto 0;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.9;
+
+    color: rgba(23, 23, 23, 0.62);
+}
+
+.coverWrapper {
+    width: 100%;
+    max-width: 1200px;
+
+    margin: 0 auto 100px;
+
+    overflow: hidden;
+
+    background: #ddd9d2;
+}
+
+.cover {
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    aspect-ratio: 16 / 10;
+
+    object-fit: cover;
+}
+
+.content {
+    width: 100%;
+    max-width: 760px;
+
+    margin: 0 auto;
+}
+
+.intro {
+    margin-bottom: 90px;
+}
+
+.intro p,
+.closing p {
+    margin: 0 0 24px;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.95;
+
+    color: rgba(23, 23, 23, 0.72);
+}
+
+.questions {
+    display: flex;
+    flex-direction: column;
+
+    gap: 46px;
+}
+
+.questionBlock {
+    padding-top: 26px;
+
+    border-top: 1px solid rgba(23, 23, 23, 0.12);
+}
+
+.number {
+    margin: 0 0 18px;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+
+    letter-spacing: 0.22em;
+
+    color: rgba(23, 23, 23, 0.35);
+}
+
+.question {
+    margin: 0;
+
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 2.8vw, 32px);
+    font-weight: 400;
+    line-height: 1.28;
+
+    color: #171717;
+}
+
+.answer {
+    margin: 18px 0 0;
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.9;
+
+    color: rgba(23, 23, 23, 0.68);
+}
+
+.inlineImageWrapper {
+    width: min(100%, 620px);
+
+    margin: 50px auto 10px;
+
+    overflow: hidden;
+}
+
+.inlineImage {
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    object-fit: cover;
+}
+
+.quote {
+    margin: 70px 0;
+
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(34px, 5vw, 58px);
+    font-style: italic;
+    line-height: 1.15;
+
+    text-align: center;
+
+    color: #171717;
+}
+
+.closingImageWrapper {
+    width: min(100%, 680px);
+
+    margin: 80px auto 0;
+
+    overflow: hidden;
+}
+
+.closingImage {
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    object-fit: cover;
+}
+
+.closing {
+    margin-top: 70px;
+    padding-top: 50px;
+
+    border-top: 1px solid rgba(23, 23, 23, 0.12);
+}
+
+.closing h2 {
+    margin: 0 0 32px;
+
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 400;
+    line-height: 1.15;
+
+    color: #171717;
+}
+
+.backLink {
+    display: inline-block;
+
+    margin-top: 60px;
+    padding-bottom: 5px;
+
+    border-bottom: 1px solid rgba(23, 23, 23, 0.24);
+
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+
+    color: #171717;
+
+    text-decoration: none;
+
+    transition:
+        border-color 0.25s ease,
+        opacity 0.25s ease;
+}
+
+.backLink:hover {
+    border-color: #171717;
+}
+
+@media (max-width: 650px) {
+    .hero {
+        margin-bottom: 48px;
+    }
+
+    .back {
+        margin-bottom: 32px;
+    }
+
+    .subtitle {
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+    .coverWrapper {
+        margin-bottom: 70px;
+    }
+
+    .cover {
+        aspect-ratio: 4 / 5;
+    }
+
+    .intro {
+        margin-bottom: 70px;
+    }
+
+    .questions {
+        gap: 38px;
+    }
+
+    .inlineImageWrapper {
+        width: 100%;
+        margin-top: 42px;
+    }
+
+    .quote {
+        margin: 55px 0;
+    }
+
+    .closingImageWrapper {
+        width: 100%;
+        margin-top: 60px;
+    }
+
+    .closing {
+        margin-top: 55px;
+    }
+}

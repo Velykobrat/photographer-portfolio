@@ -147,6 +147,7 @@ Start the development server:
 
 ```bash
 npm run dev
+npm.cmd run dev
 ```
 
 Run ESLint:

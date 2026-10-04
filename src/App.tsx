@@ -13,6 +13,7 @@ import Blog from './pages/Blog/Blog';
 import Contacts from './pages/Contacts/Contacts';
 import Footer from './components/Footer/Footer';
 import Series from './pages/Series/Series';
+import JournalArticle from './pages/JournalArticle/JournalArticle';
 
 function AppContent() {
   const location = useLocation();
@@ -34,7 +35,18 @@ function AppContent() {
   path="/collections/:slug"
   element={<Series />}
 />
-          <Route path="/blog" element={<Blog />} />
+          <Route path="/journal" element={<Blog />} />
+
+          <Route
+  path="/journal/:slug"
+  element={<JournalArticle />}
+          />
+          
+<Route
+  path="/blog"
+  element={<Navigate to="/journal" replace />}
+          />
+          
           <Route path="/contacts" element={<Contacts />} />
         </Routes>
       </div>
