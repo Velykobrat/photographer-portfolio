@@ -3,6 +3,7 @@
 import { Link } from 'react-router-dom';
 import styles from './Home.module.css';
 
+import SEO from '../../components/SEO/SEO';
 import { getCloudinaryImage } from '../../utils/cloudinary';
 import logoImage from '../../img/logo_2026_vector.svg';
 
@@ -11,6 +12,12 @@ const heroImage = getCloudinaryImage('14_tbvntx', 2200);
 const Home = () => {
   return (
     <main className={styles.home}>
+      <SEO
+  title="MK Photography"
+  description="Portrait, fashion and personal photography by MK Photography. View selected work and book a photo shoot."
+  canonicalPath="/home"
+      />
+      
       <img
         src={heroImage}
         alt="Portrait photography"

@@ -8,6 +8,7 @@ import {
 import { journalArticles } from '../../data/journalArticles';
 import { getCloudinaryImage } from '../../utils/cloudinary';
 
+import SEO from '../../components/SEO/SEO';
 import styles from './JournalArticle.module.css';
 
 const JournalArticle = () => {
@@ -35,7 +36,18 @@ const JournalArticle = () => {
   }
 
   return (
-    <main className={styles.article}>
+      <main className={styles.article}>
+          
+          <SEO
+  title={article.title}
+  description={article.excerpt}
+  canonicalPath={`/journal/${article.slug}`}
+  image={getCloudinaryImage(
+    article.cardImagePublicId,
+    1600
+  )}
+          />
+          
       <header className={styles.hero}>
         <Link
           to="/journal"

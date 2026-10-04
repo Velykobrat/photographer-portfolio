@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 
+import SEO from '../../components/SEO/SEO';
 import Card from '../../components/Card/Card';
 import Modal from '../../components/Modal/Modal';
 
@@ -214,6 +215,17 @@ useEffect(() => {
 
   return (
     <main className={styles.series}>
+      
+      <SEO
+  title={series.title}
+  description={`${series.title} — a ${series.category} photography series by MK Photography.`}
+  canonicalPath={`/collections/${series.slug}`}
+  image={getCloudinaryImage(
+    series.coverPublicId,
+    1600
+  )}
+      />
+      
       <header className={styles.intro}>
         <Link
           to="/collections"

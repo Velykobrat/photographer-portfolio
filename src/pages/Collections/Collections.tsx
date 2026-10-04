@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import SEO from '../../components/SEO/SEO';
 import styles from './Collections.module.css';
 
 import {
@@ -70,6 +71,12 @@ const Collections = () => {
 
   return (
     <main className={styles.portfolio}>
+      <SEO
+  title="Portfolio"
+  description="Selected portrait, fashion, personal and commercial photography by MK Photography."
+  canonicalPath="/collections"
+      />
+      
       <header className={styles.intro}>
         <p className={styles.eyebrow}>
           Selected work

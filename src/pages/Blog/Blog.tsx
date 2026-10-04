@@ -3,11 +3,19 @@ import { Link } from 'react-router-dom';
 import { journalArticles } from '../../data/journalArticles';
 import { getCloudinaryImage } from '../../utils/cloudinary';
 
+import SEO from '../../components/SEO/SEO';
 import styles from './Blog.module.css';
 
 const Blog = () => {
   return (
     <main className={styles.journal}>
+
+      <SEO
+  title="Journal"
+  description="Stories, conversations and notes about photography, people and the moments behind the frame."
+  canonicalPath="/journal"
+      />
+      
       <header className={styles.intro}>
         <p className={styles.eyebrow}>
           Stories & notes

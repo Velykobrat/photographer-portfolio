@@ -1,4 +1,5 @@
 import ContactForm from '../../components/ContactForm/ContactForm';
+import SEO from '../../components/SEO/SEO';
 import styles from './Contacts.module.css';
 
 import instagramQr from '../../img/qr_insta.png';
@@ -6,6 +7,13 @@ import instagramQr from '../../img/qr_insta.png';
 const Contacts = () => {
   return (
     <main className={styles.contact}>
+
+      <SEO
+    title="Contact"
+    description="Book a portrait, fashion or personal photography session with MK Photography in Kyiv and Ladyzhyn, Ukraine."
+    canonicalPath="/contacts"
+      />
+      
       <header className={styles.intro}>
         <p className={styles.eyebrow}>
           Get in touch

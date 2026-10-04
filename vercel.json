@@ -19,6 +19,17 @@
     },
     {
       "source": "/journal/:slug",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|TelegramBot|WhatsApp|Slackbot|Discordbot).*"
+        }
+      ],
+      "destination": "/api/social-preview?slug=:slug"
+    },
+    {
+      "source": "/journal/:slug",
       "destination": "/index.html"
     },
     {
