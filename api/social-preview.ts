@@ -1,11 +1,27 @@
-import { journalArticles } from '../src/data/journalArticles';
-
 const SITE_NAME = 'MK Photography';
 
 const SITE_URL =
   'https://photographer-portfolio-chi.vercel.app';
 
 const CLOUD_NAME = 'dln0hogkt';
+
+type SocialArticle = {
+  title: string;
+  description: string;
+  imagePublicId: string;
+};
+
+const articles: Record<string, SocialArticle> = {
+  '12-questions-with-margaret': {
+    title: '12 Questions with Margaret',
+
+    description:
+      'Дванадцять простих запитань про фотографію, людей, натхнення та те, куди Маргарет хоче рухатися далі.',
+
+    imagePublicId:
+      '2019_-_Margaret_-_Giuseppe_Casalinuovo_18_bnfeeu',
+  },
+};
 
 const escapeHtml = (value: string) =>
   value
@@ -20,12 +36,18 @@ const getSocialImage = (publicId: string) =>
 export async function GET(request: Request) {
   const url = new URL(request.url);
 
-  const slug =
-    url.searchParams.get('slug');
+  const slug = url.searchParams.get('slug');
 
-  const article = journalArticles.find(
-    (item) => item.slug === slug
-  );
+  if (!slug) {
+    return new Response(
+      'Article slug is required',
+      {
+        status: 400,
+      }
+    );
+  }
+
+  const article = articles[slug];
 
   if (!article) {
     return new Response(
@@ -39,27 +61,27 @@ export async function GET(request: Request) {
   const title =
     `${article.title} — ${SITE_NAME}`;
 
-  const description =
-    article.excerpt;
-
   const canonicalUrl =
-    `${SITE_URL}/journal/${article.slug}`;
+    `${SITE_URL}/journal/${slug}`;
 
   const image =
-    getSocialImage(
-      article.cardImagePublicId
-    );
+    getSocialImage(article.imagePublicId);
 
   const html = `<!doctype html>
-<html lang="en">
+<html lang="uk">
 <head>
   <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
 
   <title>${escapeHtml(title)}</title>
 
   <meta
     name="description"
-    content="${escapeHtml(description)}"
+    content="${escapeHtml(article.description)}"
   />
 
   <link
@@ -79,7 +101,7 @@ export async function GET(request: Request) {
 
   <meta
     property="og:description"
-    content="${escapeHtml(description)}"
+    content="${escapeHtml(article.description)}"
   />
 
   <meta
@@ -124,7 +146,7 @@ export async function GET(request: Request) {
 
   <meta
     name="twitter:description"
-    content="${escapeHtml(description)}"
+    content="${escapeHtml(article.description)}"
   />
 
   <meta
@@ -135,19 +157,25 @@ export async function GET(request: Request) {
 
 <body>
   <h1>${escapeHtml(article.title)}</h1>
-  <p>${escapeHtml(article.excerpt)}</p>
+
+  <p>
+    ${escapeHtml(article.description)}
+  </p>
 </body>
 </html>`;
 
-  return new Response(html, {
-    status: 200,
+  return new Response(
+    html,
+    {
+      status: 200,
 
-    headers: {
-      'Content-Type':
-        'text/html; charset=utf-8',
+      headers: {
+        'Content-Type':
+          'text/html; charset=utf-8',
 
-      'Cache-Control':
-        'public, s-maxage=3600, stale-while-revalidate=86400',
-    },
-  });
+        'Cache-Control':
+          'public, s-maxage=3600, stale-while-revalidate=86400',
+      },
+    }
+  );
 }
