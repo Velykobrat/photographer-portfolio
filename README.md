@@ -213,6 +213,13 @@ Planned improvements include:
 
 ## Release History
 
+### v1.1.3 — Beyond the Frame
+
+- Published the second Journal story: _Beyond the Frame_
+- Added new editorial photography for the article
+- Added social preview metadata for the new publication
+- Improved Journal image loading for multiple articles
+
 ### v1.1.2 — Journal Foundation
 
 - Added the new Journal section and `/journal` routes

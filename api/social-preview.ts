@@ -21,6 +21,16 @@ const articles: Record<string, SocialArticle> = {
     imagePublicId:
       '2019_-_Margaret_-_Giuseppe_Casalinuovo_18_bnfeeu',
   },
+
+  'beyond-the-frame': {
+    title: 'Beyond the Frame',
+
+    description:
+      'Маргарет розповідає про шлях від моделінгу до фотографії, довіру між фотографом і людиною перед камерою, внутрішню дисципліну та те, чому найбільше боїться втратити творчий запал.',
+
+    imagePublicId:
+      'DSC06757_ct6pyb',
+  },
 };
 
 const escapeHtml = (value: string) =>

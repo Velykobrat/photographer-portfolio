@@ -34,7 +34,7 @@ const Blog = () => {
       </header>
 
       <section className={styles.newsList}>
-        {journalArticles.map((article) => (
+        {journalArticles.map((article, index) => (
           <article
             key={article.id}
             className={styles.articleCard}
@@ -52,8 +52,8 @@ const Blog = () => {
   sizes="(max-width: 650px) calc(100vw - 36px), (max-width: 900px) 50vw, 65vw"
   alt={article.title}
   className={styles.articleImage}
-  loading="eager"
-  fetchPriority="high"
+  loading={index === 0 ? 'eager' : 'lazy'}
+  fetchPriority={index === 0 ? 'high' : 'auto'}
   decoding="async"
 />
             </div>
