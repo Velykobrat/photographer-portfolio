@@ -1,6 +1,8 @@
-import { Link } from 'react-router-dom';
+import { useLanguage } from '../../localization';
+import { LocalizedLink as Link } from '../../LocalizedLinks';
 
-import { journalArticles } from '../../data/journalArticles';
+
+import { getJournalArticles } from '../../data/journalArticles';
 import {
   getCloudinaryImage,
   getCloudinarySrcSet,
@@ -10,6 +12,8 @@ import SEO from '../../components/SEO/SEO';
 import styles from './Blog.module.css';
 
 const Blog = () => {
+  const { t, language } = useLanguage();
+  const journalArticles = getJournalArticles(language);
   return (
     <main className={styles.journal}>
 
@@ -20,17 +24,11 @@ const Blog = () => {
       />
       
       <header className={styles.intro}>
-        <p className={styles.eyebrow}>
-          Stories & notes
-        </p>
+        <p className={styles.eyebrow}>{t("Stories & notes")}</p>
 
-        <h1 className={styles.title}>
-          Journal
-        </h1>
+        <h1 className={styles.title}>{t("Journal")}</h1>
 
-        <p className={styles.lead}>
-          Photography, people and stories behind the frame.
-        </p>
+        <p className={styles.lead}>{t("Photography, people and stories behind the frame.")}</p>
       </header>
 
       <section className={styles.newsList}>
@@ -60,7 +58,7 @@ const Blog = () => {
 
             <div className={styles.articleContent}>
               <p className={styles.articleCategory}>
-                {article.category}
+                {t(article.category)}
               </p>
 
               <h2 className={styles.articleTitle}>
@@ -74,9 +72,7 @@ const Blog = () => {
               <Link
                 to={`/journal/${article.slug}`}
                 className={styles.readLink}
-              >
-                Read story
-              </Link>
+              >{t("Read story")}</Link>
             </div>
           </article>
         ))}

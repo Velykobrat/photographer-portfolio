@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+import { useLanguage } from '../../localization';
+import { LocalizedLink as Link } from '../../LocalizedLinks';
+
 
 import SEO from '../../components/SEO/SEO';
 
@@ -30,10 +32,11 @@ const heroSrcSet = getCloudinarySrcSet(
 );
 
 const Home = () => {
+  const { t } = useLanguage();
   return (
     <main className={styles.home}>
       <SEO
-        title="MK Photography"
+        title="Portrait & Fashion Photography"
         description="Portrait, fashion and personal photography by MK Photography. View selected work and book a photo shoot."
         canonicalPath="/home"
       />
@@ -42,7 +45,7 @@ const Home = () => {
         src={heroImage}
         srcSet={heroSrcSet}
         sizes="100vw"
-        alt="Portrait photography"
+        alt={t("Portrait photography")}
         className={styles.heroImage}
         loading="eager"
         fetchPriority="high"
@@ -52,35 +55,30 @@ const Home = () => {
       <div className={styles.overlay} />
 
       <section className={styles.content}>
+        <h1 className={styles.visuallyHidden}>{t('Portrait & fashion photographer in Kyiv')}</h1>
         <img
           src={logoImage}
-          alt="Photographer logo"
+          alt={t("Photographer logo")}
           className={styles.logo}
         />
 
-        <p className={styles.subtitle}>
-          PHOTOGRAPHY · PORTRAIT · FASHION
-        </p>
+        <p className={styles.subtitle}>{t("PHOTOGRAPHY · PORTRAIT · FASHION")}</p>
 
         <div className={styles.actions}>
           <Link
             to="/collections"
             className={styles.primaryLink}
-          >
-            View portfolio
-          </Link>
+          >{t("View portfolio")}</Link>
 
           <Link
             to="/contacts"
             className={styles.secondaryLink}
-          >
-            Book a shoot
-          </Link>
+          >{t("Book a shoot")}</Link>
         </div>
       </section>
 
       <div className={styles.scrollHint}>
-        <span>SCROLL</span>
+        <span>{t("SCROLL")}</span>
         <div className={styles.scrollLine} />
       </div>
     </main>

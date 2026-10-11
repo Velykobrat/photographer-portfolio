@@ -1,3 +1,4 @@
+import { useLanguage } from '../../localization';
 import ContactForm from '../../components/ContactForm/ContactForm';
 import SEO from '../../components/SEO/SEO';
 import styles from './Contacts.module.css';
@@ -5,6 +6,7 @@ import styles from './Contacts.module.css';
 import instagramQr from '../../img/qr_insta.png';
 
 const Contacts = () => {
+  const { t, language } = useLanguage();
   return (
     <main className={styles.contact}>
 
@@ -15,26 +17,23 @@ const Contacts = () => {
       />
       
       <header className={styles.intro}>
-        <p className={styles.eyebrow}>
-          Get in touch
-        </p>
+        <p className={styles.eyebrow}>{t("Get in touch")}</p>
 
         <h1 className={styles.title}>
-          Let's create
-          <br />
-          something together.
-        </h1>
+          {t("Let's create")}
+          <br />{t("something together.")}</h1>
 
         <p className={styles.description}>
-          For portrait, fashion and personal photography,
-          send a request or contact me directly.
+          {language === 'uk' ? (
+            <>Для замовлення <strong>портретної, комерційної чи особистої зйомки</strong>, залиште заявку або напишіть мені напряму, щоб узгодити дату.</>
+          ) : (
+            t("For portrait, fashion and personal photography, send a request or contact me directly.")
+          )}
         </p>
       </header>
 
       <section className={styles.requestSection}>
-        <p className={styles.sectionLabel}>
-          Send a request
-        </p>
+        <p className={styles.sectionLabel}>{t("Send a request")}</p>
 
         <ContactForm />
       </section>
@@ -69,17 +68,17 @@ const Contacts = () => {
           target="_blank"
           rel="noreferrer"
           className={styles.instagramQrLink}
-          aria-label="Open MK Photography on Instagram"
+          aria-label={t("Open MK Photography on Instagram")}
         >
           <img
             src={instagramQr}
-            alt="QR code for MK Photography Instagram"
+            alt={t("QR code for MK Photography Instagram")}
             className={styles.instagramQr}
           />
         </a>
 
         <div className={`${styles.detail} ${styles.email}`}>
-          <span>Email</span>
+          <span>{t("Email")}</span>
 
           <a href="mailto:zongomargaret@gmail.com">
             zongomargaret@gmail.com
@@ -87,11 +86,9 @@ const Contacts = () => {
         </div>
 
         <div className={`${styles.detail} ${styles.location}`}>
-          <span>Based in</span>
+          <span>{t("Based in")}</span>
 
-          <p>
-            Ladyzhyn | Kyiv, Ukraine
-          </p>
+          <p>{t("Ladyzhyn | Kyiv, Ukraine")}</p>
         </div>
       </section>
     </main>

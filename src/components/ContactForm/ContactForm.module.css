@@ -11,21 +11,17 @@
     flex-direction: column;
 
     width: 100%;
-    margin-bottom: 30px;
+    margin-bottom: 22px;
 }
 
 .field label,
 .shootTypeField legend {
-    margin-bottom: 10px;
-
+    margin-bottom: 6px;
     font-family: 'DM Sans', sans-serif;
-    font-size: 9px;
-    font-weight: 400;
-
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-
-    color: rgba(23, 23, 23, 0.52);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: #404040;
 }
 
 .field label span,
@@ -37,7 +33,7 @@
 .field textarea {
     width: 100%;
 
-    padding: 12px 0;
+    padding: 8px 0;
 
     border: 0;
     border-bottom: 1px solid rgba(23, 23, 23, 0.22);
@@ -59,7 +55,9 @@
 
 .field input::placeholder,
 .field textarea::placeholder {
-    color: rgba(23, 23, 23, 0.28);
+    font-size: 13px;
+    font-weight: 400;
+    color: #85817b;
 }
 
 .field input:focus,
@@ -68,7 +66,7 @@
 }
 
 .field textarea {
-    min-height: 120px;
+    min-height: 80px;
 
     resize: vertical;
 }
@@ -94,7 +92,7 @@
 ========================= */
 
 .shootTypeField {
-    margin: 2px 0 34px;
+    margin: 2px 0 24px;
     padding: 0;
 
     border: 0;
@@ -102,7 +100,7 @@
 
 .shootTypeField legend {
     padding: 0;
-    margin-bottom: 14px;
+    margin-bottom: 10px;
 }
 
 .shootTypes {
@@ -177,7 +175,7 @@
 
     gap: 16px;
 
-    padding: 12px 0;
+    padding: 8px 0;
 
     border: 0;
     border-bottom: 1px solid rgba(23, 23, 23, 0.22);
@@ -185,12 +183,12 @@
     background: transparent;
 
     font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 300;
+    font-size: 13px;
+    font-weight: 400;
 
     text-align: left;
 
-    color: rgba(23, 23, 23, 0.28);
+    color: #85817b;
 
     cursor: pointer;
 
@@ -402,6 +400,13 @@
     color: #8a4545;
 }
 
+.fields {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
 /* =========================
    HONEYPOT
 ========================= */
@@ -431,7 +436,7 @@
 
 @media (max-width: 600px) {
     .field {
-        margin-bottom: 24px;
+        margin-bottom: 22px;
     }
 
     .row {

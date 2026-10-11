@@ -1,9 +1,11 @@
+import { useLanguage } from '../../localization';
 // src/components/Footer/Footer.tsx
 
 import styles from './Footer.module.css';
 import developerLogo from '../../img/developer-logo.svg';
 
 const Footer = () => {
+  const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -16,9 +18,9 @@ const Footer = () => {
         <a
           href="#"
           className={styles.developer}
-          aria-label="Website developed by BeBetter"
+          aria-label={t("Website developed by BeBetter")}
         >
-          <span>Designed & developed by</span>
+          <span>{t("Designed & developed by")}</span>
 
           <img
             src={developerLogo}

@@ -100,6 +100,15 @@
     column-gap: 26px;
 }
 
+.retry {
+    padding: 12px 20px;
+    border: 1px solid currentColor;
+    background: transparent;
+    color: var(--page-text);
+    font: inherit;
+    cursor: pointer;
+}
+
 @media (max-width: 1000px) {
     .gallery {
         columns: 2;

@@ -1,5 +1,7 @@
+import { useLanguage } from '../../localization';
+import { LocalizedLink as Link } from '../../LocalizedLinks';
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+
 
 import SEO from '../../components/SEO/SEO';
 import styles from './Collections.module.css';
@@ -24,6 +26,7 @@ const categoryLabels: Record<PortfolioCategory, string> = {
 };
 
 const Collections = () => {
+  const { t } = useLanguage();
   const [activeFilter, setActiveFilter] =
     useState<Filter>('all');
 
@@ -78,20 +81,16 @@ const Collections = () => {
       />
       
       <header className={styles.intro}>
-        <p className={styles.eyebrow}>
-          Selected work
-        </p>
+        <p className={styles.eyebrow}>{t("Selected work")}</p>
 
-        <h1 className={styles.title}>
-          Portfolio
-        </h1>
+        <h1 className={styles.title}>{t("Portfolio")}</h1>
 
         
       </header>
 
       <nav
         className={styles.filters}
-        aria-label="Portfolio categories"
+        aria-label={t("Portfolio categories")}
       >
         <button
           type="button"
@@ -103,9 +102,8 @@ const Collections = () => {
           onClick={() =>
             setActiveFilter('all')
           }
-        >
-          All
-        </button>
+          aria-pressed={activeFilter === 'all'}
+        >{t("All")}</button>
 
         {availableCategories.map(
           (category) => (
@@ -120,8 +118,9 @@ const Collections = () => {
               onClick={() =>
                 setActiveFilter(category)
               }
+              aria-pressed={activeFilter === category}
             >
-              {categoryLabels[category]}
+              {t(categoryLabels[category])}
             </button>
           )
         )}
@@ -143,7 +142,7 @@ const Collections = () => {
     [480, 800, 1200, 1600, 2000]
   )}
   sizes="(max-width: 600px) 100vw, 65vw"
-  alt={`${featuredSeries.title} photography series`}
+  alt={`${featuredSeries.title} — ${t("photography series")}`}
   className={styles.cover}
   loading="eager"
   fetchPriority="high"
@@ -152,15 +151,11 @@ const Collections = () => {
           </div>
 
           <div className={styles.seriesInfo}>
-            <p className={styles.featuredLabel}>
-              Featured series
-            </p>
+            <p className={styles.featuredLabel}>{t("Featured series")}</p>
 
             <p className={styles.seriesCategory}>
               {
-                categoryLabels[
-                  featuredSeries.category
-                ]
+                t(categoryLabels[featuredSeries.category])
               }
             </p>
 
@@ -168,9 +163,7 @@ const Collections = () => {
               {featuredSeries.title}
             </h2>
 
-            <span className={styles.viewSeries}>
-              View series →
-            </span>
+            <span className={styles.viewSeries}>{t("View series →")}</span>
           </div>
         </Link>
       )}
@@ -193,7 +186,7 @@ const Collections = () => {
                   [480, 800, 1200, 1600]
                 )}
                 sizes="(max-width: 600px) 100vw, 50vw"
-                alt={`${series.title} photography series`}
+                alt={`${series.title} — ${t("photography series")}`}
                 className={styles.cover}
                 loading="lazy"
                 decoding="async"
@@ -203,9 +196,7 @@ const Collections = () => {
             <div className={styles.seriesInfo}>
               <p className={styles.seriesCategory}>
                 {
-                  categoryLabels[
-                    series.category
-                  ]
+                  t(categoryLabels[series.category])
                 }
               </p>
 
