@@ -1,227 +1,192 @@
-/// <reference types="node" />
+import { validateContact } from "../lib/contact-validation";
+import { checkContactRateLimit } from "../lib/contact-rate-limit";
 
-type ContactRequest = {
-  name?: string;
-  contact?: string;
-  shootType?: string;
-  preferredDate?: string;
-  location?: string;
-  message?: string;
-  consent?: boolean;
-  website?: string;
-};
+const MAX_BODY_BYTES = 16 * 1024;
+const DELIVERY_TIMEOUT_MS = 8000;
+
+const reply = (
+  body: Record<string, unknown>,
+  status = 200,
+  headers: Record<string, string> = {},
+) =>
+  Response.json(body, {
+    status,
+    headers: { "Cache-Control": "no-store", ...headers },
+  });
+
+async function readBody(request: Request): Promise<unknown> {
+  const reader = request.body?.getReader();
+  if (!reader) throw new SyntaxError("Missing body");
+  const chunks: Uint8Array[] = [];
+  let size = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      size += value.byteLength;
+      if (size > MAX_BODY_BYTES) {
+        await reader.cancel();
+        throw new RangeError("Body too large");
+      }
+      chunks.push(value);
+    }
+  } finally {
+    reader.releaseLock();
+  }
+  const bytes = new Uint8Array(size);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return JSON.parse(new TextDecoder().decode(bytes));
+}
 
 export async function POST(request: Request) {
+  const origin = request.headers.get("origin");
+  if (
+    request.headers.get("sec-fetch-site") === "cross-site" ||
+    (origin && origin !== new URL(request.url).origin)
+  ) {
+    return reply({ error: "Request origin is not allowed" }, 403);
+  }
+  if (
+    request.headers.get("content-type")?.split(";")[0].trim().toLowerCase() !==
+    "application/json"
+  ) {
+    return reply({ error: "Please submit JSON data" }, 415);
+  }
+
+  let body: unknown;
   try {
-    const body = (await request.json()) as ContactRequest;
-
-    const name = body.name?.trim();
-    const contact = body.contact?.trim();
-    const shootType = body.shootType?.trim();
-
-    const preferredDate =
-      body.preferredDate?.trim() || '';
-
-    const location =
-      body.location?.trim() || '';
-
-    const message =
-      body.message?.trim() || '';
-
-    // Honeypot
-    if (body.website) {
-      return Response.json({ success: true });
-    }
-
-    // Consent
-    if (body.consent !== true) {
-      return Response.json(
-        { error: 'Consent is required' },
-        { status: 400 }
-      );
-    }
-
-    // Required fields
-    if (!name || !contact || !shootType) {
-      return Response.json(
-        {
-          error:
-            'Name, contact and shoot type are required',
-        },
-        { status: 400 }
-      );
-    }
-
-    // Basic length validation
-    if (
-      name.length > 100 ||
-      contact.length > 200 ||
-      shootType.length > 100 ||
-      location.length > 200 ||
-      message.length > 3000
-    ) {
-      return Response.json(
-        { error: 'Invalid input' },
-        { status: 400 }
-      );
-    }
-
-    // Prevent past dates
-    if (preferredDate) {
-      const selectedDate = new Date(
-        `${preferredDate}T00:00:00`
-      );
-
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      if (
-        Number.isNaN(selectedDate.getTime()) ||
-        selectedDate < today
-      ) {
-        return Response.json(
-          { error: 'Invalid preferred date' },
-          { status: 400 }
-        );
-      }
-    }
-
-    const telegramToken =
-      process.env.TELEGRAM_BOT_TOKEN;
-
-    const telegramChatId =
-      process.env.TELEGRAM_CHAT_ID;
-
-    const brevoApiKey =
-      process.env.BREVO_API_KEY;
-
-    const emailTo =
-      process.env.CONTACT_EMAIL_TO;
-
-    const emailFrom =
-      process.env.CONTACT_EMAIL_FROM;
-
-    const text = [
-      '📷 NEW PHOTOGRAPHY REQUEST',
-      '',
-      `Name: ${name}`,
-      `Contact: ${contact}`,
-      `Type: ${shootType}`,
-      '',
-      `Preferred date: ${preferredDate || '—'}`,
-      `Location: ${location || '—'}`,
-      '',
-      'Message:',
-      message || '—',
-    ].join('\n');
-
-    const tasks: Promise<Response>[] = [];
-
-    // Telegram
-    if (telegramToken && telegramChatId) {
-      tasks.push(
-        fetch(
-          `https://api.telegram.org/bot${telegramToken}/sendMessage`,
-          {
-            method: 'POST',
-
-            headers: {
-              'Content-Type': 'application/json',
-            },
-
-            body: JSON.stringify({
-              chat_id: telegramChatId,
-              text,
-            }),
-          }
-        )
-      );
-    }
-
-    // Brevo
-    if (brevoApiKey && emailTo && emailFrom) {
-      tasks.push(
-        fetch(
-          'https://api.brevo.com/v3/smtp/email',
-          {
-            method: 'POST',
-
-            headers: {
-              'Content-Type': 'application/json',
-              'api-key': brevoApiKey,
-              accept: 'application/json',
-            },
-
-            body: JSON.stringify({
-              sender: {
-                name: 'MK Photography',
-                email: emailFrom,
-              },
-
-              to: [
-                {
-                  email: emailTo,
-                },
-              ],
-
-              subject:
-                `New photography request — ${name}`,
-
-              textContent: text,
-            }),
-          }
-        )
-      );
-    }
-
-    if (tasks.length === 0) {
-      return Response.json(
-        {
-          error:
-            'Notification service is not configured',
-        },
-        { status: 500 }
-      );
-    }
-
-    const results =
-      await Promise.allSettled(tasks);
-
-    const delivered = results.some(
-      (result) =>
-        result.status === 'fulfilled' &&
-        result.value.ok
-    );
-
-    if (!delivered) {
-      console.error(
-        'Notification delivery failed:',
-        results
-      );
-
-      return Response.json(
-        {
-          error:
-            'Failed to send notification',
-        },
-        { status: 502 }
-      );
-    }
-
-    return Response.json({
-      success: true,
-    });
+    body = await readBody(request);
   } catch (error) {
-    console.error(
-      'Contact API error:',
-      error
-    );
-
-    return Response.json(
+    return reply(
       {
-        error: 'Internal server error',
+        error:
+          error instanceof RangeError
+            ? "Request is too large"
+            : "Invalid JSON data",
       },
-      { status: 500 }
+      error instanceof RangeError ? 413 : 400,
     );
   }
+
+  if (
+    body &&
+    typeof body === "object" &&
+    "website" in body &&
+    typeof body.website === "string" &&
+    body.website.trim()
+  ) {
+    return reply({ success: true });
+  }
+  const validation = validateContact(body);
+  if ("error" in validation) return reply({ error: validation.error }, 400);
+  const data = validation.data;
+
+  const telegramToken = process.env.TELEGRAM_BOT_TOKEN;
+  const telegramChatId = process.env.TELEGRAM_CHAT_ID;
+  const brevoApiKey = process.env.BREVO_API_KEY;
+  const emailTo = process.env.CONTACT_EMAIL_TO;
+  const emailFrom = process.env.CONTACT_EMAIL_FROM;
+  if (
+    !(telegramToken && telegramChatId) &&
+    !(brevoApiKey && emailTo && emailFrom)
+  ) {
+    console.error("Contact notifications are not configured");
+    return reply(
+      {
+        error:
+          "The request service is temporarily unavailable. Please contact me directly.",
+      },
+      503,
+    );
+  }
+
+  try {
+    const limit = await checkContactRateLimit(request);
+    if (!limit.allowed) {
+      return reply(
+        {
+          error:
+            "Too many requests. Please try again later or contact me directly.",
+        },
+        429,
+        { "Retry-After": String(limit.retryAfter) },
+      );
+    }
+  } catch {
+    console.error("Contact rate limit service is unavailable");
+    return reply(
+      {
+        error:
+          "The request service is temporarily unavailable. Please contact me directly.",
+      },
+      503,
+    );
+  }
+
+  const text = [
+    "📷 NEW PHOTOGRAPHY REQUEST",
+    "",
+    `Name: ${data.name}`,
+    `Contact: ${data.contact}`,
+    `Type: ${data.shootType}`,
+    "",
+    `Preferred date: ${data.preferredDate || "—"}`,
+    `Location: ${data.location || "—"}`,
+    "",
+    "Message:",
+    data.message || "—",
+  ].join("\n");
+
+  const tasks: Promise<boolean>[] = [];
+  if (telegramToken && telegramChatId) {
+    tasks.push(
+      fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: telegramChatId, text }),
+        signal: AbortSignal.timeout(DELIVERY_TIMEOUT_MS),
+      }).then(
+        async (response) => response.ok && (await response.json()).ok === true,
+      ),
+    );
+  }
+  if (brevoApiKey && emailTo && emailFrom) {
+    tasks.push(
+      fetch("https://api.brevo.com/v3/smtp/email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": brevoApiKey,
+          accept: "application/json",
+        },
+        body: JSON.stringify({
+          sender: { name: "MK Photography", email: emailFrom },
+          to: [{ email: emailTo }],
+          subject: `New photography request — ${data.name}`,
+          textContent: text,
+        }),
+        signal: AbortSignal.timeout(DELIVERY_TIMEOUT_MS),
+      }).then((response) => response.ok),
+    );
+  }
+  const results = await Promise.allSettled(tasks);
+  const delivered = results.some(
+    (result) => result.status === "fulfilled" && result.value,
+  );
+  if (!delivered) {
+    // Never log provider URLs, credentials or client request data.
+    console.error("Contact notification delivery failed");
+    return reply(
+      {
+        error:
+          "Your request could not be sent. Please try again or contact me directly.",
+      },
+      502,
+    );
+  }
+  return reply({ success: true });
 }

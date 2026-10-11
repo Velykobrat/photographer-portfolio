@@ -1,3 +1,5 @@
+import { journalEnglish } from './journalEnglish';
+
 export interface JournalQuestion {
   question: string;
   answer: string;
@@ -321,3 +323,10 @@ export const journalArticles: JournalArticle[] = [
     ],
   },
 ];
+
+export const getJournalArticles = (language: 'en' | 'uk'): JournalArticle[] =>
+  journalArticles.map((article) => language === 'en'
+    ? { ...article, ...journalEnglish[article.slug] }
+    : { ...article,
+        title: article.slug === 'beyond-the-frame' ? 'За межами кадру' : '12 запитань до Маргарет',
+        closingTitle: article.slug === 'beyond-the-frame' ? 'Легкість' : 'Історія, яка триває' });

@@ -1,0 +1,15 @@
+.page {
+  padding: var(--page-padding-top) var(--page-padding-x)
+    var(--page-padding-bottom);
+  text-align: center;
+}
+.page h1 {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(36px, 6vw, 72px);
+  font-weight: 400;
+}
+.page a {
+  display: inline-block;
+  margin-top: 24px;
+  color: inherit;
+}

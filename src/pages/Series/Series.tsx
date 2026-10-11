@@ -1,18 +1,24 @@
-import { useEffect, useState } from 'react';
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { useLanguage } from '../../localization';
+import { LocalizedLink as Link } from '../../LocalizedLinks';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-import SEO from '../../components/SEO/SEO';
-import Card from '../../components/Card/Card';
-import Modal from '../../components/Modal/Modal';
+import SEO from "../../components/SEO/SEO";
+import Card from "../../components/Card/Card";
+import Modal from "../../components/Modal/Modal";
 
-import { portfolioSeries } from '../../data/portfolioSeries';
+import {
+  portfolioSeries,
+  type PortfolioSeries,
+} from "../../data/portfolioSeries";
 
 import {
   getCloudinaryImage,
   getCloudinarySrcSet,
-} from '../../utils/cloudinary';
+} from "../../utils/cloudinary";
 
-import styles from './Series.module.css';
+import styles from "./Series.module.css";
+import NotFound from "../NotFound/NotFound";
 
 type CloudinaryPhoto = {
   public_id: string;
@@ -29,119 +35,106 @@ type Photo = {
 const Series = () => {
   const { slug } = useParams();
 
-  const series = portfolioSeries.find(
-    (item) => item.slug === slug
-  );
+  const series = portfolioSeries.find((item) => item.slug === slug);
 
+  return series ? (
+    <SeriesContent key={series.slug} series={series} />
+  ) : (
+    <NotFound />
+  );
+};
+
+const SeriesContent = ({ series }: { series: PortfolioSeries }) => {
+  const { t, language } = useLanguage();
   const [photos, setPhotos] = useState<Photo[]>([]);
-  const [selectedIndex, setSelectedIndex] =
-    useState<number | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] =
-    useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [attempt, setAttempt] = useState(0);
 
   // Load photos for the current series
   useEffect(() => {
-    if (!series) {
-      return;
-    }
-
-    setIsLoading(true);
-    setError(null);
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 15000);
+    let active = true;
 
     fetch(
-      `https://res.cloudinary.com/dln0hogkt/image/list/${series.cloudinaryTag}.json`
+      `https://res.cloudinary.com/dln0hogkt/image/list/${series.cloudinaryTag}.json`,
+      { signal: controller.signal },
     )
       .then((response) => {
         if (!response.ok) {
-          throw new Error(
-            'Failed to load photography series'
-          );
+          throw new Error("Failed to load photography series");
         }
 
         return response.json();
       })
       .then((data) => {
-        if (!Array.isArray(data.resources)) {
-          throw new Error(
-            'Invalid Cloudinary response'
-          );
+        if (
+          !data ||
+          !Array.isArray(data.resources) ||
+          !data.resources.every(
+            (photo: unknown) =>
+              typeof photo === "object" &&
+              photo !== null &&
+              "public_id" in photo &&
+              typeof photo.public_id === "string" &&
+              photo.public_id.length > 0,
+          )
+        ) {
+          throw new Error("Invalid Cloudinary response");
         }
 
-        const loadedPhotos: Photo[] =
-          data.resources
-            .sort(
-              (
-                a: CloudinaryPhoto,
-                b: CloudinaryPhoto
-              ) =>
-                a.public_id.localeCompare(
-                  b.public_id,
-                  undefined,
-                  { numeric: true }
-                )
-            )
-            .map(
-              (
-                photo: CloudinaryPhoto,
-                index: number
-              ) => ({
-                id: photo.public_id,
+        const loadedPhotos: Photo[] = data.resources
+          .sort((a: CloudinaryPhoto, b: CloudinaryPhoto) =>
+            a.public_id.localeCompare(b.public_id, undefined, {
+              numeric: true,
+            }),
+          )
+          .map((photo: CloudinaryPhoto, index: number) => ({
+            id: photo.public_id,
 
-                image: getCloudinaryImage(
-                  photo.public_id,
-                  1200
-                ),
+            image: getCloudinaryImage(photo.public_id, 1200),
 
-                srcSet: getCloudinarySrcSet(
-                  photo.public_id,
-                  [480, 800, 1200, 1600]
-                ),
+            srcSet: getCloudinarySrcSet(
+              photo.public_id,
+              [480, 800, 1200, 1600],
+            ),
 
-                fullscreen: getCloudinaryImage(
-                  photo.public_id,
-                  2200
-                ),
+            fullscreen: getCloudinaryImage(photo.public_id, 2200),
 
-                alt: `${series.title} — photo ${
-                  index + 1
-                }`,
-              })
-            );
+            alt: `${series.title} — photo ${index + 1}`,
+          }));
 
-        setPhotos(loadedPhotos);
+        if (active) setPhotos(loadedPhotos);
       })
       .catch((error) => {
-        console.error(
-          'Cloudinary series error:',
-          error
-        );
+        if (!active) return;
+        console.error("Cloudinary series error:", error);
 
-        setError(
-          'This photography series is temporarily unavailable.'
-        );
+        setError("This photography series is temporarily unavailable.");
       })
       .finally(() => {
-        setIsLoading(false);
+        window.clearTimeout(timeout);
+        if (active) setIsLoading(false);
       });
-  }, [series]);
+    return () => {
+      active = false;
+      window.clearTimeout(timeout);
+      controller.abort();
+    };
+  }, [series, attempt]);
 
   // Preload neighbouring fullscreen photos
   useEffect(() => {
-    if (
-      selectedIndex === null ||
-      photos.length < 2
-    ) {
+    if (selectedIndex === null || photos.length < 2) {
       return;
     }
 
-    const nextIndex =
-      (selectedIndex + 1) % photos.length;
+    const nextIndex = (selectedIndex + 1) % photos.length;
 
-    const previousIndex =
-      (selectedIndex - 1 + photos.length) %
-      photos.length;
+    const previousIndex = (selectedIndex - 1 + photos.length) % photos.length;
 
     const imagesToPreload = [
       photos[nextIndex]?.fullscreen,
@@ -158,24 +151,13 @@ const Series = () => {
     });
   }, [selectedIndex, photos]);
 
-  // Reset scroll position when opening another series
-useEffect(() => {
-  window.scrollTo({
-    top: 0,
-    left: 0,
-    behavior: 'auto',
-  });
-}, [slug]);
-  
-  if (!series) {
-    return (
-      <Navigate
-        to="/collections"
-        replace
-      />
-    );
-  }
-
+  const retry = () => {
+    setPhotos([]);
+    setSelectedIndex(null);
+    setIsLoading(true);
+    setError(null);
+    setAttempt((value) => value + 1);
+  };
   const openModal = (index: number) => {
     setSelectedIndex(index);
   };
@@ -186,10 +168,7 @@ useEffect(() => {
 
   const showNext = () => {
     setSelectedIndex((current) => {
-      if (
-        current === null ||
-        photos.length === 0
-      ) {
+      if (current === null || photos.length === 0) {
         return null;
       }
 
@@ -199,104 +178,78 @@ useEffect(() => {
 
   const showPrevious = () => {
     setSelectedIndex((current) => {
-      if (
-        current === null ||
-        photos.length === 0
-      ) {
+      if (current === null || photos.length === 0) {
         return null;
       }
 
-      return (
-        (current - 1 + photos.length) %
-        photos.length
-      );
+      return (current - 1 + photos.length) % photos.length;
     });
   };
 
   return (
     <main className={styles.series}>
-
       <SEO
-  title={series.title}
-  description={`${series.title} — a ${series.category} photography series by MK Photography.`}
-  canonicalPath={`/collections/${series.slug}`}
-  image={getCloudinaryImage(
-    series.coverPublicId,
-    1600
-  )}
+        title={series.title}
+        description={`${series.title} — a ${t(series.category)} photography series by MK Photography.`}
+        canonicalPath={`/collections/${series.slug}`}
+        image={getCloudinaryImage(series.coverPublicId, 1600)}
       />
-      
+
       <header className={styles.intro}>
-        <Link
-          to="/collections"
-          className={styles.back}
-        >
-          ← Portfolio
-        </Link>
+        <Link to="/collections" className={styles.back}>{t("← Portfolio")}</Link>
 
-        <p className={styles.category}>
-          {series.category}
-        </p>
+        <p className={styles.category}>{series.category}</p>
 
-        <h1 className={styles.title}>
-          {series.title}
-        </h1>
+        <h1 className={styles.title}>{series.title}</h1>
 
         {!isLoading && !error && (
           <p className={styles.count}>
-            {photos.length}{' '}
-            {photos.length === 1
-              ? 'photograph'
-              : 'photographs'}
+            {photos.length} {language === 'uk' ? ({zero: 'фотографій', two: 'фотографії', one: 'фотографія', few: 'фотографії', many: 'фотографій', other: 'фотографії'}[new Intl.PluralRules('uk').select(photos.length)] ?? 'фотографій') : photos.length === 1 ? 'photograph' : 'photographs'}
           </p>
         )}
       </header>
 
       {isLoading && (
-        <p className={styles.status}>
-          Loading series...
-        </p>
+        <p className={styles.status} role="status">{t("Loading series...")}</p>
       )}
 
       {error && (
-        <p className={styles.status}>
-          {error}
-        </p>
+        <div className={styles.status} role="alert">
+          <p>{t(error)}</p>
+          <button type="button" className={styles.retry} onClick={retry}>{t("Try again")}</button>
+        </div>
       )}
 
-      {!isLoading &&
-        !error &&
-        photos.length > 0 && (
-          <section className={styles.gallery}>
-            {photos.map((photo, index) => (
-              <Card
-  key={photo.id}
-  image={photo.image}
-  srcSet={photo.srcSet}
-  alt={photo.alt}
-  priority={index === 0}
-  onClick={() =>
-    openModal(index)
-  }
-/>
-            ))}
-          </section>
-        )}
+      {!isLoading && !error && photos.length === 0 && (
+        <p className={styles.status} role="status">{t("Photographs will be added to this series soon.")}</p>
+      )}
 
-      {selectedIndex !== null &&
-        photos[selectedIndex] && (
-          <Modal
-            image={
-              photos[selectedIndex].fullscreen
-            }
-            alt={photos[selectedIndex].alt}
-            current={selectedIndex + 1}
-            total={photos.length}
-            onClose={closeModal}
-            onNext={showNext}
-            onPrevious={showPrevious}
-          />
-        )}
+      {!isLoading && !error && photos.length > 0 && (
+        <section className={styles.gallery}>
+          {photos.map((photo, index) => (
+            <Card
+              key={photo.id}
+              image={photo.image}
+              srcSet={photo.srcSet}
+              alt={language === 'uk' ? `${series.title} — фотографія ${index + 1}` : photo.alt}
+              priority={index === 0}
+              onClick={() => openModal(index)}
+            />
+          ))}
+        </section>
+      )}
+
+      {selectedIndex !== null && photos[selectedIndex] && (
+        <Modal
+          image={photos[selectedIndex].fullscreen}
+          alt={language === 'uk' ? `${series.title} — фотографія ${selectedIndex + 1}` : photos[selectedIndex].alt}
+          current={selectedIndex + 1}
+          total={photos.length}
+          onClose={closeModal}
+          onNext={showNext}
+          onPrevious={showPrevious}
+        />
+      )}
     </main>
   );
 };

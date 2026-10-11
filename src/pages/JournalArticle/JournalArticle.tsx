@@ -1,11 +1,10 @@
-import { useEffect } from 'react';
+import { useLanguage } from '../../localization';
+import { LocalizedLink as Link } from '../../LocalizedLinks';
 import {
-  Link,
-  Navigate,
   useParams,
 } from 'react-router-dom';
 
-import { journalArticles } from '../../data/journalArticles';
+import { getJournalArticles } from '../../data/journalArticles';
 import {
   getCloudinaryImage,
   getCloudinarySrcSet,
@@ -13,29 +12,19 @@ import {
 
 import SEO from '../../components/SEO/SEO';
 import styles from './JournalArticle.module.css';
+import NotFound from '../NotFound/NotFound';
 
 const JournalArticle = () => {
+  const { t, language } = useLanguage();
+  const journalArticles = getJournalArticles(language);
   const { slug } = useParams();
 
   const article = journalArticles.find(
     (item) => item.slug === slug
   );
 
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'auto',
-    });
-  }, [slug]);
-
   if (!article) {
-    return (
-      <Navigate
-        to="/journal"
-        replace
-      />
-    );
+    return <NotFound />;
   }
 
   return (
@@ -55,12 +44,10 @@ const JournalArticle = () => {
         <Link
           to="/journal"
           className={styles.back}
-        >
-          ← Journal
-        </Link>
+        >{t("← Journal")}</Link>
 
         <p className={styles.category}>
-          {article.category}
+          {t(article.category)}
         </p>
 
         <h1 className={styles.title}>
@@ -138,7 +125,7 @@ const JournalArticle = () => {
     [480, 800, 1200, 1600]
   )}
   sizes="(max-width: 650px) calc(100vw - 36px), 620px"
-  alt="Margaret"
+  alt={t("Margaret")}
   className={styles.inlineImage}
   loading="lazy"
   decoding="async"
@@ -201,7 +188,7 @@ const JournalArticle = () => {
           to="/journal"
           className={styles.backLink}
         >
-          ← Back to Journal
+          {t("← Back to Journal")}
         </Link>
       </section>
     </main>

@@ -9,7 +9,7 @@ import Navigation from '../Navigation/Navigation';
 const Header = () => {
   const location = useLocation();
 
-  const isHome = location.pathname === '/home' || location.pathname === '/';
+  const isHome = ['/home', '/', '/uk/home', '/uk'].includes(location.pathname);
 
   return (
     <header

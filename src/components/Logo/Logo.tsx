@@ -1,16 +1,19 @@
+import { useLanguage } from '../../localization';
+import { LocalizedLink as Link } from '../../LocalizedLinks';
 // src/components/Logo/Logo.tsx
 
-import { Link } from 'react-router-dom';
+
 import styles from './Logo.module.css';
 
 import logoImage from '../../img/logo_2026_vector.svg';
 
 const Logo = () => {
+  const { t } = useLanguage();
   return (
     <Link
       to="/home"
       className={styles.logo}
-      aria-label="Go to homepage"
+      aria-label={t("Go to homepage")}
     >
       <img
         src={logoImage}

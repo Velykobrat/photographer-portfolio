@@ -1,44 +1,26 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "rewrites": [
+  "cleanUrls": true,
+  "redirects": [
     {
-      "source": "/home",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/collections",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/collections/:slug",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/journal",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/journal/:slug",
-      "has": [
-        {
-          "type": "header",
-          "key": "user-agent",
-          "value": ".*(facebookexternalhit|Facebot|Twitterbot|LinkedInBot|TelegramBot|WhatsApp|Slackbot|Discordbot).*"
-        }
-      ],
-      "destination": "/api/social-preview?slug=:slug"
-    },
-    {
-      "source": "/journal/:slug",
-      "destination": "/index.html"
+      "source": "/",
+      "destination": "/home",
+      "permanent": true
     },
     {
       "source": "/blog",
-      "destination": "/index.html"
+      "destination": "/journal",
+      "permanent": true
     },
     {
-      "source": "/contacts",
-      "destination": "/index.html"
+      "source": "/uk",
+      "destination": "/uk/home",
+      "permanent": true
+    },
+    {
+      "source": "/uk/blog",
+      "destination": "/uk/journal",
+      "permanent": true
     }
   ]
 }
