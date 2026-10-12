@@ -1,312 +1,168 @@
 # MK Photography
 
-A bilingual Ukrainian and English photography portfolio for **MK Photography**, based in Kyiv, Ukraine.
+A bilingual Ukrainian and English photography portfolio with a Sanity owner panel for managing series and photographs.
 
-The website presents selected photography work, introduces the photographer, provides direct contact channels and allows potential clients to submit structured photoshoot requests.
+**Version:** v1.3.0 — Owner-managed Portfolio
 
-**Live website:**  
-https://photographer-portfolio-chi.vercel.app
+- [Live website](https://photographer-portfolio-chi.vercel.app)
+- [Ukrainian website](https://photographer-portfolio-chi.vercel.app/uk/home)
+- [Owner panel](https://mk-photography-d3nr3igp.sanity.studio/)
+- [GitHub releases](https://github.com/Velykobrat/photographer-portfolio/releases)
 
-## Overview
+## Production status
 
-MK Photography is a real-world photography portfolio focused on portrait, fashion and personal photography.
+The website is deployed on Vercel using its existing `vercel.app` address. A custom domain is not currently planned.
 
-The project started as a portfolio website and has evolved into a production product with cloud-hosted photography, responsive layouts, client inquiry handling and automated notifications.
+Sanity Studio is deployed, the existing portfolio has been migrated, and published Sanity content is enabled in production. Publishing, updating or deleting published portfolio content triggers a rebuild through the Sanity → Vercel webhook. Changes appear after a successful deployment; a failed build leaves the previous website online.
 
-The version in this repository is **v1.3.0 — Owner-managed Portfolio**.
-
-The live deployment must be checked separately; updating this version does not confirm that production has been deployed.
-
-This version adds a Sanity Studio owner panel for series, covers and ordered photographs. CMS activation and Studio deployment must be completed before owner editing is available on the live website. See [Sanity setup](docs/sanity-setup.md) for the browser-only GitHub Actions setup and migration instructions.
+The owner can manage portfolio series and photos without editing code. Journal articles remain maintained in this repository.
 
 ## Features
 
-- Responsive photography portfolio
-- Cloudinary-powered image delivery and optimization
-- Fullscreen photo gallery
-- Home, Portfolio, Journal and Contact pages
-- Structured photoshoot request form
-- Shoot type selection
-- Preferred date picker
-- Location and message fields
-- Telegram notifications for new requests
-- Email notifications through Brevo
-- Server-side validation
-- Honeypot spam protection
-- Direct Instagram, Telegram, Viber and email contact options
-- Ukrainian and English pages with a language switch
-- Prerendered HTML, canonical URLs, hreflang and structured data
-- Generated sitemap and robots.txt
-- Static page routing and a custom 404 page on Vercel
-- Automated quality checks and 79 regression tests
-- Responsive desktop and mobile layouts
+- Ukrainian and English pages with a language switch that preserves the current page.
+- Home, Portfolio, Journal and Contact pages.
+- Portfolio category filters, featured series and direct series URLs.
+- Owner-managed series titles, descriptions, categories, covers and display order.
+- Batch photo uploads, draggable photo ordering, crop/hotspot and bilingual photo descriptions.
+- Fullscreen viewer with keyboard and touch navigation, focus management and loading/error states.
+- Right swipe on a series page to return to the localized portfolio; viewer gestures remain separate.
+- Responsive images and layouts for desktop and mobile.
+- Photoshoot request form with server-side validation, Telegram and Brevo email notifications.
+- Direct Instagram, Telegram, Viber and email contact links.
+- Prerendered pages, localized metadata, canonical URLs, hreflang, JSON-LD, sitemap and robots.txt.
+- Automated frontend/API checks, Studio checks and dependency audits.
 
-## Tech Stack
+## Technology
 
-### Frontend
+| Area | Tools |
+| --- | --- |
+| Website | React, TypeScript, React Router, CSS Modules, Vite |
+| Portfolio content | Sanity Studio, public production dataset and Sanity image CDN |
+| Editorial / legacy media | Cloudinary |
+| Contact API | Vercel Functions, Telegram Bot API, Brevo Email API |
+| Deployment | Vercel for the website; Sanity hosting for Studio |
+| Verification | ESLint, TypeScript, Vitest and GitHub Actions |
 
-- React
-- TypeScript
-- React Router
-- CSS Modules
-- Vite
+## Managing the portfolio
 
-### Media
+Open the [owner panel](https://mk-photography-d3nr3igp.sanity.studio/) and sign in with a Sanity account invited to the project. A link alone does not grant editing access: invite the owner to project `d3nr3igp` with an appropriate content-editing role.
 
-- Cloudinary
+1. Create or edit a photography series.
+2. Add Ukrainian and English titles/descriptions, a category and a cover.
+3. Upload photos, arrange them and add photo descriptions.
+4. Publish the series, then wait for the website rebuild to finish.
 
-### Backend / Integrations
+Drafts do not appear on the public website. A series address is locked after its first Studio publication to preserve existing links. Duplicating a series clears its address so the new series can receive a unique URL. Addresses accept lowercase Latin letters, numbers and separating hyphens, up to 80 characters.
 
-- Vercel Serverless Functions
-- Telegram Bot API
-- Brevo Email API
+See [Sanity setup and maintenance](docs/sanity-setup.md) for configuration, migration and deployment details. Migration is already complete for this project; those instructions are retained for maintenance or a new environment.
 
-### Deployment
-
-- Vercel
-
-## Architecture
+## Content and deployment flow
 
 ```text
-Visitor
-   │
-   ├── Home
-   ├── Portfolio
-   │      │
-   │      └── Cloudinary
-   │
-   ├── Journal
-   │
-   └── Contact
-          │
-          └── Contact Form
-                 │
-                 ▼
-          Vercel Serverless API
-                 │
-          ┌──────┴──────┐
-          ▼             ▼
-      Telegram        Brevo
-                      Email
+Owner → Sanity Studio → Published series and photos
+                              │
+                       Sanity webhook
+                              │
+                       Vercel main build
+                              │
+                Validated portfolio snapshot
+                              │
+             Website + prerendered pages + sitemap
+
+Visitor → Contact form → /api/contact → Telegram / Brevo
 ```
 
-## Portfolio Images
+Production uses `PORTFOLIO_SOURCE=sanity`. The build reads published content from the uncached Sanity API, validates it and creates a shared snapshot for the client, prerendered pages and metadata. No write token is included in the public website or Studio bundle.
 
-The owner panel is configured for Sanity project `d3nr3igp`, dataset `production`.
-With `PORTFOLIO_SOURCE=sanity`, builds retrieve published series and image references
-from Sanity, prerender the gallery and both languages, and generate matching page
-metadata and sitemap. Sanity image URLs respect crop/hotspot and use responsive sizes.
-Publishing triggers website rebuilds once the Sanity → Vercel webhook is configured.
-No write token is shipped to the public website or Studio bundle.
+The checked-in catalogue remains a legacy bootstrap for local development. `PORTFOLIO_SOURCE=legacy` uses the original Cloudinary catalogue. Journal images and other existing editorial assets may still use Cloudinary. Do not overwrite the checked-in bootstrap with a local production snapshot.
 
-During setup, `PORTFOLIO_SOURCE=legacy` is the default and keeps the existing
-Cloudinary portfolio. A read-only migration preview is `npm run content:migrate`.
-Use the authenticated setup workflow to transfer the existing photographs without
-replacing already-edited Sanity documents. See [setup instructions](docs/sanity-setup.md).
+## Local development
 
-In legacy mode, portfolio images are hosted on Cloudinary instead of being stored directly in the repository. Sanity mode uses images stored in the Sanity dataset.
-
-The frontend retrieves the public portfolio image list and generates optimized Cloudinary URLs for gallery and fullscreen views.
-
-Cloudinary automatically handles:
-
-- responsive image sizing
-- automatic format selection
-- automatic quality optimization
-- reduced repository size
-- optimized delivery through CDN
-
-## Contact Request Flow
-
-Client inquiries are submitted through the website contact form.
-
-The frontend sends structured request data to:
-
-```text
-/api/contact
-```
-
-The serverless API validates the request and then attempts delivery through:
-
-```text
-Telegram Bot API
-+
-Brevo Email API
-```
-
-A request is considered successfully delivered when at least one notification channel succeeds.
-
-The form also includes:
-
-- required-field validation
-- consent validation
-- maximum input lengths
-- preferred date validation
-- honeypot spam protection
-
-Sensitive API credentials are stored as Vercel environment variables and are never exposed to the frontend.
-
-## Local Development
-
-Clone the repository:
+Use Node.js 22.13 or newer within the 22.x release line.
 
 ```bash
 git clone https://github.com/Velykobrat/photographer-portfolio.git
 cd photographer-portfolio
-```
-
-Install dependencies:
-
-```bash
 npm ci
-```
-
-Start the development server:
-
-```bash
 npm run dev
 ```
 
-Use Node.js 22.13 or newer within the 22.x release line. On Windows, use
-`npm.cmd` if PowerShell blocks `npm.ps1`.
+To review current Sanity content locally, set `PORTFOLIO_SOURCE=sanity` and run `npm run content:sync` before starting Vite. Environment-variable syntax depends on your shell. On Windows, use `npm.cmd` if PowerShell blocks `npm.ps1`.
 
-`npm run dev` serves the frontend. The `/api` proxy expects a backend on port
-5000; use `vercel dev` from a linked Vercel project to run the deployed functions
-locally. Real contact delivery requires the notification environment variables
-below. Automated tests mock delivery and never send Telegram messages or emails.
-
-Run ESLint:
+The Vite server serves the frontend. Its `/api` proxy expects a backend on port 5000; use `vercel dev` in a linked project to run Vercel functions locally. Real notification delivery requires the environment variables below. Automated tests mock delivery and do not send messages.
 
 ```bash
 npm run lint
-```
-
-Check frontend and server TypeScript and run the regression suite:
-
-```bash
 npm run check
 npm test
-```
-
-The GitHub Actions quality workflow runs lint, TypeScript checks, tests, the
-production build and dependency audit on pull requests and pushes to `main`.
-
-Create a production build:
-
-```bash
 npm run build
 ```
 
-## Environment Variables
+For Studio:
 
-The production contact API uses the following environment variables:
-
-```text
-TELEGRAM_BOT_TOKEN
-TELEGRAM_CHAT_ID
-BREVO_API_KEY
-CONTACT_EMAIL_TO
-CONTACT_EMAIL_FROM
+```bash
+cd studio
+npm ci
+npm run check
+npm run audit:security
+npm run build
+npm run dev
 ```
 
-These values must not be committed to the repository.
+## Configuration
 
-### Contact request protection
+| Variable | Purpose |
+| --- | --- |
+| `PORTFOLIO_SOURCE=sanity` | Load published Sanity portfolio content during the website build |
+| `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` | Telegram request notifications |
+| `BREVO_API_KEY`, `CONTACT_EMAIL_TO`, `CONTACT_EMAIL_FROM` | Email request notifications |
+| `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | Optional shared contact rate limiting |
 
-The endpoint accepts JSON bodies up to 16 KiB, checks field types and lengths,
-allows only the supported shoot types and validates calendar dates using
-`Europe/Kyiv`. Cross-origin browser submissions are rejected. Each notification
-provider has an 8-second deadline; success requires confirmation from at least
-one provider. Logs do not include request data or provider credentials.
+Store website configuration in Vercel environment variables. Keep credentials out of source control, client bundles and issue/PR text. Studio deployments use the GitHub Actions secret `SANITY_DEPLOY_TOKEN`. The temporary migration token is only for migration and should be revoked after use.
 
-The basic rate limit is 5 valid requests per IP in a 10-minute window. Without
-shared storage it is **best effort per server process** and resets on cold starts;
-it does not provide a global limit across Vercel instances. For a shared limit,
-connect an Upstash Redis store to this Vercel project and configure both:
+The contact API accepts JSON up to 16 KiB, validates fields and calendar dates using `Europe/Kyiv`, rejects cross-origin browser submissions and uses honeypot protection. A request succeeds only when at least one notification provider confirms delivery; each provider has an 8-second deadline.
 
-```text
-UPSTASH_REDIS_REST_URL
-UPSTASH_REDIS_REST_TOKEN
-```
+The basic rate limit is five valid requests per IP per ten minutes. Without shared storage it is best effort per server process and resets on cold starts. Optional Upstash configuration provides a shared counter; unavailable or incomplete configured storage returns 503. Rate-limited requests return 429 with `Retry-After`. Logs omit request data and provider credentials.
 
-The shared counter uses an atomic Redis script and expires after 10 minutes.
-Only a hash of the IP is used as the counter key. If shared storage is configured
-but unavailable or incomplete, the endpoint returns 503 and the form points to
-direct contact channels. A blocked request returns 429 with `Retry-After`.
+## Routing and SEO
 
-### Routing
+English routes keep their original paths; Ukrainian routes use `/uk/`. Builds generate localized page HTML, metadata and sitemap entries from the current page map and published series. The number of URLs changes as the owner adds or removes series.
 
-Production builds prerender all 26 English/Ukrainian page URLs with initial page content,
-canonical, Open Graph/Twitter metadata, reciprocal hreflang and JSON-LD. English URLs
-remain unchanged; Ukrainian routes use /uk/. The language switch keeps the current page.
-Journal translations are in src/data/journalEnglish.ts; Ukrainian originals are preserved.
-Review English editorial translations with the photographer before publishing.
+Vercel serves prerendered HTML through `cleanUrls`, redirects the root and legacy `/blog` paths, and serves a custom 404 page for unknown URLs. API routes are handled separately.
 
-Vercel serves generated HTML with cleanUrls and uses dist/404.html for unknown URLs.
-API endpoints are handled separately. Root and legacy /blog URLs redirect permanently.
-The old bot-specific Journal rewrite is replaced by HTML served identically to all visitors.
-robots.txt and sitemap.xml are generated from the same page map as metadata.
-Gallery photographs still load from Cloudinary in the browser; gallery titles and links
-are available in initial HTML. New content requires a rebuild.
+The canonical address in `src/data/site.ts` is the production Vercel URL. Preview deployment URLs must not replace it. Journal translations are maintained in `src/data/journalEnglish.ts`.
 
-Canonical domain: src/data/site.ts. Currently the existing Vercel production URL.
-When adding a custom domain, update SITE_URL and rebuild; do not use a preview URL.
-A full studio address is not known, so no LocalBusiness address or invented reviews are added.
+## Verification and maintenance
 
-Development: npm.cmd run dev on Windows. Open /uk/home to review Ukrainian.
-Production HTML checks: npm.cmd run build (includes scripts/verify-seo.mjs).
-Vite development routing does not simulate Vercel redirects or HTTP 404 statuses.
-Validate redirects, unknown URL status, both languages and contact delivery in a Vercel
-preview before merging. Submit the deployed sitemap to Google Search Console afterward.
+The v1.3.0 application passed 94 regression tests, lint, frontend/API TypeScript checks and a production build. Studio passed its TypeScript check, build and deployment. Website and Studio deployment status were verified separately.
 
-## Development Roadmap
+GitHub Actions runs website quality checks on pull requests and `main`. Studio checks run for relevant changes and weekly. Studio dependency auditing also runs before deployment.
 
-### v1.0.0 — Stable Production Release
+Two unresolved upstream tooling advisories remain covered by exact-version exceptions through **2026-11-11**. A passing audit gate does not mean zero vulnerabilities. New advisories, changed affected versions, registry failures and expired exceptions block Studio deployment. Review fixes before expiry; the existing deployed website and Studio are not disabled when an exception expires. See [Studio security notes](studio/SECURITY.md).
 
-- Core responsive website
-- Photography portfolio
-- Cloudinary integration
-- Journal
-- Contact request system
-- Telegram notifications
-- Brevo email notifications
-- Vercel deployment
+## Optional future work
 
-### v1.1 — Portfolio Experience
+- Journal editing through the owner panel.
+- Visitor and inquiry analytics.
+- Search Console setup and monitoring.
+- Automated content backups and tested restoration.
+- Ongoing dependency updates and maintenance.
 
-Planned improvements include:
+These items are outside the current portfolio release. Portfolio CMS integration and owner-managed series/photos are already delivered.
 
-- portfolio collections and photography series
-- improved fullscreen gallery UX
-- mobile swipe navigation
-- keyboard navigation and accessibility improvements
-- better photo metadata and alt text
-- Ukrainian and English localization
-- improved SEO and social sharing metadata
-
-### Future
-
-- photographer-managed content
-- CMS integration
-- self-managed portfolio collections
-- Journal article management
-- advanced SEO
-- analytics
-- further performance and UX improvements
-
-## Release History
+## Release history
 
 ### v1.3.0 — Owner-managed Portfolio
 
-- Added a separate Sanity Studio with Ukrainian field labels and Ukrainian interface support.
-- Added bilingual series titles/descriptions, categories, covers with crop/hotspot, featured series and ordering.
-- Added batch photo uploads, draggable photo ordering and bilingual accessibility descriptions.
-- Added published-content build snapshots shared by the website, prerendered galleries, localized metadata and sitemap.
-- Preserved existing URLs and locked series addresses after their first Studio publication.
-- Added a resumable migration for seven existing Cloudinary series, with no overwrite of existing edited documents.
-- Added browser-only GitHub Actions migration and Studio deployment plus setup documentation.
-
-Activation pending: authenticated migration, Studio deployment, Vercel preview validation and publication webhook setup.
+- Deployed a Ukrainian Sanity Studio for independent portfolio management.
+- Migrated the existing seven series and 57 photographs from Cloudinary to Sanity.
+- Added bilingual series content, cover crop/hotspot, featured series and ordered photo uploads.
+- Enabled production Sanity content and automatic Vercel rebuilds after publication.
+- Preserved existing series URLs and fixed duplicate-series address handling.
+- Unified address validation between Studio and the build, including the 80-character limit.
+- Localized photo-button accessible names and retained mobile/keyboard gallery navigation.
+- Patched available tooling dependency vulnerabilities and added scheduled/pre-deployment security gates.
+- Updated documentation to reflect the deployed Vercel website and working owner panel.
 
 ### v1.2.1 — Mobile Navigation
 
@@ -326,10 +182,6 @@ Activation pending: authenticated migration, Studio deployment, Vercel preview v
 - Added optional shared Upstash rate limiting with a documented local fallback
 - Simplified form typography, examples and spacing
 - Updated Vite/React tooling and added CI, API type checks and 57 tests
-
-Validation: lint, TypeScript, tests and production build. Before publishing: review English
-editorial translations and verify Vercel routing, mobile layout and real contact delivery.
-
 
 ### v1.1.3 — Beyond the Frame
 
