@@ -12,7 +12,7 @@ export const translations: Record<string, string> = {
   'The request service is temporarily unavailable. Please contact me directly.': 'Сервіс заявок тимчасово недоступний. Зв’яжіться зі мною напряму.',
   'Too many requests. Please try again later or contact me directly.': 'Забагато заявок. Спробуйте пізніше або зв’яжіться зі мною напряму.',
   'Portfolio': 'Портфоліо', 'Journal': 'Журнал', 'Contact': 'Контакти',
-  'View portfolio': 'Переглянути портфоліо', 'Book a shoot': 'Замовити зйомку',
+  'View portfolio': 'Портфоліо', 'Book a shoot': 'Замовити зйомку',
   'PHOTOGRAPHY · PORTRAIT · FASHION': 'ФОТОГРАФІЯ · ПОРТРЕТ · МОДА',
   'SCROLL': 'ГОРТАЙТЕ', 'Selected work': 'Вибрані роботи', 'All': 'Усі',
   'Portrait': 'Портретна', 'Fashion': 'Мода', 'Personal': 'Особиста',

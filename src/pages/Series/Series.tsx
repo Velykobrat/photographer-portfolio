@@ -1,7 +1,7 @@
-import { useLanguage } from '../../localization';
+import { localizedPath, useLanguage } from '../../localization';
 import { LocalizedLink as Link } from '../../LocalizedLinks';
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useRef, useState, type TouchEvent } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import SEO from "../../components/SEO/SEO";
 import Card from "../../components/Card/Card";
@@ -46,6 +46,36 @@ const Series = () => {
 
 const SeriesContent = ({ series }: { series: PortfolioSeries }) => {
   const { t, language } = useLanguage();
+  const navigate = useNavigate();
+  const swipe = useRef<{ x: number; y: number; id: number } | null>(null);
+  const handleTouchStart = (event: TouchEvent<HTMLElement>) => {
+    const touch = event.touches[0];
+    swipe.current = selectedIndex === null && event.touches.length === 1 && touch
+      ? { x: touch.clientX, y: touch.clientY, id: touch.identifier }
+      : null;
+  };
+  const handleTouchMove = (event: TouchEvent<HTMLElement>) => {
+    const start = swipe.current;
+    const touch = event.touches[0];
+    if (!start || !touch) return;
+    const dx = Math.abs(touch.clientX - start.x);
+    const dy = Math.abs(touch.clientY - start.y);
+    if (event.touches.length !== 1 || (dy > 24 && dy >= dx)) {
+      swipe.current = null;
+    }
+  };
+  const handleTouchEnd = (event: TouchEvent<HTMLElement>) => {
+    const start = swipe.current;
+    swipe.current = null;
+    if (!start || selectedIndex !== null || event.touches.length !== 0) return;
+    const touch = Array.from(event.changedTouches).find(item => item.identifier === start.id);
+    if (!touch) return;
+    const dx = touch.clientX - start.x;
+    const dy = Math.abs(touch.clientY - start.y);
+    if (dx >= 80 && dx > dy * 2) {
+      navigate(localizedPath('/collections', language));
+    }
+  };
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
@@ -187,7 +217,13 @@ const SeriesContent = ({ series }: { series: PortfolioSeries }) => {
   };
 
   return (
-    <main className={styles.series}>
+    <main
+      className={styles.series}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      onTouchCancel={() => { swipe.current = null; }}
+    >
       <SEO
         title={series.title}
         description={`${series.title} — a ${t(series.category)} photography series by MK Photography.`}
