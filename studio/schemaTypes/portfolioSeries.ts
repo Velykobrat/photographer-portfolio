@@ -1,4 +1,5 @@
 import { defineArrayMember, defineField, defineType } from 'sanity';
+import { SERIES_SLUG_MAX_LENGTH, validateSeriesSlug } from '../utils/seriesSlug';
 
 export const portfolioSeries = defineType({
   name: 'portfolioSeries', type: 'document', title: 'Серія фотографій',
@@ -16,9 +17,9 @@ export const portfolioSeries = defineType({
       ], validation: Rule => Rule.required() }),
     defineField({ name: 'slug', title: 'Адреса серії', type: 'slug', group: 'details',
       description: 'Латиниця, цифри та дефіси, наприклад kyiv-portraits. Після першої публікації адреса фіксується, щоб зберегти посилання.',
-      options: { source: 'title.en', maxLength: 80 },
+      options: { source: 'title.en', maxLength: SERIES_SLUG_MAX_LENGTH },
       readOnly: ({ document }) => Boolean(document?.publishedSlug),
-      validation: Rule => Rule.required().custom(value => !value?.current || /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value.current) ? true : 'Використовуйте латинські літери, цифри та дефіси.') }),
+      validation: Rule => Rule.required().custom(validateSeriesSlug) }),
     defineField({ name: 'publishedSlug', title: 'Первинна адреса', type: 'string', hidden: true, readOnly: true }),
     defineField({ name: 'category', title: 'Категорія', type: 'string', group: 'details',
       options: { list: [

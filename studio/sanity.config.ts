@@ -1,11 +1,12 @@
-import { defineConfig } from 'sanity';
+import { defineConfig, type DocumentActionComponent, type DuplicateDocumentActionComponent } from 'sanity';
 import { structureTool } from 'sanity/structure';
 import { ukUALocale } from '@sanity/locale-uk-ua';
 import { portfolioSeries } from './schemaTypes/portfolioSeries';
 import { portfolioPhoto } from './schemaTypes/portfolioPhoto';
 import { lockSeriesSlug } from './actions/lockSeriesSlug';
+import { duplicateSeries } from './actions/duplicateSeries';
 
-const publishActions = new WeakMap();
+const seriesActions = new WeakMap<DocumentActionComponent, DocumentActionComponent>();
 
 export default defineConfig({
   name: 'mk-photography',
@@ -26,9 +27,14 @@ export default defineConfig({
   schema: { types: [portfolioSeries, portfolioPhoto] },
   document: {
     actions: (actions, context) => context.schemaType !== 'portfolioSeries' ? actions : actions.map(action => {
-      if (action.action !== 'publish') return action;
-      if (!publishActions.has(action)) publishActions.set(action, lockSeriesSlug(action));
-      return publishActions.get(action);
+      if (action.action !== 'publish' && action.action !== 'duplicate') return action;
+      let wrapped = seriesActions.get(action);
+      if (!wrapped) {
+        wrapped = action.action === 'publish' ? lockSeriesSlug(action)
+          : duplicateSeries(action as DuplicateDocumentActionComponent);
+        seriesActions.set(action, wrapped);
+      }
+      return wrapped;
     }),
   },
 });
