@@ -1,0 +1,35 @@
+name: Deploy Sanity Studio
+on:
+  push:
+    branches: [main]
+    paths: ['studio/**', '.github/workflows/studio-deploy.yml', 'tests/studio-editing.test.ts']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: sanity-studio-deploy
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            studio/package-lock.json
+      - run: npm ci
+      - run: npm test -- tests/studio-editing.test.ts
+      - run: npm ci
+        working-directory: studio
+      - run: npm run check
+        working-directory: studio
+      - name: Deploy owner panel
+        working-directory: studio
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_DEPLOY_TOKEN }}
+        run: npx sanity deploy --yes
