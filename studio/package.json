@@ -7,7 +7,8 @@
     "dev": "sanity dev --host 127.0.0.1",
     "build": "sanity build",
     "deploy": "sanity deploy",
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "audit:security": "node scripts/audit-security.mjs"
   },
   "dependencies": {
     "sanity": "6.18.0",
@@ -20,5 +21,16 @@
     "@types/react": "^19.2.0",
     "typescript": "^5.9.3"
   },
-  "engines": { "node": ">=22.13.0" }
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "overrides": {
+    "@vercel/frameworks": {
+      "js-yaml": "3.15.2",
+      "smol-toml": "1.9.1"
+    },
+    "typeid-js": {
+      "uuid": "11.1.1"
+    }
+  }
 }

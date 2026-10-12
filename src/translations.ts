@@ -1,4 +1,5 @@
 export const translations: Record<string, string> = {
+  'Open': 'Відкрити',
   'Phone, Telegram or email': 'Телефон, Telegram або email',
   'photography series': 'серія фотографій', '← Back to Journal': '← Повернутися до журналу', 'Margaret': 'Маргарет',
   'Photo viewer': 'Перегляд фотографій',

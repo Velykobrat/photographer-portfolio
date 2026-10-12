@@ -28,6 +28,8 @@ jobs:
         working-directory: studio
       - run: npm run check
         working-directory: studio
+      - run: npm run audit:security
+        working-directory: studio
       - name: Deploy owner panel
         working-directory: studio
         env:

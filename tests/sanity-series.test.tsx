@@ -29,6 +29,7 @@ it('renders Ukrainian CMS photos immediately, retains modal navigation and never
   expect(screen.getByText('Опис серії')).toBeTruthy();
   const image = screen.getByAltText('Портрет біля вікна');
   expect(image.getAttribute('src')).toContain('cdn.sanity.io');
+  expect(screen.getByRole('button', { name: 'Відкрити Портрет біля вікна' })).toBeTruthy();
   fireEvent.click(image.closest('button')!);
   fireEvent.click(screen.getByRole('button', { name: 'Наступна фотографія' }));
   expect(screen.getByRole('dialog').querySelector('img')!.alt).toBe('Портрет на вулиці');
