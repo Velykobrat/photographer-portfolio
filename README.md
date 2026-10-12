@@ -13,7 +13,7 @@ MK Photography is a real-world photography portfolio focused on portrait, fashio
 
 The project started as a portfolio website and has evolved into a production product with cloud-hosted photography, responsive layouts, client inquiry handling and automated notifications.
 
-The version in this repository is **v1.2.0 — Bilingual Portfolio & Reliability**.
+The version in this repository is **v1.2.1 — Mobile Navigation**.
 
 The live deployment must be checked separately; updating this version does not confirm that production has been deployed.
 
@@ -283,6 +283,13 @@ Planned improvements include:
 - further performance and UX improvements
 
 ## Release History
+
+### v1.2.1 — Mobile Navigation
+
+- Shortened the Ukrainian home action to “Портфоліо” and kept the button label on one line.
+- Added a left-to-right swipe on series pages to return to Portfolio in the current language, including when the page is scrolled down.
+- Kept vertical scrolling, pinch zoom and the photo viewer's existing swipe controls; page navigation is disabled while the viewer is open.
+- Added regression coverage for swipe direction, cancellation, multitouch and modal isolation.
 
 ### v1.2.0 — Bilingual Portfolio & Reliability
 
