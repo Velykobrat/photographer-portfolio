@@ -13,11 +13,11 @@ MK Photography is a real-world photography portfolio focused on portrait, fashio
 
 The project started as a portfolio website and has evolved into a production product with cloud-hosted photography, responsive layouts, client inquiry handling and automated notifications.
 
-The version in this repository is **v1.2.1 — Mobile Navigation**.
+The version in this repository is **v1.3.0 — Owner-managed Portfolio**.
 
 The live deployment must be checked separately; updating this version does not confirm that production has been deployed.
 
-This version adds Ukrainian and English content, prerendered page SEO, accessible gallery interactions and more reliable contact requests. The next milestone is photographer-managed content.
+This version adds a Sanity Studio owner panel for series, covers and ordered photographs. CMS activation and Studio deployment must be completed before owner editing is available on the live website. See [Sanity setup](docs/sanity-setup.md) for the browser-only GitHub Actions setup and migration instructions.
 
 ## Features
 
@@ -38,7 +38,7 @@ This version adds Ukrainian and English content, prerendered page SEO, accessibl
 - Prerendered HTML, canonical URLs, hreflang and structured data
 - Generated sitemap and robots.txt
 - Static page routing and a custom 404 page on Vercel
-- Automated quality checks and 57 regression tests
+- Automated quality checks and 79 regression tests
 - Responsive desktop and mobile layouts
 
 ## Tech Stack
@@ -92,7 +92,19 @@ Visitor
 
 ## Portfolio Images
 
-Portfolio images are hosted on Cloudinary instead of being stored directly in the repository.
+The owner panel is configured for Sanity project `d3nr3igp`, dataset `production`.
+With `PORTFOLIO_SOURCE=sanity`, builds retrieve published series and image references
+from Sanity, prerender the gallery and both languages, and generate matching page
+metadata and sitemap. Sanity image URLs respect crop/hotspot and use responsive sizes.
+Publishing triggers website rebuilds once the Sanity → Vercel webhook is configured.
+No write token is shipped to the public website or Studio bundle.
+
+During setup, `PORTFOLIO_SOURCE=legacy` is the default and keeps the existing
+Cloudinary portfolio. A read-only migration preview is `npm run content:migrate`.
+Use the authenticated setup workflow to transfer the existing photographs without
+replacing already-edited Sanity documents. See [setup instructions](docs/sanity-setup.md).
+
+In legacy mode, portfolio images are hosted on Cloudinary instead of being stored directly in the repository. Sanity mode uses images stored in the Sanity dataset.
 
 The frontend retrieves the public portfolio image list and generates optimized Cloudinary URLs for gallery and fullscreen views.
 
@@ -283,6 +295,18 @@ Planned improvements include:
 - further performance and UX improvements
 
 ## Release History
+
+### v1.3.0 — Owner-managed Portfolio
+
+- Added a separate Sanity Studio with Ukrainian field labels and Ukrainian interface support.
+- Added bilingual series titles/descriptions, categories, covers with crop/hotspot, featured series and ordering.
+- Added batch photo uploads, draggable photo ordering and bilingual accessibility descriptions.
+- Added published-content build snapshots shared by the website, prerendered galleries, localized metadata and sitemap.
+- Preserved existing URLs and locked series addresses after their first Studio publication.
+- Added a resumable migration for seven existing Cloudinary series, with no overwrite of existing edited documents.
+- Added browser-only GitHub Actions migration and Studio deployment plus setup documentation.
+
+Activation pending: authenticated migration, Studio deployment, Vercel preview validation and publication webhook setup.
 
 ### v1.2.1 — Mobile Navigation
 

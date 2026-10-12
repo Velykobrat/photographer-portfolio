@@ -27,7 +27,13 @@ dist-ssr
 .env.*.local
 .vercel
 .env*
+.sanity-auth/
+.test-temp/
+src/data/portfolio.generated.json.tmp
 
 # OS / generated files
 desktop.ini
 *.tsbuildinfo
+
+# Sanity generated runtime
+studio/.sanity/

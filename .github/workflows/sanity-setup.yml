@@ -1,0 +1,54 @@
+name: Set up Sanity portfolio
+on:
+  push:
+    branches: [release/v1.3.0]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: sanity-portfolio-setup
+  cancel-in-progress: false
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Import existing portfolio without replacing existing series
+        env:
+          SANITY_API_TOKEN: ${{ secrets.SANITY_MIGRATION_TOKEN }}
+        run: node scripts/migrate-portfolio.mjs --apply
+      - name: Verify published CMS content and build the site
+        env:
+          PORTFOLIO_SOURCE: sanity
+        run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-from-sanity
+          path: dist
+          retention-days: 7
+  deploy-studio:
+    runs-on: ubuntu-latest
+    needs: migrate
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: studio
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: studio/package-lock.json
+      - run: npm ci
+      - run: npm run check
+      - name: Deploy owner panel
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_DEPLOY_TOKEN }}
+        run: npx sanity deploy --yes
