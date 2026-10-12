@@ -1,5 +1,8 @@
 name: Sanity Studio checks
 on:
+  workflow_dispatch:
+  schedule:
+    - cron: '20 8 * * 1'
   push:
     branches: [main, release/v1.3.0]
     paths: ['studio/**', '.github/workflows/studio-checks.yml']
@@ -21,5 +24,11 @@ jobs:
           cache: npm
           cache-dependency-path: studio/package-lock.json
       - run: npm ci
+      - run: npm run audit:security
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: studio-security-audit
+          path: studio/security-audit.json
       - run: npm run check
       - run: npm run build

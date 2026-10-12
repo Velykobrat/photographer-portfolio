@@ -73,7 +73,7 @@ function swipePage(target: HTMLElement, endX = 180, endY = 310) {
 it.each(['', '/uk'])('returns to the localized portfolio after a right swipe (%s)', async language => {
   vi.stubGlobal('fetch', vi.fn().mockResolvedValue(Response.json({ resources: [{ public_id: 'portrait' }] })));
   showSeries(language);
-  const card = await screen.findByRole('button', { name: /Open Inlight/ });
+  const card = await screen.findByRole('button', { name: language ? /Відкрити Inlight/ : /Open Inlight/ });
   // A swipe can begin over a photograph anywhere down the page.
   swipePage(card);
   expect(screen.getByRole('heading', { name: language ? 'Українське портфоліо' : 'English portfolio' })).toBeTruthy();

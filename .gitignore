@@ -37,3 +37,4 @@ desktop.ini
 
 # Sanity generated runtime
 studio/.sanity/
+studio/security-audit.json

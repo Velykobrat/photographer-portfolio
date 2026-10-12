@@ -1,4 +1,5 @@
 import styles from './Card.module.css';
+import { useLanguage } from '../../localization';
 
 type CardProps = {
   image: string;
@@ -15,12 +16,13 @@ const Card = ({
   onClick,
   priority = false,
 }: CardProps) => {
+  const { t } = useLanguage();
   return (
     <button
       type="button"
       className={styles.card}
       onClick={onClick}
-      aria-label={`Open ${alt}`}
+      aria-label={`${t('Open')} ${alt}`}
     >
       <img
         src={image}
