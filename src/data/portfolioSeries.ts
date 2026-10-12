@@ -1,3 +1,13 @@
+import snapshot from './portfolio.generated.json';
+
+export type SanityImage = {
+  asset: { _ref: string; _type?: string };
+  crop?: { top: number; bottom: number; left: number; right: number };
+  hotspot?: { x: number; y: number; width: number; height: number };
+};
+export type PortfolioImage = string | SanityImage;
+export type SanityPhoto = SanityImage & { _key: string; altUk: string; altEn: string };
+
 export type PortfolioCategory =
   | 'portrait'
   | 'fashion'
@@ -12,9 +22,14 @@ export type PortfolioSeries = {
   coverPublicId: string;
   featured?: boolean;
   order?: number;
+  titleUk?: string;
+  descriptionEn?: string;
+  descriptionUk?: string;
+  cover?: SanityImage;
+  photos?: SanityPhoto[];
 };
 
-export const portfolioSeries: PortfolioSeries[] = [
+export const legacyPortfolioSeries: PortfolioSeries[] = [
   {
     slug: 'lat-lingerie',
     title: 'Lat.lingerie',
@@ -79,3 +94,9 @@ export const portfolioSeries: PortfolioSeries[] = [
   order: 7,
 },
 ];
+
+// A build uses one published snapshot for the client, SSR, routes and sitemap.
+// Legacy mode remains explicit until the existing photographs have been migrated.
+export const portfolioSeries: PortfolioSeries[] = snapshot.source === 'sanity'
+  ? snapshot.series as PortfolioSeries[]
+  : legacyPortfolioSeries;

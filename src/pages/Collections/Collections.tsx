@@ -11,10 +11,7 @@ import {
   type PortfolioCategory,
 } from '../../data/portfolioSeries';
 
-import {
-  getCloudinaryImage,
-  getCloudinarySrcSet,
-} from '../../utils/cloudinary';
+import { portfolioImageUrl, portfolioSrcSet, seriesCover, seriesTitle } from '../../utils/portfolioImages';
 
 type Filter = 'all' | PortfolioCategory;
 
@@ -26,7 +23,7 @@ const categoryLabels: Record<PortfolioCategory, string> = {
 };
 
 const Collections = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [activeFilter, setActiveFilter] =
     useState<Filter>('all');
 
@@ -133,16 +130,16 @@ const Collections = () => {
         >
           <div className={styles.coverWrapper}>
             <img
-  src={getCloudinaryImage(
-    featuredSeries.coverPublicId,
+  src={portfolioImageUrl(
+    seriesCover(featuredSeries),
     1600
   )}
-  srcSet={getCloudinarySrcSet(
-    featuredSeries.coverPublicId,
+  srcSet={portfolioSrcSet(
+    seriesCover(featuredSeries),
     [480, 800, 1200, 1600, 2000]
   )}
   sizes="(max-width: 600px) 100vw, 65vw"
-  alt={`${featuredSeries.title} — ${t("photography series")}`}
+  alt={`${seriesTitle(featuredSeries, language)} — ${t("photography series")}`}
   className={styles.cover}
   loading="eager"
   fetchPriority="high"
@@ -160,7 +157,7 @@ const Collections = () => {
             </p>
 
             <h2 className={styles.seriesTitle}>
-              {featuredSeries.title}
+              {seriesTitle(featuredSeries, language)}
             </h2>
 
             <span className={styles.viewSeries}>{t("View series →")}</span>
@@ -177,16 +174,16 @@ const Collections = () => {
           >
             <div className={styles.coverWrapper}>
               <img
-                src={getCloudinaryImage(
-                  series.coverPublicId,
+                src={portfolioImageUrl(
+                  seriesCover(series),
                   1200
                 )}
-                srcSet={getCloudinarySrcSet(
-                  series.coverPublicId,
+                srcSet={portfolioSrcSet(
+                  seriesCover(series),
                   [480, 800, 1200, 1600]
                 )}
                 sizes="(max-width: 600px) 100vw, 50vw"
-                alt={`${series.title} — ${t("photography series")}`}
+                alt={`${seriesTitle(series, language)} — ${t("photography series")}`}
                 className={styles.cover}
                 loading="lazy"
                 decoding="async"
@@ -201,7 +198,7 @@ const Collections = () => {
               </p>
 
               <h2 className={styles.seriesTitle}>
-                {series.title}
+                {seriesTitle(series, language)}
               </h2>
             </div>
           </Link>

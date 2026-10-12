@@ -1,6 +1,7 @@
 import { portfolioSeries } from './portfolioSeries';
 import { getJournalArticles } from './journalArticles';
 import { SITE_NAME, SITE_URL, SOCIAL_IMAGE, websiteSchema } from './site';
+import { portfolioImageUrl, seriesCover, seriesTitle } from '../utils/portfolioImages';
 
 export type PageMetadata = {
   title: string;
@@ -42,8 +43,8 @@ for (const series of portfolioSeries) {
   const path = `/collections/${series.slug}`;
   pageMetadata[path] = {
     title: series.title,
-    description: `${series.title} — a ${series.category} photography series by MK Photography.`,
-    image: socialImage(series.coverPublicId), language: 'en', type: 'website',
+    description: series.descriptionEn || `${series.title} — a ${series.category} photography series by MK Photography.`,
+    image: portfolioImageUrl(seriesCover(series), 1200, true), language: 'en', type: 'website',
     schema: { '@context': 'https://schema.org', '@type': 'ImageGallery', name: series.title, url: `${SITE_URL}${path}` },
   };
 }
@@ -74,8 +75,8 @@ const ukrainianPages: Record<string, [string, string]> = {
 for (const [path, metadata] of Object.entries(pageMetadata)) {
   const translatedArticle = getJournalArticles('uk').find(article => path === `/journal/${article.slug}`);
   const series = portfolioSeries.find(item => path === `/collections/${item.slug}`);
-  const title = ukrainianPages[path]?.[0] ?? translatedArticle?.title ?? metadata.title;
-  const description = ukrainianPages[path]?.[1] ?? translatedArticle?.excerpt ?? `${series?.title} — серія фотографій MK Photography.`;
+  const title = ukrainianPages[path]?.[0] ?? translatedArticle?.title ?? (series ? seriesTitle(series, 'uk') : metadata.title);
+  const description = ukrainianPages[path]?.[1] ?? translatedArticle?.excerpt ?? (series?.descriptionUk || `${series ? seriesTitle(series, 'uk') : metadata.title} — серія фотографій MK Photography.`);
   const url = `${SITE_URL}/uk${path}`;
   pageMetadata[`/uk${path}`] = { ...metadata, title, description, language: 'uk',
     schema: translatedArticle ? { ...metadata.schema, headline: title, description, inLanguage: 'uk', mainEntityOfPage: url }

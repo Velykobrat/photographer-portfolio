@@ -19,6 +19,7 @@ import {
 
 import styles from "./Series.module.css";
 import NotFound from "../NotFound/NotFound";
+import { photoAlt, portfolioImageUrl, portfolioSrcSet, seriesCover, seriesTitle } from '../../utils/portfolioImages';
 
 type CloudinaryPhoto = {
   public_id: string;
@@ -46,6 +47,7 @@ const Series = () => {
 
 const SeriesContent = ({ series }: { series: PortfolioSeries }) => {
   const { t, language } = useLanguage();
+  const title = seriesTitle(series, language);
   const navigate = useNavigate();
   const swipe = useRef<{ x: number; y: number; id: number } | null>(null);
   const handleTouchStart = (event: TouchEvent<HTMLElement>) => {
@@ -76,15 +78,20 @@ const SeriesContent = ({ series }: { series: PortfolioSeries }) => {
       navigate(localizedPath('/collections', language));
     }
   };
-  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [photos, setPhotos] = useState<Photo[]>(() => (series.photos ?? []).map(photo => ({
+    id: photo._key, image: portfolioImageUrl(photo, 1200),
+    srcSet: portfolioSrcSet(photo, [480, 800, 1200, 1600]),
+    fullscreen: portfolioImageUrl(photo, 2200), alt: photo.altEn,
+  })));
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(series.photos === undefined);
   const [error, setError] = useState<string | null>(null);
   const [attempt, setAttempt] = useState(0);
 
   // Load photos for the current series
   useEffect(() => {
+    if (series.photos) return;
     const controller = new AbortController();
     const timeout = window.setTimeout(() => controller.abort(), 15000);
     let active = true;
@@ -216,6 +223,10 @@ const SeriesContent = ({ series }: { series: PortfolioSeries }) => {
     });
   };
 
+  const getPhotoAlt = (index: number) => series.photos?.[index]
+    ? photoAlt(series.photos[index], language)
+    : language === 'uk' ? `${title} — фотографія ${index + 1}` : photos[index].alt;
+
   return (
     <main
       className={styles.series}
@@ -225,18 +236,22 @@ const SeriesContent = ({ series }: { series: PortfolioSeries }) => {
       onTouchCancel={() => { swipe.current = null; }}
     >
       <SEO
-        title={series.title}
+        title={title}
         description={`${series.title} — a ${t(series.category)} photography series by MK Photography.`}
         canonicalPath={`/collections/${series.slug}`}
-        image={getCloudinaryImage(series.coverPublicId, 1600)}
+        image={portfolioImageUrl(seriesCover(series), 1200, true)}
       />
 
       <header className={styles.intro}>
         <Link to="/collections" className={styles.back}>{t("← Portfolio")}</Link>
 
-        <p className={styles.category}>{series.category}</p>
+        <p className={styles.category}>{t(series.category)}</p>
 
-        <h1 className={styles.title}>{series.title}</h1>
+        <h1 className={styles.title}>{title}</h1>
+
+        {(language === 'uk' ? series.descriptionUk : series.descriptionEn) && (
+          <p className={styles.description}>{language === 'uk' ? series.descriptionUk : series.descriptionEn}</p>
+        )}
 
         {!isLoading && !error && (
           <p className={styles.count}>
@@ -267,7 +282,7 @@ const SeriesContent = ({ series }: { series: PortfolioSeries }) => {
               key={photo.id}
               image={photo.image}
               srcSet={photo.srcSet}
-              alt={language === 'uk' ? `${series.title} — фотографія ${index + 1}` : photo.alt}
+              alt={getPhotoAlt(index)}
               priority={index === 0}
               onClick={() => openModal(index)}
             />
@@ -278,7 +293,7 @@ const SeriesContent = ({ series }: { series: PortfolioSeries }) => {
       {selectedIndex !== null && photos[selectedIndex] && (
         <Modal
           image={photos[selectedIndex].fullscreen}
-          alt={language === 'uk' ? `${series.title} — фотографія ${selectedIndex + 1}` : photos[selectedIndex].alt}
+          alt={getPhotoAlt(selectedIndex)}
           current={selectedIndex + 1}
           total={photos.length}
           onClose={closeModal}

@@ -1,0 +1,25 @@
+name: Sanity Studio checks
+on:
+  push:
+    branches: [main, release/v1.3.0]
+    paths: ['studio/**', '.github/workflows/studio-checks.yml']
+  pull_request:
+    paths: ['studio/**', '.github/workflows/studio-checks.yml']
+permissions:
+  contents: read
+jobs:
+  studio:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: studio
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: studio/package-lock.json
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build
